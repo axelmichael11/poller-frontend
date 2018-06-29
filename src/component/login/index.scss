@@ -1,0 +1,18 @@
+#parent {
+    display: flex;
+    align-items: center;
+}   
+
+#title {
+    font-family: 'Play', sans-serif;
+    font-size: 5em;
+    display: flex;
+    align-items: center;
+    margin:'0 auto';
+    padding:0px;
+}
+
+#icon {
+    display:'inline-block'
+}
+
