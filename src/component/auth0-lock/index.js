@@ -93,7 +93,6 @@ class AuthLockButton extends React.Component {
 
   render() {
       let {classes} = this.props
-      console.log('FIREBASE VARIABLES', process.env.FIREBASE_CONFIG, __AUTH0_CLIENT_DOMAIN__ )
     return (
       <div >
         <Button 
