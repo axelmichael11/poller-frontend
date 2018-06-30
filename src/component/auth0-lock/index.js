@@ -56,6 +56,7 @@ class AuthLockButton extends React.Component {
     )
     this.lock.on('authenticated', authResult => {
       if (!authResult) return new Error('failed to authenticate');
+      console.log('success' , authResult)
         this.props.setAuthToken(authResult.accessToken)
         this.props.profileFetch()
         .then(profile=>{
@@ -69,6 +70,7 @@ class AuthLockButton extends React.Component {
     })
 
     this.lock.on('authorization_error', (error)=>{
+      console.log('authoriazation error', error)
     })
 
 

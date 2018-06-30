@@ -9,7 +9,7 @@ const app = express()
 
 app.use(cors({
   preflightContinue: false,
-  origin: process.env.port,
+  origin: process.env.POLLER_APP,
   credentials: true, 
   methods: ['GET', 'PUT', 'POST'],
 }))
