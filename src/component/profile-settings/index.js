@@ -333,6 +333,7 @@ class ProfileSettings extends React.Component {
 
   profileUpdateSubmit(){
     let {age, ethnicity, profession, gender, country, religion} = this.state;
+    console.log('user information'. age, ethnicity, profession, gender, country, religion)
     this.setState({updateLoading:true, updateErrorOpen:false,})
     this.props.profileUpdate({age, ethnicity, profession, gender, country, religion})
     .then((res)=>{
@@ -343,6 +344,7 @@ class ProfileSettings extends React.Component {
     })
     .catch(err=>{
       if (err.status===500){
+        console.log('500 ERROR', err)
         this.handleUpdateErrorSnackBarRequest()
         this.handleUpdateAlert()
       }

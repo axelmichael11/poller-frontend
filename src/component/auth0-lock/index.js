@@ -36,10 +36,13 @@ class AuthLockButton extends React.Component {
 
   componentWillMount() {
     const options = {
-      sso: true,
       oidcConformant: true, //this determines METADATA is returned in scope...
       rememberLastLogin: true,
+      sso: true,
+      redirect:false,
       auth: {
+        sso:true,
+        redirect:false,
         audience: __AUTH0_AUDIENCE__,
         params: {
           scope: 'openid profile userId user_metadata update:users_app_metadata openid email profile read:clients write:clients update:users_app_metadata update:users update:current_user_metadata', //need to research the scope parameter...
@@ -56,18 +59,27 @@ class AuthLockButton extends React.Component {
     )
     this.lock.on('authenticated', authResult => {
       if (!authResult) return new Error('failed to authenticate');
-      console.log('success' , authResult)
         this.props.setAuthToken(authResult.accessToken)
         this.props.profileFetch()
         .then(profile=>{
+          // console.log('profile!', profile, this.props)
             if (this.props.loggedIn && this.props.userProfile){
             this.props.history.push('/explore')
           } else {
             this.props.history.push('login')
           }
-        })
+        }).catch(err=>console.log('error!', err))
         
     })
+
+    this.lock.on('unrecoverable_error', error=> console.log('unrevoreable error',error))
+
+    // this.lock.resumeAuth(hash, function(error, authResult) {
+    //   if (error) {
+    //     alert("Could not parse hash");
+    //   }
+    //   console.log(authResult.accessToken);
+    // });
 
     this.lock.on('authorization_error', (error)=>{
       console.log('authoriazation error', error)

@@ -25,6 +25,7 @@ const storeUserProfile = (userProfile) => {
         return parsed
       })
       .catch(err => {
+        console.log('error fetching profile')
       })
   }
 

@@ -33,8 +33,8 @@ class LandingContainer extends React.Component {
           <Route path='/poll/:author_username/:created_at' component={PollLandingContainer}/>
           <Route path="/contact" component={ContactPage}/>
           <Route path="/rating" component={RatingPage}/>
-          <Route  path="/*" component={LoginPage}/>
-          <Route component={LoginPage}/>
+          {/* <Route  path="/" component={LoginPage}/> */}
+          {/* <Route component={LoginPage}/> */}
         </Switch>
       </div>
     )

@@ -50,10 +50,11 @@ class App extends React.Component {
         <BrowserRouter>
           <div>
               <Switch>
-              <Route path="/gettingstarted" render={()=> <GettingStartedPage/>}/>
-              <Route path="/login" render={()=> <LoginPage/>}/>
-              <Route  path="/*" component={LoginPage}/>
+              {/* <Route path="/" render={()=> <LoginPage/>}/> */}
+              <Route  path="/gettingstarted" render={()=><GettingStartedPage/>}/>
+              <Route  path="/login" render={()=><LoginPage/>}/>
               <PrivateRoute  loggedIn={this.props.loggedIn} path="/" redirectTo="/login" component={LandingContainer} />
+              {/* <Route exact path="/login" component={<LoginPage/>}/> */}
               </Switch>
           </div>
         </BrowserRouter>
