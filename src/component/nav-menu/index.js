@@ -10,7 +10,6 @@ import { withStyles } from '@material-ui/core/styles';
 import {compose} from 'recompose'
 
 
-import AuthLockButton from '../auth0-lock'
 import { login, logout } from '../../action/auth-actions.js'
 import * as util from '../../lib/util.js'
 
@@ -24,6 +23,7 @@ import ExploreButton from './Explore-button.js'
 import ProfileButton from './settings-button.js'
 import MyPollsButton from './poll-create-button.js'
 import ContactButton from './contact-button.js'
+import LogoutButton from './logout-button'
 
 const styles= {
 
@@ -81,7 +81,7 @@ class NavMenu extends React.Component{
                   <MyPollsButton handleClose={this.handleClose}/>
                   <ProfileButton handleClose={this.handleClose}/>
                   <ContactButton handleClose={this.handleClose}/>
-                  <AuthLockButton />
+                  <LogoutButton />
                 </Menu>
 
            </div>

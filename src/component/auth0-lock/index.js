@@ -1,6 +1,7 @@
 
 import React from 'react'
 import Auth0Lock from 'auth0-lock'
+
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types';
 import { Link, withRouter } from 'react-router-dom'
@@ -36,12 +37,12 @@ class AuthLockButton extends React.Component {
 
   componentWillMount() {
     const options = {
-      oidcConformant: true, //this determines METADATA is returned in scope...
+      // oidcConformant: true, //this determines METADATA is returned in scope...
       rememberLastLogin: true,
-      sso: true,
+      // sso: true,
       redirect:false,
       auth: {
-        sso:true,
+        // sso:true,
         redirect:false,
         audience: __AUTH0_AUDIENCE__,
         params: {
@@ -90,7 +91,17 @@ class AuthLockButton extends React.Component {
     // this.checkStorageLogin()
   }
   showLock() {
-    this.lock.show()
+    // this.lock.checkSession({}, function (error, authResult) {
+      // if (error || !authResult) {
+        this.lock.show();
+      // } else {
+        // user has an active session, so we can use the accessToken directly.
+        // this.lock.getUserInfo(authResult.accessToken, function (error, profile) {
+        //   console.log(error, profile);
+          
+    //     });
+    //   }
+    // });
   }
 
     logout() {

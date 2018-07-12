@@ -3,7 +3,6 @@ import React from 'react'
 import NavBar from '../nav-bar'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
-import Auth0Lock from 'auth0-lock'
 
 import {  compose } from 'recompose'
 import {loadingOn, loadingOff} from '../../action/loading-actions'
@@ -220,7 +219,7 @@ handleReportSuccess(){
   render() {
     const {stepIndex} = this.state;  
     const {classes} = this.props;
-
+    console.log('EXPLORE PAGE', this.props)
     return (
         <div>
           <ResponsiveDialog
@@ -279,7 +278,9 @@ handleReportSuccess(){
 export const mapStateToProps = state => ({
     loggedIn: state.loggedIn,
     publicPolls: state.publicPolls,
-    maxPublicPolls: state.maxPublicPolls
+    maxPublicPolls: state.maxPublicPolls,
+    auth0Token: state.auth0Token, 
+    userProfile: state.userProfile
   })
   
   export const mapDispatchToProps = dispatch => ({

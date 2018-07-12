@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import PropTypes from 'prop-types';
 import {compose} from 'recompose'
 import MaterialStyles from '../../style/material-ui-style'
+import Button from '@material-ui/core/Button';
 
 
 import Face from '@material-ui/icons/face'
@@ -16,7 +17,6 @@ import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
 
 
-import AuthLockButton from  '../auth0-lock'
 import NavigateGettingStartedButton from '../getting-started-button'
 
 import '../../style/index.scss'
@@ -29,21 +29,29 @@ class LoginPage extends React.Component {
   constructor(props) {
     super(props)
     this.state = {}
-    this.gettingStarted = this.gettingStarted.bind(this)
+    this.login = this.login.bind(this)
   }
 
-  gettingStarted(){
+  login() {
+    this.props.login();
   }
 
   render() {
     let {classes, theme} = this.props;
+    console.log('PROPS ON LOGIN PAGE', this.props)
     return (
       <div>
           <Paper elevation={2} className={classes.container}>
             <p id="title">Poller</p>
             <NavigateGettingStartedButton/>
           </Paper>
-            <AuthLockButton style={{margin: 15}}/>
+          <Button
+            variant="outlined"
+            onClick={this.props.login} 
+            className={classes.button}
+            style={{marginTop:15}}>
+            SIGNUP / LOGIN
+         </Button>
       </div>
     )
   }

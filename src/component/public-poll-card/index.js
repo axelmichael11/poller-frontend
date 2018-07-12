@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 
 
 import { Link, withRouter } from 'react-router-dom'
-import Auth0Lock from 'auth0-lock'
 import InfiniteScroll from 'react-infinite-scroller'
 import {  compose } from 'recompose'
 

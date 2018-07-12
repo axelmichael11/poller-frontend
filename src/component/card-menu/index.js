@@ -9,8 +9,6 @@ import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import {compose} from 'recompose'
 
-
-import AuthLockButton from '../auth0-lock'
 import { login, logout } from '../../action/auth-actions.js'
 import * as util from '../../lib/util.js'
 

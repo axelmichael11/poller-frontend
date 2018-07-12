@@ -9,8 +9,8 @@ const app = express()
 
 app.use(cors({
   preflightContinue: false,
-  origin: process.env.POLLER_APP,
-  credentials: true, 
+  origin: process.env.ORIGIN,
+  // credentials: true, 
   methods: ['GET', 'PUT', 'POST'],
 }))
 app.use(morgan('common'))

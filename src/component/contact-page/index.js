@@ -3,7 +3,6 @@ import React from 'react'
 import NavBar from '../nav-bar'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
-import Auth0Lock from 'auth0-lock'
 import { withStyles } from '@material-ui/core/styles';
 
 import {  compose } from 'recompose'

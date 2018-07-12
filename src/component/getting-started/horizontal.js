@@ -10,7 +10,6 @@ import Paper from '@material-ui/core/Paper';
 import StepLabel from '@material-ui/core/StepLabel';
 import MaterialStyles from '../../style/material-ui-style'
 
-import AuthLockButton from  '../auth0-lock'
 
 
 import MobileStepper from '@material-ui/core/MobileStepper';
@@ -159,7 +158,6 @@ class GettingStartedPage extends React.Component {
         />
         </Paper>
       </div>
-      <AuthLockButton style={{margin: 15}}/>
     </div>
     );
   }

@@ -17,5 +17,11 @@ export const login = () => {
     localStorage.removeItem('reduxPersist:userId')
     localStorage.removeItem('reduxPersist:profile')
     localStorage.removeItem('reduxPersist:userInfo')
+
+    
+    localStorage.removeItem('access_token');
+    localStorage.removeItem('id_token');
+    localStorage.removeItem('expires_at');
+
     return { type: 'LOGOUT' }
   }

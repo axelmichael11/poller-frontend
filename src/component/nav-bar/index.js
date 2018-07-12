@@ -1,6 +1,5 @@
 //packages
 import React from 'react'
-import Auth0Lock from 'auth0-lock'
 import { connect } from 'react-redux'
 import { Link, Route } from 'react-router-dom'
 import {withRouter} from 'react-router-dom'
