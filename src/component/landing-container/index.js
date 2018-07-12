@@ -15,12 +15,46 @@ import PrivateRoute from '../app/privateroute'
 import ContactPage from '../contact-page'
 import RatingPage from '../rating-page'
 
+import {
+  profileFetch,
+} from '../../action/profile-actions.js'
+
+
+
 class LandingContainer extends React.Component {
   constructor(props) {
     super(props)
-    this.state = {}
-   
+    this.state = {
+
+    }
+    this.handleFetchProfile = this.handleFetchProfile.bind(this)
   }
+  componentWillMount(){
+    if (!this.props.userProfile){
+        this.handleFetchProfile()
+    }
+}
+
+
+handleFetchProfile(){
+  this.setState({fetchProfileLoading:true, 
+      fetchProfileError: false
+  })
+  this.props.profileFetch()
+  .then(profile=>{
+      this.setState({fetchProfileLoading:false, 
+        fetchProfileError: false
+    })
+  })
+  .catch(err=>{
+      this.setState({
+          fetchProfileError:true,
+          fetchProfileLoading:false,
+      })
+  })
+}
+
+
   render() {
     return (
       <div>
@@ -41,12 +75,12 @@ class LandingContainer extends React.Component {
 }
 
 export const mapStateToProps = state => ({
-    loggedIn: state.loggedIn
+    loggedIn: state.loggedIn,
+    userProfile: state.userProfile
   })
   
   export const mapDispatchToProps = dispatch => ({
-
-    
+    profileFetch: ()=> dispatch(profileFetch()),
   })
   
   export default connect(mapStateToProps, mapDispatchToProps)(LandingContainer)
