@@ -181,7 +181,6 @@ renderYesPie(){
 
 renderNoPie(){
   let {classes} = this.props
-
   return (
     <div className="yes-no-pie"> 
       <Typography variant="headline" component="h3" align="center" className="yes-no-votes-title"> No Votes </Typography>
@@ -247,6 +246,7 @@ renderLegendKey(){
 
   render(){
     let {classes} = this.props
+    console.log('PIE RESULTS', this.props, this.state)
       return(
         <div>
                 <Paper square elevation={2} className={classes.container}>

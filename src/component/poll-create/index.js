@@ -367,7 +367,7 @@ class PollCreatePage extends React.Component {
 
   render() {
     const {classes, theme} = this.props
-
+    console.log('poll create', this.props, this.state)
     return (
         <div>
           <Dialog

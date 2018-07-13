@@ -19,6 +19,7 @@ import { withStyles } from '@material-ui/core/styles';
 import country_list from '../../lib/countries.js'
 import profession_list from '../../lib/professions.js'
 import ethnicity_list from '../../lib/ethnicities.js'
+import politics_list from '../../lib/politics.js'
 
 import MaterialStyles from '../../style/material-ui-style'
 
@@ -33,7 +34,7 @@ const styles = theme => ({
 
 const ProfileCategory = ({...props})=> {
   let {classes} = props
-  let {age, profession, religion, ethnicity, gender, country} = props.userProfile
+  let {age, profession, religion, ethnicity, gender, country, politics} = props.userProfile
 
   let handleBool = function(category){
     if (category===true)
@@ -50,7 +51,8 @@ const ProfileCategory = ({...props})=> {
     'Religion': handleBool(religion), 
     'Ethnicity':ethnicity_list[ethnicity], 
     'Gender': gender, 
-    'Country':country_list[country]
+    'Country':country_list[country],
+    'Politics': politics_list[politics]
   }
 
      return (

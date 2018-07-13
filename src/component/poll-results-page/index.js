@@ -97,10 +97,18 @@ class PollResultsPage extends React.Component {
       noReligionData: this.generatePieData(this.props.pollData.no_data.religion_data),
       yesReligionData: this.generatePieData(this.props.pollData.yes_data.religion_data ),
       religionCategories: this.generateCategories(this.props.pollData.yes_data.religion_data, this.props.pollData.no_data.religion_data),
+      
+      // politics data
+      noPoliticsData: this.generatePieData(this.props.pollData.no_data.politics_data),
+      yesPoliticsData: this.generatePieData(this.props.pollData.yes_data.politics_data ),
+      politicsCategories: this.generateCategories(this.props.pollData.yes_data.politics_data, this.props.pollData.no_data.politics_data),
+      
+
       //expanded state
       dataExpandedAge:false,
       dataExpandedEthnicity: false,
       dataExpandedReligion: false,
+      dataExpandedPolitics: false,
       dataExpandedCountry: false,
       dataExpandedGender: false,
       dataExpandedProfession:false,
@@ -162,6 +170,8 @@ class PollResultsPage extends React.Component {
   
   render() {
     let {classes} = this.props
+    console.log('politics categories', this.state.politicsCategories)
+    console.log('RESULTS', this.props.pollData)
     return (
       <div>
         <Paper square elevation={2} className={classes.container}>
@@ -243,6 +253,18 @@ class PollResultsPage extends React.Component {
         dataExpanded={this.state.dataExpandedReligion}
         handleDataExpand={this.handleDataExpand}
         expandedState="dataExpandedReligion"
+        />
+        <PieResults title={'Politics'}
+        totalsData={this.props.pollData.totals_data} 
+        yesData={this.state.yesPoliticsData} 
+        noData={this.state.noPoliticsData} 
+        categories={Object.keys(this.state.politicsCategories)}
+        colorCategories= {this.state.politicsCategories}
+        labelSentence={" are "}
+        // classes={classes}
+        dataExpanded={this.state.dataExpandedPolitics}
+        handleDataExpand={this.handleDataExpand}
+        expandedState="dataExpandedPolitics"
         />
       </div>
     )

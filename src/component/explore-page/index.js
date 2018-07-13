@@ -209,7 +209,7 @@ handleReportSuccess(){
     return (
       <div>
       <DialogContentText id="alert-dialog-description">
-      "Is this poll offensive? Please report if so and we will review this shortly! Sorry for the material :("
+      Is this poll offensive? Please report if so and we will review this shortly! Sorry for the material :(
       </DialogContentText>
       </div>
     )
@@ -219,7 +219,7 @@ handleReportSuccess(){
   render() {
     const {stepIndex} = this.state;  
     const {classes} = this.props;
-    console.log('EXPLORE PAGE', this.props)
+    console.log('EXPLORE PAGE', this.state)
     return (
         <div>
           <ResponsiveDialog

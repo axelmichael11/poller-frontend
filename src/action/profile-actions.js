@@ -19,8 +19,8 @@ const storeUserProfile = (userProfile) => {
       .get(`${__API_URL__}/api/user`)
       .set('Authorization', `Bearer ${auth0Token}`)
       .then(res => {
-        console.log('hitting ressssss on profile fetch')
         let parsed = JSON.parse(res.text)
+        console.log('hitting ressssss on profile fetch', parsed)
         localStorage.setItem('poller_token', auth0Token)
         dispatch(storeUserProfile(parsed))
         dispatch(login())

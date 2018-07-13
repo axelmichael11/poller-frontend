@@ -54,6 +54,7 @@ import Menu from '@material-ui/core/Menu';
 import country_list from '../../lib/countries.js'
 import profession_list from '../../lib/professions.js'
 import ethnicity_list from '../../lib/ethnicities.js'
+import politics_list from '../../lib/politics.js'
 
 import MenuListSelect from './menu-list-select'
 import LoadingHOC from '../loading/loadingHOC.js'
@@ -152,6 +153,7 @@ class ProfileSettings extends React.Component {
       countryAnchor:null,
       professionAnchor:null,
       ethnicityAnchor:null,
+      politicsAnchor:null,
 
        //help text
     helpExpanded:false,
@@ -167,13 +169,18 @@ class ProfileSettings extends React.Component {
     this.handleHelpExpand = this.handleHelpExpand.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
     this.handleUpdateAlert = this.handleUpdateAlert.bind(this)
+
+    //handle change
     this.handleCountryChange = this.handleCountryChange.bind(this)
     this.handleEthnicityChange = this.handleEthnicityChange.bind(this)
+    this.handlePoliticsChange = this.handlePoliticsChange.bind(this)
+
     this.updateMaleCheckBox = this.updateMaleCheckBox.bind(this)
     this.updateFemaleCheckBox = this.updateFemaleCheckBox.bind(this)
     this.handleProfessionChange = this.handleProfessionChange.bind(this)
     this.updateReligionNoCheckBox = this.updateReligionNoCheckBox.bind(this)
     this.updateReligionYesCheckBox = this.updateReligionYesCheckBox.bind(this)
+
     this.profileUpdateSubmit = this.profileUpdateSubmit.bind(this);
     this.handleAgeChange = this.handleAgeChange.bind(this)
     this.renderAges = this.renderAges.bind(this)
@@ -185,6 +192,8 @@ class ProfileSettings extends React.Component {
     this.handleOpenCountryList = this.handleOpenCountryList.bind(this)
     this.handleOpenProfessionList = this.handleOpenProfessionList.bind(this)
     this.handleOpenEthnicityList = this.handleOpenEthnicityList.bind(this)
+    this.handleOpenPoliticsList = this.handleOpenPoliticsList.bind(this)
+
 
     this.handleCloseList = this.handleCloseList.bind(this)
   }
@@ -223,6 +232,14 @@ class ProfileSettings extends React.Component {
       this.setState({ethnicity: value , ethnicityAnchor: null});
     }else{
       this.setState({ethnicity: parseInt(value) , ethnicityAnchor: null});
+    }
+  }
+
+  handlePoliticsChange(value){
+    if(value===null){
+      this.setState({politics: value , politicsAnchor: null});
+    }else{
+      this.setState({politics: parseInt(value) , politicsAnchor: null});
     }
   }
 
@@ -332,10 +349,10 @@ class ProfileSettings extends React.Component {
   }
 
   profileUpdateSubmit(){
-    let {age, ethnicity, profession, gender, country, religion} = this.state;
-    console.log('user information'. age, ethnicity, profession, gender, country, religion)
+    let {age, ethnicity, profession, gender, country, religion, politics} = this.state;
     this.setState({updateLoading:true, updateErrorOpen:false,})
-    this.props.profileUpdate({age, ethnicity, profession, gender, country, religion})
+    
+    this.props.profileUpdate({age, ethnicity, profession, gender, country, religion, politics})
     .then((res)=>{
       if (res.status===200){
       this.handleUpdatedSnackBarRequest()
@@ -405,9 +422,13 @@ class ProfileSettings extends React.Component {
     this.setState({ ethnicityAnchor: e.currentTarget });
   };
 
+  handleOpenPoliticsList(e){
+    this.setState({ politicsAnchor: e.currentTarget });
+  }
+
 
   handleCloseList(){
-    this.setState({ countryAnchor: null, professionAnchor: null, ethnicityAnchor: null });
+    this.setState({ countryAnchor: null, professionAnchor: null, ethnicityAnchor: null, politicsAnchor: null });
   }
 
 
@@ -421,7 +442,7 @@ class ProfileSettings extends React.Component {
       marginLeft: 3,
     }
     let {classes, theme} = this.props
-
+    console.log('settings page', this.state)
     return (
       <div>
         <Dialog
@@ -598,6 +619,17 @@ class ProfileSettings extends React.Component {
             handleCloseList={this.handleCloseList}
             renderMenuItems={this.renderMenuItems}
             changeListValue={this.handleEthnicityChange}
+            />
+            <Divider/>
+            <MenuListSelect
+            listTitle={'Politics'}
+            list={politics_list}
+            handleOpenList={this.handleOpenPoliticsList}
+            selectedItem={this.state.politics!==null ? politics_list[this.state.politics] :'null'}
+            anchorEl={this.state.politicsAnchor}
+            handleCloseList={this.handleCloseList}
+            renderMenuItems={this.renderMenuItems}
+            changeListValue={this.handlePoliticsChange}
             />
             <Divider/>
             <CardContent className={classes.container}>
