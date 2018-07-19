@@ -62,6 +62,7 @@ import NotInterested from '@material-ui/icons/NotInterested';
 
 import {reportPoll} from '../../action/report-poll-actions'
 
+import subjects_list from '../../lib/poll-subjects'
 
 import LoadingHOC from '../loading/loadingHOC.js'
 
@@ -380,41 +381,7 @@ handleReportSuccess(){
     return (
 
       <div>
-         {/* <Dialog
-            open={this.state.openVoteConfirmAlert}
-            modal={false}
-        >
-          <DialogTitle id="alert-dialog-title">"Are you sure?"</DialogTitle>
-          <div>
-            <DialogContentText id="alert-dialog-description">
-            You are about to submit this demographic information for the question!
-            </DialogContentText>
-
-            <ProfileCategory
-              value={this.props.userProfile.age}
-              category={"Age"}
-            />
-          </div>
-          <DialogActions>
-          <div className={classes.stretchedButtons}>
-
-            <Button 
-              onClick={this.handleCancelVote} 
-              className={classes.button}
-            >
-              Cancel
-            </Button>
-            </div>
-            <FeedBackSubmitButton
-            classes={classes}
-            submitClick={this.handleSubmitVote}
-            buttonTitle={"Submit Vote"}
-            Loading={this.state.castVoteLoad}
-            timeError={this.handle}
-            />
-          </DialogActions>
-        </Dialog> */}
-
+         
          <CardMenu
             anchorEl={this.state.anchorEl}
             renderMenuButtons={this.renderMenuButtons}
@@ -448,7 +415,7 @@ handleReportSuccess(){
             </CardContent>
             <CardContent>
             <Typography variant="subheading">
-                    {poll.subject}
+                    {subjects_list[poll.subject]}
                 </Typography>
             <Typography variant="subheading">
                     Poll Expiration: {poll.expiration} hours

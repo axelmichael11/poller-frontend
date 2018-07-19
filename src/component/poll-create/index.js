@@ -54,8 +54,8 @@ import MyPolls from '../my-polls'
 
 import HelpTab from '../help-feature'
 
-
-
+import poll_subjects from '../../lib/poll-subjects'
+import SubjectListSelect from './subject-select'
 
 const FeedBackSubmitButton = LoadingHOC(SubmitButton)
 
@@ -98,17 +98,18 @@ class PollCreatePage extends React.Component {
     super(props)
     this.state = {
         //inputs
-        pollSubject: '',
+        pollSubject: null,
         pollQuestion:'',
         snackBarDuration: 5000,
-        
+        pollSubjectAnchor:null,
+
         //input validation
         subjectError: false,
         subjectErrorText: 'Max Subject Length Reached',
         questionError:false,
         questionErrorText: "Max Question Length Reached",
         openSubjectValidationError: false,
-        subjectValidationErrorMessage: 'Your Subject is too short!',
+        subjectValidationErrorMessage: 'You have to enter one of the categories listed...',
         openQuestionValidationError:false,
         questionValidationErrorMessage: 'That can\'t be a question, it is too short!',
 
@@ -167,6 +168,10 @@ class PollCreatePage extends React.Component {
    this.handleMyPollsError = this.handleMyPollsError.bind(this)
    this.pollsFetch = this.pollsFetch.bind(this)
    this.handlePollCreateError= this.handlePollCreateError.bind(this)
+   this.handleOpenPollSubjectList = this.handleOpenPollSubjectList.bind(this)
+   this.handleClosePollSubjectList = this.handleClosePollSubjectList.bind(this)
+   this.handlePollSubjectChange = this.handlePollSubjectChange.bind(this)
+   this.renderMenuItems = this.renderMenuItems.bind(this)
   }
 
   pollsFetch(){
@@ -308,7 +313,7 @@ class PollCreatePage extends React.Component {
       let {pollSubject, pollQuestion} = this.state
       let {nickname} = this.props.userProfile
       let poll = Object.assign({}, {pollSubject, pollQuestion, nickname})
-      if (poll.pollSubject.length < 5){
+      if (poll.pollSubject === null){
           this.handleSubjectValidationError();
           return;
       }
@@ -317,6 +322,7 @@ class PollCreatePage extends React.Component {
           this.handleQuestionValidationError();
           return;
       }
+      console.log('POLL TO SEND', poll)
       this.setState({pollCreateLoad:true})
       this.props.pollSend(poll)
       .then((res)=>{
@@ -364,6 +370,32 @@ class PollCreatePage extends React.Component {
     });
   }
 
+    renderMenuItems(list, handleChangeMethod){
+    let {classes} = this.props
+    return Object.keys(list).map((key, i)=>{
+        return (<MenuItem
+        key={i}
+        value={i}
+        style={{...classes.text}}
+        onClick={event => handleChangeMethod(key)}
+        >
+        {list[key]}
+        </MenuItem>
+        )
+      })
+  }
+
+  handleOpenPollSubjectList(e){
+    this.setState({ pollSubjectAnchor: e.currentTarget });
+  }
+
+  handleClosePollSubjectList(){
+    this.setState({ pollSubjectAnchor: null });
+
+  }
+  handlePollSubjectChange(value){
+    this.setState({pollSubject: parseInt(value), pollSubjectAnchor: null});
+}
 
   render() {
     const {classes, theme} = this.props
@@ -420,24 +452,16 @@ class PollCreatePage extends React.Component {
                 </Typography>
             </CardContent>
             <Divider/>
-            <CardContent className={classes.cardContent}>
-              <Toolbar className={classes.cardContent}>
-                <Typography variant="subheading" component="h3" style={{marginRight:15}}>
-                    Subject
-                </Typography>
-                <FormControl fullWidth>
-                  <InputLabel >{this.state.subjectError ? this.state.subjectErrorText : "Subject"}</InputLabel>
-                  <Input
-                    // error={this.state.subjectError}
-                    // label={this.state.subjectError ? this.state.subjectErrorText : null}
-                    multiline={true}
-                    id="adornment-amount"
-                    value={this.state.pollSubject}
-                    onChange={this.handleSubjectChange}
-                  />
-                </FormControl>
-              </Toolbar>
-            </CardContent>
+            <SubjectListSelect
+            listTitle={'Subject'}
+            list={poll_subjects}
+            handleOpenList={this.handleOpenPollSubjectList}
+            selectedItem={this.state.pollSubject!==null ? poll_subjects[this.state.pollSubject] :''}
+            anchorEl={this.state.pollSubjectAnchor}
+            handleCloseList={this.handleClosePollSubjectList}
+            renderMenuItems={this.renderMenuItems}
+            changeListValue={this.handlePollSubjectChange}
+            />
             <Divider/>
             <CardContent className={classes.cardContent}>
               <Toolbar className={classes.cardContent}>
@@ -445,7 +469,7 @@ class PollCreatePage extends React.Component {
                     Question
                 </Typography>
                 <FormControl fullWidth>
-                  <InputLabel >{this.state.questionError ? this.state.questionErrorText : "Question"}</InputLabel>
+                  <InputLabel >{this.state.questionError ? this.state.questionErrorText : ""}</InputLabel>
                   <Input
                     multiline={true}
                     id="adornment-amount"

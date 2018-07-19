@@ -525,6 +525,7 @@ class ProfileSettings extends React.Component {
                     Gender
                 </Typography>
                 <FormControlLabel
+                style={{marginLeft:'1em'}}
                   control={
                     <Checkbox
                       checked={this.state.maleCheckBox}
@@ -560,6 +561,7 @@ class ProfileSettings extends React.Component {
                     Religious
                 </Typography>
                 <FormControlLabel
+                  style={{marginLeft:'1em'}}
                   control={
                     <Checkbox
                       checked={this.state.religionYesCheckBox}

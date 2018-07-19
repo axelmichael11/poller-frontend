@@ -16,6 +16,7 @@ import {VictoryBar, VictoryContainer, VictoryChart, VictoryAxis, VictoryLabel} f
 import MaterialStyles from '../../../style/material-ui-style'
 import Typography from '@material-ui/core/Typography';
 
+import subjects_list from '../../../lib/poll-subjects'
 
 const styles = theme =>({
   container: theme.overrides.MuiPaper.root,
@@ -43,7 +44,17 @@ class TotalVotesGraph extends React.Component {
   render(){
       let {classes, poll} = this.props
       return(
-          <div>
+        <div>
+        <Paper square elevation={2} className={classes.container} style={{marginBottom:0}}>
+            <Card style={{marginBottom:0, padding: 7}}>
+            <CardHeader
+                action={null}
+                className={classes.cardHeader}
+                title={poll.author_username}
+                classes={{
+                    title: classes.cardHeader
+                }}
+            />
             <CardContent>
                 <Typography variant="display3" style={{overflowWrap:'break-word'}}>
                    "{poll.question}"
@@ -83,17 +94,18 @@ class TotalVotesGraph extends React.Component {
                     <Typography variant="subheading">
                       Votes: {this.props.totalVotesData.totalVotes}
                     </Typography>
+
+                    <Typography variant="subheading">
+                       {subjects_list[poll.subject]}
+                    </Typography>
+
                     <Typography variant="subheading">
                        Poll Expiration: {poll.expiration} hours
                     </Typography>
-                    <Typography variant="subheading">
-                       {poll.subject}
-                    </Typography>
-                    <Typography variant="subheading">
-                      {'Author: '+poll.author_username}
-                    </Typography>
-                    </CardContent>
                     
+                    </CardContent>
+                </Card>
+            </Paper> 
           </div>
       )
   }

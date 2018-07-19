@@ -109,7 +109,8 @@ module.exports = {
       MuiListItem:{
         container:{
           border: '1px black solid',
-          maxWidth: 500,
+          // maxWidth: 500,
+          width:'60%',
         },
       },
       MuiSelectField: {

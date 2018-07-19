@@ -26,7 +26,7 @@ import Delete from '@material-ui/icons/Delete';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Button from '@material-ui/core/Button';
-
+import subjects_list from '../../lib/poll-subjects'
 
 const styles = theme =>({
     container: theme.overrides.MuiPaper.root,
@@ -72,7 +72,7 @@ const UserPollCard = ({classes, theme, pollActions, poll }) =>{
                 </CardContent>
                 <CardContent>
                 <Typography variant="subheading" component="p">
-                        {poll.subject}
+                        {subjects_list[poll.subject]}
                     </Typography>
                 <Typography variant="subheading" component="p">
                         Poll Expiration: {poll.expiration} hours

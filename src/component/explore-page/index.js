@@ -238,7 +238,12 @@ handleReportSuccess(){
                   renderMenuButtons={this.renderMenuButtons}
                   handleClose={this.handleCloseCardMenu}
                 />
-
+            <div style={{overflow:'scroll', 
+            maxWidth:'600px', 
+            maxHeight:'1000px', 
+            position:'relative',
+            margin:'auto'
+            }}>
             <AdvancedList
               list={this.props.publicPolls}
               error={this.state.exploreError}
@@ -254,7 +259,7 @@ handleReportSuccess(){
               pollCount={this.state.pollCount}
               maxPublicPolls={this.state.maxPublicPolls}
               />
-
+            </div>
 
               <Snackbar
                 open={this.state.reportPollSuccessSnack}
