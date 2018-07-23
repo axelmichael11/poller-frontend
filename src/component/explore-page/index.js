@@ -12,6 +12,7 @@ import '../../style/index.scss'
 
 import {getPublicPolls, fetchPublicPolls} from '../../action/public-poll-actions.js'
 
+import Paper from '@material-ui/core/Paper';
 import LoginPage from '../login'
 import { withStyles } from '@material-ui/core';
 import Typography from '@material-ui/core/Typography';
@@ -27,6 +28,8 @@ import NotInterested from '@material-ui/icons/NotInterested';
 import Snackbar from '@material-ui/core/Snackbar';
 import DialogContentText from '@material-ui/core/DialogContentText';
 
+import PollFilter from './filter.js'
+import subjects_list from '../../lib/poll-subjects'
 
 const styles = theme =>({
   button: theme.overrides.MuiButton,
@@ -37,10 +40,19 @@ class ExplorePage extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      polls: this.props.publicPolls,
+      pollData: this.props.publicPolls,
       previousPolls:0,
       pollCount: Object.keys(this.props.publicPolls).length,
       noPolls:false,
+
+      //filter
+      explorePolls: this.props.publicPolls,
+      filteredPolls:{},
+      filterExpanded: false,
+      categoryFilters:[],
+      maxCategoryReachedError:false,
+      maxCategoryReachedMessage:"You can only filter up to five categories",
+
       //loading
       exploreLoading:false,
       reportLoading:false,
@@ -71,6 +83,7 @@ class ExplorePage extends React.Component {
       pollMenuFocus:null,
 
 
+
     }
 
     this.fetchPolls = this.fetchPolls.bind(this)
@@ -85,6 +98,12 @@ class ExplorePage extends React.Component {
     this.handleReportSuccess = this.handleReportSuccess.bind(this)
     this.handleReportError = this.handleReportError.bind(this)
     this.renderReportDialogContent = this.renderReportDialogContent.bind(this)
+    this.handleFilterExpand = this.handleFilterExpand.bind(this)
+    this.handleFilterChange = this.handleFilterChange.bind(this)
+    this.deleteFilter = this.deleteFilter.bind(this)
+    this.handleMaxCategory = this.handleMaxCategory.bind(this)
+    this.handleClearAllCategories = this.handleClearAllCategories.bind(this)
+    this.addFilter = this.addFilter.bind(this)
   }
 
   componentWillMount(){
@@ -215,11 +234,94 @@ handleReportSuccess(){
     )
   }
 
+  handleFilterChange(category){
+        if (this.state.categoryFilters.includes(category)){
+        this.deleteFilter(category)
+        this.setState({maxCategoryReachedError:false})
+        return;
+      } else {
+        if (this.state.categoryFilters.length ===5){
+          this.handleMaxCategory()
+          return;
+        } else {
+            console.log('this is the filter', category)
+            this.addFilter(category)
+        }
+      }
+  }
+
+  handleFilterExpand(){
+    this.setState({ filterExpanded: !this.state.filterExpanded });
+  }
+
+  deleteFilter(category){
+    let {publicPolls} =this.props;
+    let {categoryFilters} = this.state;
+    let keys = Object.keys(publicPolls)
+    let newFilters = categoryFilters.filter(filter=> filter!==category)
+
+      return new Promise((resolve,reject)=>{
+        let polls = {}
+        newFilters.map(category=>{
+          keys.map(pollKey=>{
+            if (publicPolls[pollKey].subject===parseInt(category)){
+              polls[pollKey]= publicPolls[pollKey]
+            }
+          })
+        })
+        resolve(polls);
+      })
+      .then(polls=>{
+        this.setState({
+          filteredPolls: polls,
+          categoryFilters: newFilters,
+        })
+      })
+      .catch(err=>console.log(err))
+  }
+
+  handleMaxCategory(){
+    this.setState({maxCategoryReachedError: true})
+  }
+
+  handleClearAllCategories(){
+    this.setState({
+      maxCategoryReachedError: false,
+      categoryFilters:[],
+      filteredPolls: {},
+    })
+  }
+
+  addFilter(category){
+    let {publicPolls} =this.props;
+    let {categoryFilters} = this.state;
+    let keys = Object.keys(publicPolls)
+    console.log('FILTERS for add filter method', categoryFilters)
+    let newFilters = categoryFilters.concat(category);
+      return new Promise((resolve,reject)=>{
+        let polls = {}
+        newFilters.map(category=>{
+          keys.map(pollKey=>{
+            if (publicPolls[pollKey].subject===parseInt(category)){
+              polls[pollKey]= publicPolls[pollKey]
+            }
+          })
+        })
+        resolve(polls);
+      })
+      .then(polls=>{
+        this.setState({
+          filteredPolls: polls,
+          categoryFilters: newFilters,
+        })
+      })
+      .catch(err=>console.log(err))
+  }
+
 
   render() {
-    const {stepIndex} = this.state;  
+    const {stepIndex} = this.state;
     const {classes} = this.props;
-    console.log('EXPLORE PAGE', this.state)
     return (
         <div>
           <ResponsiveDialog
@@ -238,14 +340,33 @@ handleReportSuccess(){
                   renderMenuButtons={this.renderMenuButtons}
                   handleClose={this.handleCloseCardMenu}
                 />
-            <div style={{overflow:'scroll', 
-            maxWidth:'600px', 
-            maxHeight:'1000px', 
-            position:'relative',
-            margin:'auto'
-            }}>
+              
+          <PollFilter
+          filterExpanded={this.state.filterExpanded}
+          handleFilterExpand={this.handleFilterExpand}
+          // classes={classes}
+          handleFilterChange={this.handleFilterChange}
+          helpText={this.state.helpText}
+          categories={Object.keys(subjects_list)}
+          categoryFilters={this.state.categoryFilters}
+          pollFilters ={this.state.pollFilters}
+          deleteFilter={this.deleteFilter}
+          handleClearAllCategories={this.handleClearAllCategories}
+          />
+
+            <div 
+            // style={{overflow:'auto', 
+            // maxWidth:'605px', 
+            // maxHeight:'1000px', 
+            // position:'relative',
+            // margin:'auto'
+            // }}
+            >
             <AdvancedList
-              list={this.props.publicPolls}
+              list={this.state.categoryFilters.length > 0 ?
+                this.state.filteredPolls:
+                this.props.publicPolls
+              }
               error={this.state.exploreError}
               Loading={this.state.exploreLoading}
               page={this.state.page}
@@ -274,6 +395,13 @@ handleReportSuccess(){
                 action={null}
                 autoHideDuration={this.state.snackBarDuration}
                 onClose={this.handleReportError}
+              />
+              <Snackbar
+                open={this.state.maxCategoryReachedError}
+                message={this.state.maxCategoryReachedMessage}
+                action={null}
+                autoHideDuration={this.state.snackBarDuration}
+                onClose={this.handleMaxCategory}
               />
         </div>
       )

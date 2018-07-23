@@ -52,14 +52,14 @@ class ContactPage extends React.Component {
                 <Button 
                 variant="outlined"
                 className={classes.button}
-                style={{marginTop:100}}
+                style={{marginTop:100, marginBottom:100}}
                 >
                 SOURCE CODE                
                 </Button>
                 </a>
 
               <Typography variant="headline" >
-                Work: (206)-794-5265         
+                Michael Axelson
               </Typography>
 
               <div className="contact-menu">

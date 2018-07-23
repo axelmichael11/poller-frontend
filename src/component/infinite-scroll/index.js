@@ -31,6 +31,7 @@ import MoreVertIcon from '@material-ui/icons/MoreVert';
 import NoPolls from './no-polls'
 import LoadingHOC from '../loading/loadingHOC.js'
 import MaxPolls from './max-polls'
+import QuickScroll from './quick-scroll'
 
 const styles = (theme) =>({
   button:theme.overrides.MuiButton,
@@ -123,6 +124,7 @@ const withInfiniteScroll =(conditionFn) => (Component) =>
           }
         }
         render() {
+          console.log('INFINITE SCROLL',this.state)
           return (<Component {...this.props} />)
         }
       }
@@ -134,6 +136,45 @@ const withInfiniteScroll =(conditionFn) => (Component) =>
       { conditionFn(props) && <MaxPolls {...props}/>}
       </div>
     </div>
+
+
+const withQuickScroll =(conditionFn) => (Component) => 
+  class WithQuickScroll extends React.Component {    // let {classes} = props;
+  constructor(props) {
+    super(props);
+    this.state={
+      scrollY : window.pageYOffset,
+      innerHeight: window.innerHeight,
+    }
+    this.renderQuickScroll = this.renderQuickScroll.bind(this);
+  }
+
+  componentDidMount() {
+    window.addEventListener('scroll',  this.renderQuickScroll, true);
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('scroll', this.renderQuickScroll, true );
+  }
+
+  renderQuickScroll(){
+    if (conditionFn(this.props)) {
+      return (<QuickScroll/>)
+    }
+  }
+
+  render() {
+    console.log('QUICK SCROLL UP', this.state)
+    return (
+      <div>
+        <Component {...this.props} />
+        <div>
+        {this.renderQuickScroll()}
+        </div>
+      </div>
+    )
+  }
+}
 
 
 //additional props
@@ -173,6 +214,9 @@ const errorCondition = props =>
  && Object.keys(props.list).length > 0 
  && !props.Loading && !props.error ;
 
+ const quickScrollCondition = props =>
+ window.innerHeight < window.pageYOffset
+
 
   const AdvancedList = compose(
     connect(mapStateToProps, mapDispatchToProps),
@@ -181,6 +225,7 @@ const errorCondition = props =>
     withMaxPublicPolls(maxPublicPollsCondition),
     withNoPolls(noPollsCondition),
     withLoading(loadingCondition),
+    withQuickScroll(quickScrollCondition),
   )(List);
 
 

@@ -103,13 +103,13 @@ const SubjectListSelect = ({list, listTitle, handleOpenList, selectedItem, ancho
         },
       }}
     >
-      <MenuItem
+      {/* <MenuItem
       value={null}
       style={{...classes.text}}
       onClick={event => changeListValue(null)}
       >
         
-      </MenuItem>
+      </MenuItem> */}
       {renderMenuItems(list, changeListValue)}
     </Menu>
     </div>

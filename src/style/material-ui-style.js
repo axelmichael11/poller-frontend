@@ -243,6 +243,29 @@ module.exports = {
               display:'inline-block'
     
           },
+          filterButton:{
+            margin:0,
+            padding:0,
+            textAlign:'center',
+            backgroundColor: '#000',
+            display:'inline-block',
+            // verticalAlign:'top',
+            color:"#fff",
+            fontFamily: [
+              'Play',
+              'Roboto',
+              'Arial',
+              'sans-serif',
+            ].join(','),
+            // '&:hover': {
+            //   backgroundColor: '#fff',
+            //   color:'#000'
+            // },
+              // verticalAlign:'top',
+              width: '100%',
+              flexGrow: 1,
+              display:'inline-block'
+          },
           dialogStretchedButtons:{
             root:{
               display:'block',
