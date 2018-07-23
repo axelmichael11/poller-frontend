@@ -38,7 +38,7 @@ class LoginPage extends React.Component {
 
   render() {
     let {classes, theme} = this.props;
-    console.log('PROPS ON LOGIN PAGE', this.props)
+    
     return (
       <div>
           <Paper elevation={2} className={classes.container}>

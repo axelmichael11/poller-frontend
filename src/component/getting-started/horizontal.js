@@ -41,7 +41,7 @@ const tutorialSteps = [
                     means this web application or server does NOT store sensitive information.
                     Username, email, password is stored using 0-Auth services.
                     Once you sign up you can then submit your demographic information to make
-                    this interesting! (Again, not required...)`,
+                    this interesting! (Again, not required)`,
   },
   {
     photo: votePhoto,
@@ -157,6 +157,13 @@ class GettingStartedPage extends React.Component {
           }
         />
         </Paper>
+        <Button
+            variant="outlined"
+            onClick={this.props.login} 
+            className={classes.button}
+            style={{marginTop:15}}>
+            SIGNUP / LOGIN
+         </Button>
       </div>
     </div>
     );

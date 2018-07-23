@@ -13,7 +13,7 @@ import LoginPage from '../login'
 
 import PrivateRoute from '../app/privateroute'
 import ContactPage from '../contact-page'
-import RatingPage from '../rating-page'
+import FeedBackPage from '../feedback-page'
 
 import {
   profileFetch,
@@ -65,7 +65,7 @@ handleFetchProfile(){
           <Route path="/pollcreate" component={PollCreatePage}/>
           <Route path='/poll/:author_username/:created_at' component={PollLandingContainer}/>
           <Route path="/contact" component={ContactPage}/>
-          <Route path="/rating" component={RatingPage}/>
+          <Route path="/feedback" component={FeedBackPage}/>
           {/* <Route  path="/" component={LoginPage}/> */}
           {/* <Route component={LoginPage}/> */}
         </Switch>

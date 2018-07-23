@@ -296,7 +296,6 @@ handleReportSuccess(){
     let {publicPolls} =this.props;
     let {categoryFilters} = this.state;
     let keys = Object.keys(publicPolls)
-    console.log('FILTERS for add filter method', categoryFilters)
     let newFilters = categoryFilters.concat(category);
       return new Promise((resolve,reject)=>{
         let polls = {}

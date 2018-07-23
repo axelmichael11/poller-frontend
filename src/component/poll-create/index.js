@@ -322,7 +322,6 @@ class PollCreatePage extends React.Component {
           this.handleQuestionValidationError();
           return;
       }
-      console.log('POLL TO SEND', poll)
       this.setState({pollCreateLoad:true})
       this.props.pollSend(poll)
       .then((res)=>{
@@ -399,7 +398,6 @@ class PollCreatePage extends React.Component {
 
   render() {
     const {classes, theme} = this.props
-    console.log('poll create', this.props, this.state)
     return (
         <div>
           <Dialog
@@ -452,6 +450,7 @@ class PollCreatePage extends React.Component {
                 </Typography>
             </CardContent>
             <Divider/>
+
             <SubjectListSelect
             listTitle={'Subject'}
             list={poll_subjects}
@@ -462,7 +461,9 @@ class PollCreatePage extends React.Component {
             renderMenuItems={this.renderMenuItems}
             changeListValue={this.handlePollSubjectChange}
             />
+
             <Divider/>
+
             <CardContent className={classes.cardContent}>
               <Toolbar className={classes.cardContent}>
                 <Typography variant="subheading" component="h3" style={{marginRight:15}}>

@@ -23,7 +23,8 @@ import ExploreButton from './Explore-button.js'
 import ProfileButton from './settings-button.js'
 import MyPollsButton from './poll-create-button.js'
 import ContactButton from './contact-button.js'
-import LogoutButton from './logout-button'
+import LogoutButton from './logout-button.js'
+import FeedBackButton from './feedback-button.js'
 
 const styles= {
 
@@ -81,6 +82,7 @@ class NavMenu extends React.Component{
                   <MyPollsButton handleClose={this.handleClose}/>
                   <ProfileButton handleClose={this.handleClose}/>
                   <ContactButton handleClose={this.handleClose}/>
+                  <FeedBackButton handleClose={this.handleClose}/>
                   <LogoutButton />
                 </Menu>
 

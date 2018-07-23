@@ -246,7 +246,6 @@ renderLegendKey(){
 
   render(){
     let {classes} = this.props
-    console.log('PIE RESULTS', this.props, this.state)
       return(
         <div>
                 <Paper square elevation={2} className={classes.container}>

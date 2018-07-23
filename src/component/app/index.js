@@ -69,7 +69,6 @@ class App extends React.Component {
     return new Promise((resolve,reject)=>{
     this.auth0.parseHash({ hash: window.location.hash }, (err, authResult) => {
       if (authResult && authResult.accessToken && authResult.idToken) {
-        console.log('ATUHR RESULTS', authResult)
         this.setSession(authResult);
         result = authResult
         this.props.profileFetch()
@@ -87,7 +86,6 @@ class App extends React.Component {
 
   setSession(authResult) {
     // Set the time that the Access Token will expire at
-    console.log('auth result!!!!!', authResult);
     let expiresAt = JSON.stringify((authResult.expiresIn * 1000) + new Date().getTime());
       localStorage.setItem('access_token', authResult.accessToken);
       localStorage.setItem('id_token', authResult.idToken);

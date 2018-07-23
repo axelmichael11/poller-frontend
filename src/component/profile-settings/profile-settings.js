@@ -361,7 +361,6 @@ class ProfileSettings extends React.Component {
     })
     .catch(err=>{
       if (err.status===500){
-        console.log('500 ERROR', err)
         this.handleUpdateErrorSnackBarRequest()
         this.handleUpdateAlert()
       }
@@ -442,7 +441,6 @@ class ProfileSettings extends React.Component {
       marginLeft: 3,
     }
     let {classes, theme} = this.props
-    console.log('settings page', this.state)
     return (
       <div>
         <Dialog

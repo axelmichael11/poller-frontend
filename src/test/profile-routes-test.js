@@ -19,7 +19,6 @@ describe('testing profile queries...', () => {
   after(server.stop)
 
   it('this is the profile create method, should return a user', () => {
-      console.log('API_TOKEN', API_TOKEN)
    return superagent.delete('')
     
   })

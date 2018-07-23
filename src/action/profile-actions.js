@@ -14,13 +14,11 @@ const storeUserProfile = (userProfile) => {
 
   export const profileFetch = () => (dispatch, getState) => {
     let { auth0Token } = getState()
-    console.log('hiting profile fetch!',auth0Token)
     return superagent
       .get(`${__API_URL__}/api/user`)
       .set('Authorization', `Bearer ${auth0Token}`)
       .then(res => {
         let parsed = JSON.parse(res.text)
-        console.log('hitting ressssss on profile fetch', parsed)
         localStorage.setItem('poller_token', auth0Token)
         dispatch(storeUserProfile(parsed))
         dispatch(login())

@@ -170,8 +170,6 @@ class PollResultsPage extends React.Component {
   
   render() {
     let {classes} = this.props
-    console.log('politics categories', this.state.politicsCategories)
-    console.log('RESULTS', this.props.pollData)
     return (
       <div>
         <Paper square elevation={2} className={classes.container}>

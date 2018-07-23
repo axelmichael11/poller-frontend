@@ -124,7 +124,6 @@ const withInfiniteScroll =(conditionFn) => (Component) =>
           }
         }
         render() {
-          console.log('INFINITE SCROLL',this.state)
           return (<Component {...this.props} />)
         }
       }

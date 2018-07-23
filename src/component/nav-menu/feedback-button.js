@@ -18,7 +18,7 @@ const styles = theme => ({
   });
 
 
-class RatingButton extends React.Component{
+class FeedBackButton extends React.Component{
     constructor(props) {
         super(props)
         this.state = {}
@@ -26,13 +26,13 @@ class RatingButton extends React.Component{
       }
 
     nextPath(){
-        this.props.history.push('/rating')
+        this.props.history.push('/feedback')
         this.props.handleClose()
     }
     render(){
         return (
             <div>
-                <MenuItem onClick={()=>this.nextPath()}>Contact</MenuItem>
+                <MenuItem onClick={()=>this.nextPath()}>FeedBack</MenuItem>
            </div>
         )
     }
@@ -50,4 +50,4 @@ export default compose(
   connect(mapStateToProps, mapDispatchToProps),
   withStyles(styles),
   withRouter,
-)(RatingButton)
+)(FeedBackButton)
