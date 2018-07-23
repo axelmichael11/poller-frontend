@@ -101,15 +101,7 @@ const SubjectListSelect = ({list, listTitle, handleOpenList, selectedItem, ancho
           maxHeight: 48 * 4.5,
           maxWidth: 300,
         },
-      }}
-    >
-      {/* <MenuItem
-      value={null}
-      style={{...classes.text}}
-      onClick={event => changeListValue(null)}
-      >
-        
-      </MenuItem> */}
+      }}>
       {renderMenuItems(list, changeListValue)}
     </Menu>
     </div>

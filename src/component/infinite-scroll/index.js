@@ -225,7 +225,6 @@ const errorCondition = props =>
     withMaxPublicPolls(maxPublicPollsCondition),
     withNoPolls(noPollsCondition),
     withLoading(loadingCondition),
-    withQuickScroll(quickScrollCondition),
   )(List);
 
 

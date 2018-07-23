@@ -26,7 +26,8 @@ import MaterialStyles from '../../style/material-ui-style'
 
 const styles = theme => ({
   container: theme.overrides.MuiPaper,
-  listItem:theme.overrides.MuiListItem.container,
+  listContainer: theme.overrides.MuiListItem.container,
+  listItem:theme.overrides.MuiListItem,
   cardHeader:theme.overrides.PollCard.cardHeader,
   cardContent:theme.overrides.PollCard.cardContent,
 })
@@ -64,7 +65,7 @@ const ProfileCategory = ({...props})=> {
               <Typography variant="subheading" style={{width:'50%'}}>
                 {category}
               </Typography>
-            <div>
+            <div className={classes.listContainer}>
               <List>
                 <ListItem
                   button

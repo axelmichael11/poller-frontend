@@ -349,7 +349,7 @@ handleReportSuccess(){
     return (
       <div>
       <DialogContentText id="alert-dialog-description">
-      You are about to submit this demographic information for the question! heyyyyyasfd
+      You are about to submit this demographic information for the question!
       </DialogContentText>
       <ProfileCategory/>
       </div>
