@@ -190,7 +190,6 @@ handleFeedBackChange(e){
 
   render() {
     const {classes} = this.props;
-    console.log('FEEDBACK STATE', this.state, this.props)
     return (
         <div>
             <Paper className={classes.container}>

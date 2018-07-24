@@ -169,7 +169,7 @@ renderYesPie(){
           data={this.props.yesData}
           padAngle={1}
           animate={{ duration: 2000 }}
-          style={{ labels: { fontSize: 20, fontFamily:'Play', fontWeight: "bold" }, width:'50%' }}
+          style={{ labels: { fontSize: 12, fontFamily:'Play', fontWeight: "bold" }, width:'50%' }}
           labelRadius={90}
           colorScale={this.state.yesColorScale}
         />
@@ -214,6 +214,7 @@ renderNoPie(){
           padAngle={1}
           animate={{ duration: 2000 }}
           labelRadius={90}
+          style={{ labels: { fontSize: 12, fontFamily:'Play', fontWeight: "bold" }, width:'50%' }}
           colorScale={this.state.noColorScale}
         />
         }
