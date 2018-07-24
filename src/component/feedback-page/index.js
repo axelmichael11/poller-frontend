@@ -53,9 +53,9 @@ import {
   import FormControlLabel from '@material-ui/core/FormControlLabel';
   import LoadingHOC from '../loading/loadingHOC.js'
   import SubmitButton from '../loading/button.js'
-  import {feedbackSend} from '../../action/feedback-actions'
+  import {feedBackSend} from '../../action/feedback-actions'
 
-  const FeedBackSubmitButton = LoadingHOC(SubmitButton)
+const FeedBackSubmitButton = LoadingHOC(SubmitButton)
 
 
 
@@ -83,7 +83,7 @@ class FeedBackPage extends React.Component {
       unknownError: false,
       //max feedback submissions
       openMaxFeedBackReached:false,
-      maxFeedBackReachedMessage:'You have already submitted three comments! That is the limit... Thanks for the input!',
+      maxFeedBackReachedMessage:'You have already submitted a comment! Thanks for the input!',
 
     }
 
@@ -108,8 +108,9 @@ class FeedBackPage extends React.Component {
         return;
     }
     this.setState({feedBackLoad:true})
-    this.props.pollSend(feedBackData)
+    this.props.feedBackSend(feedBackData)
     .then((res)=>{
+      console.log('RESPONSE',res)
         if (res.status===200){
           this.handleFeedBackClear()
           this.handleFeedBackSuccess()
@@ -119,6 +120,7 @@ class FeedBackPage extends React.Component {
         }
     })
     .catch(err=>{
+      console.log('ERROR',err)
       if (err.status===550){
         this.handleMaxFeedBackReached();
       } else {
@@ -202,7 +204,7 @@ handleFeedBackChange(e){
             <CardContent>
                 <Typography variant="headline">
                     Any feedback on this application is tremendously appreciated!
-                    Only Three comments can back be made for the moment.
+                    Due to data limitations, you can only submit one comment.
                     Your comments are anonymous,
                     again any feedback will help this application!
                 </Typography>
@@ -294,7 +296,7 @@ export const mapDispatchToProps = dispatch => ({
 
     
 export default compose(
-  connect(mapDispatchToProps, mapStateToProps),
+  connect(mapStateToProps, mapDispatchToProps),
   withStyles(styles, {withTheme:true}),
 )(FeedBackPage);
 

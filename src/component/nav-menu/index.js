@@ -29,6 +29,7 @@ import FeedBackButton from './feedback-button.js'
 const styles= {
 
 }
+
 class NavMenu extends React.Component{
     constructor(props, context) {
         super(props, context)
@@ -82,7 +83,7 @@ class NavMenu extends React.Component{
                   <MyPollsButton handleClose={this.handleClose}/>
                   <ProfileButton handleClose={this.handleClose}/>
                   <ContactButton handleClose={this.handleClose}/>
-                  <FeedBackButton handleClose={this.handleClose}/>
+                  {/* <FeedBackButton handleClose={this.handleClose}/> */}
                   <LogoutButton />
                 </Menu>
 

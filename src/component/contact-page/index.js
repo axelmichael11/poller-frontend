@@ -19,6 +19,7 @@ import CreateIcon from '@material-ui/icons/create'
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
+import FeedBackPage from '../feedback-page'
 
 
 const styles = theme =>({
@@ -52,7 +53,7 @@ class ContactPage extends React.Component {
                 <Button 
                 variant="outlined"
                 className={classes.button}
-                style={{marginTop:100, marginBottom:100}}
+                style={{marginTop:50, marginBottom:50}}
                 >
                 SOURCE CODE                
                 </Button>
@@ -81,6 +82,7 @@ class ContactPage extends React.Component {
                 </IconButton>
               </div>
           </Paper>
+          <FeedBackPage/>
         </div>
       )
     }

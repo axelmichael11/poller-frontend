@@ -1,3 +1,6 @@
+const superagent = require('superagent');
+
+
 export const feedBackSend = (feedback) => (dispatch, getState) => {
     let { auth0Token } = getState();
     return superagent

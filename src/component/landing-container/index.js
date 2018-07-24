@@ -65,9 +65,7 @@ handleFetchProfile(){
           <Route path="/pollcreate" component={PollCreatePage}/>
           <Route path='/poll/:author_username/:created_at' component={PollLandingContainer}/>
           <Route path="/contact" component={ContactPage}/>
-          <Route path="/feedback" component={FeedBackPage}/>
-          {/* <Route  path="/" component={LoginPage}/> */}
-          {/* <Route component={LoginPage}/> */}
+          <Route  path="/" component={ExplorePage}/>
         </Switch>
       </div>
     )
