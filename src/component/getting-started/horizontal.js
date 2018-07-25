@@ -26,30 +26,28 @@ const tutorialSteps = [
   {
     photo: welcomePhoto,
     label: 'Welcome To Poller',
-    description: ` This is Poller, a web application to see what people are thinking! ;)
-                    Ever wanted to post questions anonymously and get public feedback?
-                    Is bigfoot real? Is Donald Trump's hair? Poller is an application that
-                    allows users to post yes or no questions and see how people are voting 
-                    anonymously. If you want to make the poll more interesting, you can submit
-                    demographic information about yourself to be factored into the result! 
-                    (Not required). ALSO! The catch is, you have to vote to see the results. :)`,
+    description: `This is Poller, a voting platform that allows users to post and vote on
+                  questions anonymously. Users have the option to submit
+                  demographic information about themselves to be factored into the poll results
+                  based on age, religion, gender, profession, nationality, ethnicity, and political
+                  preference (Not required). The catch is, you have to vote to see the results.`,
   },
   {
     photo: profilePhoto,
     label: 'Create an Account, customize your profile',
     description: `You have to create an account. This application uses Oauth... That 
                     means this web application or server does NOT store sensitive information.
-                    Username, email, password is stored using 0-Auth services.
+                    Email and password are stored using 0-Auth services.
                     Once you sign up you can then submit your demographic information to make
                     this interesting! (Again, not required)`,
   },
   {
     photo: votePhoto,
     label: 'Post questions and vote!',
-    description: ` Once your profile is set up, you can see other people's questions to vote on,
+    description: ` Once your profile is set up, you can see other users' questions to vote on,
                     or post your own questions to see what other users are thinking!
                     For storage purposes, you are only allowed up to three questions for one account.
-                    Sign up Here!`,
+                    Sign up Below!`,
   },
 ];
 

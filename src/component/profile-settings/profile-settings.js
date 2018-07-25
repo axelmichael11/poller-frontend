@@ -157,7 +157,7 @@ class ProfileSettings extends React.Component {
 
        //help text
     helpExpanded:false,
-    helpText:`Update your profile information if you want this information to be anonomysously submitted when
+    helpText:`Update your profile information if you want this information to be anonymously submitted when
     answering questions! None of these fields are required,
     and no demographic information specific to you is shown in the results of a poll.
     These can be updated as often as necessary. Why not make this app a little more interesting?`,

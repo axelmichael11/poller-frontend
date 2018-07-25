@@ -25,7 +25,6 @@ if (production === 'production'){
       __AUTH0_AUDIENCE__: JSON.stringify(process.env.AUTH0_AUDIENCE),
       __AUTH0_CLIENT_ID__: JSON.stringify(process.env.AUTH0_CLIENT_ID),
       __AUTH0_CLIENT_DOMAIN__: JSON.stringify(process.env.AUTH0_CLIENT_DOMAIN),
-      __AUTH0_SIGNUP__: JSON.stringify(process.env.AUTH0_SIGNUP),
       __POLLER_APP__: JSON.stringify(process.env.POLLER_APP),
       __AUTH0_REDIRECT_URI__:JSON.stringify(process.env.AUTH0_REDIRECT_URI),
       __ORIGIN__: JSON.stringify(process.env.ORIGIN)
@@ -42,7 +41,6 @@ if (production === 'production'){
       __AUTH0_AUDIENCE__: JSON.stringify(process.env.AUTH0_AUDIENCE),
       __AUTH0_CLIENT_ID__: JSON.stringify(process.env.AUTH0_CLIENT_ID),
       __AUTH0_CLIENT_DOMAIN__: JSON.stringify(process.env.AUTH0_CLIENT_DOMAIN),
-      __AUTH0_SIGNUP__: JSON.stringify(process.env.AUTH0_SIGNUP),
       __POLLER_APP__: JSON.stringify(process.env.POLLER_APP),
       __AUTH0_REDIRECT_URI__:JSON.stringify(process.env.AUTH0_REDIRECT_URI),
       __ORIGIN__: JSON.stringify(process.env.ORIGIN)

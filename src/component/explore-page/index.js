@@ -244,7 +244,6 @@ handleReportSuccess(){
           this.handleMaxCategory()
           return;
         } else {
-            console.log('this is the filter', category)
             this.addFilter(category)
         }
       }
