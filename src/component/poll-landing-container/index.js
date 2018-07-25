@@ -54,8 +54,8 @@ class PollLandingContainer extends React.Component {
       pollData:null,
       helpExpanded: false,
       error:false,
-      castVoteHelpText:"Cast your Vote! Remember, however you have set your profile information is how your vote data will be submitted! Represent yourself in the answer!",
-      pollResultsHelpText: "These are the results of how people have voted based on age, gender, religious affiliation, ethnicity, and profession! See for yourself how people are voting!"
+      castVoteHelpText:"Cast your Vote! Remember, however you have set your profile information is how your vote data will be submitted. Represent yourself in the answer!",
+      pollResultsHelpText: "These are the results of how people have voted based on age, political preference, gender, religious affiliation, ethnicity, and profession! See for yourself how people are voting!"
     }
     this.fetchVoteData = this.fetchVoteData.bind(this)
     this.handleHelpExpand = this.handleHelpExpand.bind(this)
