@@ -7,7 +7,6 @@ import {compose, branch, renderComponent} from 'recompose'
 import {VictoryPie, VictoryLegend, VictoryTooltip, VictoryLabel} from 'victory'
 import AppBar from 'material-ui/AppBar'
 
-import '../../style/index.scss'
 import Chip from 'material-ui/Chip';
 
 import MaterialStyles from '../../style/material-ui-style'

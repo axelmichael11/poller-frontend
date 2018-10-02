@@ -12,20 +12,16 @@ import {compose} from 'recompose'
 import { login, logout } from '../../action/auth-actions.js'
 import * as util from '../../lib/util.js'
 
-import IconButton from '@material-ui/core/IconButton';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
-import Menu from '@material-ui/core/Menu';
-// import ResponsiveDialog from './responsive-dialog'
-
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-
-
 import ReportButton from './report-button.js'
-// import ProfileButton from './settings-button.js'
-// import MyPollsButton from './poll-create-button.js'
 
-import MenuList from '@material-ui/core/MenuList';
+
+import {MenuList,
+  List,
+  ListItem,
+  Menu,
+  IconButton
+  } from '@material-ui/core';
 
 
 

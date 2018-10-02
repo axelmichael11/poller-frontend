@@ -10,36 +10,27 @@ import Avatar from '@material-ui/core/Avatar';
 import Chip from '@material-ui/core/Chip';
 
 
-import DialogTitle from '@material-ui/core/DialogTitle';
-import InputLabel from '@material-ui/core/InputLabel';
-import Input from '@material-ui/core/Input';
-import MenuItem from '@material-ui/core/MenuItem';
-import FormControl from '@material-ui/core/FormControl';
-import Select from '@material-ui/core/Select';
-import Divider from '@material-ui/core/Divider';
-import Paper from '@material-ui/core/Paper';
-import Typography from '@material-ui/core/Typography';
-import Checkbox from '@material-ui/core/Checkbox';
-import Card from '@material-ui/core/Card';
-import CardActions from '@material-ui/core/CardActions';
-import CardContent from '@material-ui/core/CardContent';
-import CardMedia from '@material-ui/core/CardMedia';
-import MenuList from '@material-ui/core/MenuList';
-import Snackbar from '@material-ui/core/Snackbar';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import DropDownArrowIcon from '@material-ui/icons/ArrowDropDown'
-import IconButton from '@material-ui/core/IconButton';
-import Collapse from '@material-ui/core/Collapse';
+
+
+
+import {Card,
+ CardActions,
+ CardContent,
+ CardMedia,
+ IconButton,
+ Collapse,
+ Toolbar,
+ List,
+ ListItem,
+ ListItemText,
+ Typography,
+Button } from '@material-ui/core';
+
+
 import MoreVertIcon from '@material-ui/icons/MoreVert';
-import TextField from '@material-ui/core/TextField';
-import Toolbar from '@material-ui/core/Toolbar';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
-import Menu from '@material-ui/core/Menu';
+import DropDownArrowIcon from '@material-ui/icons/ArrowDropDown'
 import ArrayBackIcon from '@material-ui/icons/arrowback';
-import Button from '@material-ui/core/Button';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
 import subjects_list  from '../../lib/poll-subjects'
 

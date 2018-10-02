@@ -13,9 +13,10 @@ import {compose} from 'recompose'
 import { login, logout } from '../../action/auth-actions.js'
 import * as util from '../../lib/util.js'
 
-import IconButton from '@material-ui/core/IconButton';
+import {IconButton, Menu} from '@material-ui/core';
+
+
 import MenuIcon from '@material-ui/icons/Menu';
-import Menu from '@material-ui/core/Menu';
 
 
 

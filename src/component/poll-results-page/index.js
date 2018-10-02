@@ -4,9 +4,13 @@ import { connect } from 'react-redux'
 import { Link, withRouter } from 'react-router-dom'
 import PieResults from '../charts/yes-no-pie/index'
 import {  compose, branch, renderComponent } from 'recompose'
+import classnames from 'classnames';
 
 
 import randomColor from 'randomcolor'; // import the script
+import {
+  fetchVoteHistory
+} from '../../action/vote-actions'
 
 import TotalVotesGraph from '../charts/vote-totals/index'
 import profession_data from '../../lib/professions.js'
@@ -20,32 +24,30 @@ import * as util from '../../lib/util.js'
 
 
 //Style
-
-import Paper from '@material-ui/core/Paper';
 import { withStyles } from '@material-ui/core/styles';
-import classnames from 'classnames';
-import Card from '@material-ui/core/Card';
-import CardHeader from '@material-ui/core/CardHeader';
-import CardMedia from '@material-ui/core/CardMedia';
-import CardContent from '@material-ui/core/CardContent';
-import CardActions from '@material-ui/core/CardActions';
-import Collapse from '@material-ui/core/Collapse';
-import Avatar from '@material-ui/core/Avatar';
-import IconButton from '@material-ui/core/IconButton';
-import Typography from '@material-ui/core/Typography';
-import red from '@material-ui/core/colors/red';
+
+
+import {Paper,
+Card,
+CardHeader,
+CardMedia,
+CardContent,
+CardActions,
+Collapse,
+Avatar,
+IconButton,
+Typography,
+red,
+AppBar,
+Toolbar,
+Button} from '@material-ui/core'
+
+
+import Delete from '@material-ui/icons/Delete';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import ShareIcon from '@material-ui/icons/Share';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import Delete from '@material-ui/icons/Delete';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import Button from '@material-ui/core/Button';
 
-
-import {
-    fetchVoteHistory
-} from '../../action/vote-actions'
 
 
 

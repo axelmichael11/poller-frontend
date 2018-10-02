@@ -1,16 +1,7 @@
 import React from 'react'
 import {  compose, branch, renderComponent} from 'recompose'
-
-
-
-import '../../style/index.scss'
-
-import MaterialStyles from '../../style/material-ui-style'
-import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import { withStyles } from '@material-ui/core';
-import CancelIcon from '@material-ui/icons/cancel'
-import Paper from '@material-ui/core/Paper';
 import UpArrow from '@material-ui/icons/arrowupward'
 
 

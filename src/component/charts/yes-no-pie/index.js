@@ -3,28 +3,30 @@ import {  compose, branch, renderComponent } from 'recompose'
 import classnames from 'classnames';
 import NoData from './no-data'
 import HoverLabel from './hover-label'
-
-import {VictoryPie, VictoryLegend, VictoryTooltip, VictoryLabel, VictoryContainer} from 'victory'
-
-import '../../../style/index.scss'
-
-import MaterialStyles from '../../../style/material-ui-style'
-
 import { withStyles } from '@material-ui/core/styles';
 
-import Paper from '@material-ui/core/Paper';
-import Chip from '@material-ui/core/Chip';
-import Card from '@material-ui/core/Card';
-import CardHeader from '@material-ui/core/CardHeader';
-import CardMedia from '@material-ui/core/CardMedia';
-import CardContent from '@material-ui/core/CardContent';
-import CardActions from '@material-ui/core/CardActions';
-import Collapse from '@material-ui/core/Collapse';
 
-import Avatar from '@material-ui/core/Avatar';
-import IconButton from '@material-ui/core/IconButton';
-import Typography from '@material-ui/core/Typography';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import {VictoryPie, 
+  VictoryLegend, 
+  VictoryTooltip, 
+  VictoryLabel, 
+  VictoryContainer } from 'victory'
+
+
+
+import {Paper,
+ Chip,
+ Card,
+ CardHeader,
+ CardMedia,
+ CardContent,
+ CardActions,
+ Collapse,
+ Avatar,
+ IconButton,
+ Typography } from '@material-ui/core';
+
+ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
 
 

@@ -8,18 +8,10 @@ import { withStyles } from '@material-ui/core/styles';
 
 
 import RenderProfile from './render-profile'
-
-
 import {
     profileFetch,
   } from '../../action/profile-actions.js'
 
-import LoadingHOC from '../loading/loadingHOC.js'
-
-
-import MaterialStyles from '../../style/material-ui-style'
-
-import HelpTab from '../help-feature'
 
 
 

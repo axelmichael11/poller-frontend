@@ -6,21 +6,16 @@ import classnames from 'classnames';
 
 import {compose} from 'recompose'
 import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
-import {loadingOff} from '../../action/loading-actions'
+import * as util from '../../lib/util.js'
+import RenderPollPage from '../render-poll-page'
+import HelpTab from '../help-feature'
 
 //Methods
 import {fetchVoteHistory} from '../../action/vote-actions'
+import {loadingOff} from '../../action/loading-actions'
 
+import { withStyles } from '@material-ui/core/styles';
 
-import * as util from '../../lib/util.js'
-
-import RenderPollPage from '../render-poll-page'
-import ArrayBackIcon from '@material-ui/icons/arrowback';
-
-
-import Button from '@material-ui/core/Button';
-import HelpTab from '../help-feature'
 
 
 const styles = theme => ({

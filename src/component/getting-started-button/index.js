@@ -5,11 +5,14 @@ import PropTypes from 'prop-types';
 
 import { Link, withRouter } from 'react-router-dom'
 import {compose} from 'recompose'
-import MaterialStyles from '../../style/material-ui-style'
 import { withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 
 
+const styles = theme =>({
+  button: theme.overrides.MuiButton,
+  menuItem: theme.overrides.MuiMenuItem,
+})
 class NavigateGettingStartedButton extends React.Component {
   constructor(props) {
     super(props)
@@ -46,5 +49,6 @@ export const mapStateToProps = state => ({
 export default compose(
   withRouter,
   connect(mapStateToProps, mapDispatchToProps),
-  withStyles(MaterialStyles.flat_button_2)
+  // withStyles(MaterialStyles.flat_button_2)
+  withStyles(styles, {withTheme:true})
 )(NavigateGettingStartedButton)

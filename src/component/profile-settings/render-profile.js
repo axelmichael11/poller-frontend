@@ -1,12 +1,6 @@
 
 import React from 'react'
 import {compose, branch, renderComponent} from 'recompose'
-import UserPollCard from '../user-poll-card'
-import Button from '@material-ui/core/Button';
-import IconButton from '@material-ui/core/IconButton';
-  import Collapse from '@material-ui/core/Collapse';
-  import MoreVertIcon from '@material-ui/icons/MoreVert';
-  import DeleteIcon from '@material-ui/icons/Delete';
 import Error from '../error'
 import Loader from '../loading/loader'
 import { withStyles } from '@material-ui/core/styles';

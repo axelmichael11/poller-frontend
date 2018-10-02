@@ -3,33 +3,32 @@ import React from 'react'
 import NavBar from '../nav-bar'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
-
 import {  compose } from 'recompose'
-import {loadingOn, loadingOff} from '../../action/loading-actions'
-import MaterialStyles from '../../style/material-ui-style'
 
-import '../../style/index.scss'
-
+import subjects_list from '../../lib/poll-subjects'
 import {getPublicPolls, fetchPublicPolls} from '../../action/public-poll-actions.js'
-
-import Paper from '@material-ui/core/Paper';
-import LoginPage from '../login'
-import { withStyles } from '@material-ui/core';
-import Typography from '@material-ui/core/Typography';
-import AdvancedList from '../infinite-scroll'
-import ResponsiveDialog from '../dialog'
-import CardMenu from '../card-menu'
-import MenuItem from '@material-ui/core/MenuItem';
 import {reportPoll} from '../../action/report-poll-actions'
 import {handleThen} from '../../lib/util'
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import NotInterested from '@material-ui/icons/NotInterested';
-import Snackbar from '@material-ui/core/Snackbar';
-import DialogContentText from '@material-ui/core/DialogContentText';
+import {loadingOn, loadingOff} from '../../action/loading-actions'
 
+
+import AdvancedList from '../infinite-scroll'
+import LoginPage from '../login'
+import ResponsiveDialog from '../dialog'
+import CardMenu from '../card-menu'
 import PollFilter from './filter.js'
-import subjects_list from '../../lib/poll-subjects'
+
+
+import { withStyles } from '@material-ui/core';
+
+import {MenuItem,
+  ListItemIcon,
+  ListItemText,
+  Snackbar,
+  DialogContentText} from '@material-ui/core'
+
+import NotInterested from '@material-ui/icons/NotInterested';
+
 
 const styles = theme =>({
   button: theme.overrides.MuiButton,
@@ -342,7 +341,6 @@ handleReportSuccess(){
           <PollFilter
           filterExpanded={this.state.filterExpanded}
           handleFilterExpand={this.handleFilterExpand}
-          // classes={classes}
           handleFilterChange={this.handleFilterChange}
           helpText={this.state.helpText}
           categories={Object.keys(subjects_list)}
@@ -352,14 +350,7 @@ handleReportSuccess(){
           handleClearAllCategories={this.handleClearAllCategories}
           />
 
-            <div 
-            // style={{overflow:'auto', 
-            // maxWidth:'605px', 
-            // maxHeight:'1000px', 
-            // position:'relative',
-            // margin:'auto'
-            // }}
-            >
+            <div>
             <AdvancedList
               list={this.state.categoryFilters.length > 0 ?
                 this.state.filteredPolls:

@@ -13,11 +13,7 @@ import { login, logout } from '../../action/auth-actions.js'
 import * as util from '../../lib/util.js'
 //These will be used, to store id of the user in the database...
 
-
-
-
 import NavMenu from '../nav-menu/index.js'
-
 
 //Style
 
@@ -25,21 +21,17 @@ import {grey50} from 'material-ui/styles/colors';
 
 
 //new Material UI
-import MaterialStyles from '../../style/material-ui-style'
 import { withStyles } from '@material-ui/core/styles';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
-import IconButton from '@material-ui/core/IconButton';
+
+import {AppBar,
+  Toolbar,
+  Typography,
+  MenuItem,
+  Menu } from '@material-ui/core'
+
+
 import MenuIcon from '@material-ui/icons/Menu';
 import AccountCircle from '@material-ui/icons/AccountCircle';
-import Switch from '@material-ui/core/Switch';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import FormGroup from '@material-ui/core/FormGroup';
-import MenuItem from '@material-ui/core/MenuItem';
-import Menu from '@material-ui/core/Menu';
-
-
 
 const styles = theme =>({
   appBar: theme.overrides.MuiAppBar,
@@ -115,9 +107,3 @@ export default compose(
   connect(mapStateToProps, mapDispatchToProps),
   withStyles(styles , {withTheme: true})
 )(NavBar)
-
-
-
-// export default withStyles(styles)(withRouter(connect(mapStateToProps, mapDispatchToProps)(NavBar)));
-
-// export default withRouter(connect(mapStateToProps, mapDispatchToProps)(NavBar))

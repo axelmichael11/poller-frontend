@@ -6,21 +6,25 @@ import { connect } from 'react-redux'
 import { withStyles } from '@material-ui/core/styles';
 import {compose} from 'recompose'
 
-import Paper from '@material-ui/core/Paper';
-import StepLabel from '@material-ui/core/StepLabel';
 import MaterialStyles from '../../style/material-ui-style'
 
-
-
-import MobileStepper from '@material-ui/core/MobileStepper';
-import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
-import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
-import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
 import SwipeableViews from 'react-swipeable-views';
 import welcomePhoto from '../../lib/welcome.jpg'
 import profilePhoto from '../../lib/profile.jpg'
 import votePhoto from '../../lib/vote.jpg'
+
+import {MobileStepper,
+Typography,
+Button,
+Paper,
+StepLabel} from '@material-ui/core'
+
+
+import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
+import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
+
+
+
 
 const tutorialSteps = [
   {

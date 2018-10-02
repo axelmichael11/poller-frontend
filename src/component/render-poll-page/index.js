@@ -7,15 +7,9 @@ import InfiniteScroll from 'react-infinite-scroller'
 import {  compose, branch, renderComponent } from 'recompose'
 import _ from 'lodash'
 
-import Paper from 'material-ui/Paper'
-
-import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
-import CircularProgress from '@material-ui/core/CircularProgress';
-
 
 import {fetchPolls} from '../../action/public-poll-actions.js'
 import LoginPage from '../login'
-
 import PublicPoll from '../public-poll-card'
 
 

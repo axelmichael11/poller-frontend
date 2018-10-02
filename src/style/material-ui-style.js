@@ -298,7 +298,7 @@ module.exports = {
               backgroundColor: '#fff',
               color:'#000'
             }
-          }
+          },
     },
   },
     pie_hover_text:{
@@ -315,4 +315,12 @@ module.exports = {
       block: {
         maxWidth: 250,
       },
+      loginTitle: {
+        fontFamily: 'Play,sans-serif',
+        fontSize: '5em',
+        display: 'flex',
+        alignItems: 'center',
+        margin:'0 auto',
+        padding:0,
+    }
 }

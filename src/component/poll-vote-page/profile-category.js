@@ -3,25 +3,22 @@ import { connect } from 'react-redux'
 import {recompose, compose} from 'recompose'
 
 
-import CardContent from '@material-ui/core/CardContent';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
-
-
 import PropTypes from 'prop-types';
-import Button from '@material-ui/core/Button';
 import { withStyles } from '@material-ui/core/styles';
 
+
+import {CardContent,
+Toolbar,
+Typography,
+List,
+ListItem,
+Button,
+ListItemText} from '@material-ui/core'
 
 import country_list from '../../lib/countries.js'
 import profession_list from '../../lib/professions.js'
 import ethnicity_list from '../../lib/ethnicities.js'
 import politics_list from '../../lib/politics.js'
-
-import MaterialStyles from '../../style/material-ui-style'
 
 
 const styles = theme => ({

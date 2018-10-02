@@ -6,32 +6,22 @@ import { Link } from 'react-router-dom'
 import InfiniteScroll from 'react-infinite-scroller'
 import {  compose, branch, renderComponent} from 'recompose'
 import _ from 'lodash'
-import { withStyles } from '@material-ui/core';
-
-
-
-import Paper from 'material-ui/Paper'
-
-import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
-
-import '../../style/index.scss'
-
 import {fetchPolls} from '../../action/public-poll-actions.js'
 import LoginPage from '../login'
-
 import UserPollCard from '../user-poll-card'
-
-import IconButton from '@material-ui/core/IconButton';
-import NotInterested from '@material-ui/icons/NotInterested';
 import Loader from '../loading/loader'
 import Error from '../error'
-import Button from '@material-ui/core';
 import ResponsiveDialog from '../dialog'
-import MoreVertIcon from '@material-ui/icons/MoreVert';
 import NoPolls from './no-polls'
 import LoadingHOC from '../loading/loadingHOC.js'
 import MaxPolls from './max-polls'
 import QuickScroll from './quick-scroll'
+
+import { withStyles } from '@material-ui/core';
+import IconButton from '@material-ui/core/IconButton';
+import NotInterested from '@material-ui/icons/NotInterested';
+import MoreVertIcon from '@material-ui/icons/MoreVert';
+
 
 const styles = (theme) =>({
   button:theme.overrides.MuiButton,
