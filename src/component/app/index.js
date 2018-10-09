@@ -21,7 +21,6 @@ import LandingContainer from '../landing-container'
 import LoginPage from '../login'
 import storeCreate from '../../lib/store-create'
 import { persistStore } from 'redux-persist'
-import MaterialStyles from '../../style/material-ui-style'
 
 
 
@@ -37,7 +36,6 @@ import {setAuthToken} from '../../action/auth0-actions.js'
 import { login, logout } from '../../action/auth-actions.js'
 
 
-const theme = createMuiTheme(MaterialStyles.pollerTheme)
 
 
 class App extends React.Component {
@@ -59,9 +57,6 @@ class App extends React.Component {
       });
   }
 
-  componentWillMount(){
-  }
-
   handleAuthentication() {
     let result;
     return new Promise((resolve,reject)=>{
@@ -69,7 +64,7 @@ class App extends React.Component {
       if (authResult && authResult.accessToken && authResult.idToken) {
         this.setSession(authResult);
         result = authResult
-        this.props.profileFetch()
+        // this.props.profileFetch()
         this.props.history.push('/explore')
         return resolve()
         
@@ -129,16 +124,15 @@ class App extends React.Component {
 
   render() {
     let {classes} = this.props;
-    console.log('CLASSES',this.props)
     return (
       <div className="app">
           <div >
                 <Switch>
                 <Route  path="/gettingstarted" render={()=><GettingStartedPage login={this.login}/>}/>
-                <Route  path="/login" render={() =><LoginPage login={this.login} />}/>
+                <Route  path="/login" render={(props) =><LoginPage login={this.login} props={props}/>}/>
                 <Route path="/callback" render={(props) => {
-                  this.handleCallBackAuthentication(props);
-                  return <Callback {...props} /> 
+                  // this.handleCallBackAuthentication(props);
+                  return <Callback {...props} handleCallBackAuthentication={this.handleCallBackAuthentication}/> 
                 }}/>
                 <PrivateRoute loggedIn={this.isAuthenticated()} path="/" redirectTo="/login" component={LandingContainer} />
                 </Switch>

@@ -49,6 +49,5 @@ export const mapStateToProps = state => ({
 export default compose(
   withRouter,
   connect(mapStateToProps, mapDispatchToProps),
-  // withStyles(MaterialStyles.flat_button_2)
   withStyles(styles, {withTheme:true})
 )(NavigateGettingStartedButton)

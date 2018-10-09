@@ -80,11 +80,10 @@ class NavMenu extends React.Component{
                   open={open}
                   onClose={this.handleClose}
                 >
-                  <ExploreButton handleClose={this.handleClose}/>
-                  <MyPollsButton handleClose={this.handleClose}/>
+                  <ExploreButton  handleClose={this.handleClose}/>
+                  <MyPollsButton  handleClose={this.handleClose}/>
                   <ProfileButton handleClose={this.handleClose}/>
                   <ContactButton handleClose={this.handleClose}/>
-                  {/* <FeedBackButton handleClose={this.handleClose}/> */}
                   <LogoutButton />
                 </Menu>
 

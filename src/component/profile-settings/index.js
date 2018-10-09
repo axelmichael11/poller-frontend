@@ -28,15 +28,14 @@ class ProfilePage extends React.Component {
         fetchProfileLoading:false,
         fetchProfileError:false,
     }
-    this.handleFetchProfile = this.handleFetchProfile.bind(this) 
+    this.handleFetchProfile = this.handleFetchProfile.bind(this)
   }
-  componentWillMount(){
-      if (!this.props.userProfile){
-          this.handleFetchProfile()
-      }
+  componentDidMount(){
+      this.handleFetchProfile();
   }
 
   handleFetchProfile(){
+    if (!this.props.userProfile){
     this.setState({fetchProfileLoading:true, 
         fetchProfileError: false
     })
@@ -52,10 +51,13 @@ class ProfilePage extends React.Component {
             fetchProfileLoading:false,
         })
     })
+    console.log('DONE WITH FETCH')
+    }
   }
 
   render() {
     let {classes, theme} = this.props
+    console.log('LANDING PAGE', this.state, 'PROFILE', this.props.userProfile)
     return (
       <div>
         <RenderProfile
@@ -63,9 +65,10 @@ class ProfilePage extends React.Component {
             userProfile={this.props.userProfile}
             loadingError={this.state.fetchProfileError}
             error={this.state.fetchProfileError}
+            handleFetchProfile={this.handleFetchProfile}
             errorTry={this.handleFetchProfile}
             timeError={this.handleFetchProfile}
-            />
+          />
       </div>
     )
   }

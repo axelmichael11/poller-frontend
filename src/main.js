@@ -8,7 +8,7 @@ import {profileFetch} from './action/profile-actions.js'
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import MaterialStyles from './style/material-ui-style'
 import { Route, BrowserRouter, Switch, Router } from 'react-router-dom'
-
+import './style/index.scss'
 const theme = createMuiTheme(MaterialStyles.pollerTheme)
 
 const store = storeCreate()

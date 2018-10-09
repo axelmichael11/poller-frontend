@@ -6,7 +6,6 @@ import { connect } from 'react-redux'
 import { withStyles } from '@material-ui/core/styles';
 import {compose} from 'recompose'
 
-import MaterialStyles from '../../style/material-ui-style'
 
 import SwipeableViews from 'react-swipeable-views';
 import welcomePhoto from '../../lib/welcome.jpg'

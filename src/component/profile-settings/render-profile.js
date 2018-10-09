@@ -7,42 +7,15 @@ import { withStyles } from '@material-ui/core/styles';
 
 
 import ProfileSettings from './profile-settings'
-const styles = theme => ({
-  container: theme.overrides.MuiPaper,
-  ageSelect:{
-    marginLeft: 15,
-  },
-  button: theme.overrides.MuiButton,
- 
-  text: theme.typography.text,
-  expand: {
-    transform: 'rotate(0deg)',
-    transition: theme.transitions.create('transform', {
-      duration: theme.transitions.duration.shortest,
-    }),
-    marginLeft: 'auto',
-  },
-  expandOpen: {
-    transform: 'rotate(180deg)',
-  },
-  actions: {
-    display: 'flex',
-  },
-  expandMoreIcon:{
-    colorPrimary: theme.palette.secondary.main
-  },
+import NoProfile from './no-profile'
 
-  cardHeader:theme.overrides.PollCard.cardHeader,
-  cardContent:theme.overrides.PollCard.cardContent,
-  formControl: {
-    margin: theme.spacing.unit,
-    minWidth: 120,
-  },
-  pollActions: theme.overrides.PollCard.pollActions,
-});
+
+const displayProfile = ({...props}) => props.userProfile ? <ProfileSettings/> :null;
+
 
 
 const WithLoading = (props) => {
+  console.log('HITTING WITH LODAING')
   return (
     <div>
       <Loader start={Date.now()} timeError={props.timeError}/>
@@ -50,9 +23,10 @@ const WithLoading = (props) => {
   )
 }
 
+const withProfileCondition = props =>
+props.userProfile;
 
 const RenderProfile = compose(
-  withStyles(styles, {withTheme:true}),
   branch(
     (props)=>props.Loading && !props.error,
     renderComponent(WithLoading)
@@ -62,7 +36,8 @@ const RenderProfile = compose(
     !props.Loading && props.error,
     renderComponent(Error)
   ),
-)(ProfileSettings);
+  // withProfile(withProfileCondition)
+)(displayProfile);
 
 export default RenderProfile
 

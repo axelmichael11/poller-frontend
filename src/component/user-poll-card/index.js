@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import Date from 'datejs'
 
 import { Link, withRouter } from 'react-router-dom'
-import InfiniteScroll from 'react-infinite-scroller'
 import {  compose } from 'recompose'
 import subjects_list from '../../lib/poll-subjects'
 import { withStyles } from '@material-ui/core/styles';

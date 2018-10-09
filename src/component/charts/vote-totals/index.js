@@ -13,7 +13,6 @@ import CardActions from '@material-ui/core/CardActions';
 import Collapse from '@material-ui/core/Collapse';
 
 import {VictoryBar, VictoryContainer, VictoryChart, VictoryAxis, VictoryLabel} from 'victory'
-import MaterialStyles from '../../../style/material-ui-style'
 import Typography from '@material-ui/core/Typography';
 
 import subjects_list from '../../../lib/poll-subjects'

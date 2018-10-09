@@ -27,33 +27,7 @@ class LandingContainer extends React.Component {
     this.state = {
 
     }
-    this.handleFetchProfile = this.handleFetchProfile.bind(this)
   }
-  componentWillMount(){
-    if (!this.props.userProfile){
-        this.handleFetchProfile()
-    }
-}
-
-
-handleFetchProfile(){
-  this.setState({fetchProfileLoading:true, 
-      fetchProfileError: false
-  })
-  this.props.profileFetch()
-  .then(profile=>{
-      this.setState({fetchProfileLoading:false, 
-        fetchProfileError: false
-    })
-  })
-  .catch(err=>{
-      this.setState({
-          fetchProfileError:true,
-          fetchProfileLoading:false,
-      })
-  })
-}
-
 
   render() {
     return (
@@ -78,7 +52,6 @@ export const mapStateToProps = state => ({
   })
   
   export const mapDispatchToProps = dispatch => ({
-    profileFetch: ()=> dispatch(profileFetch()),
   })
   
   export default connect(mapStateToProps, mapDispatchToProps)(LandingContainer)

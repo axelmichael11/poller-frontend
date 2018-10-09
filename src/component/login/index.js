@@ -16,12 +16,10 @@ import NavigateGettingStartedButton from '../getting-started-button'
 
 
 const styles = theme=> ({
-  container: {...theme.overrides.MuiPaper,
-    marginTop: '3em'
-  },
+  container: theme.overrides.MuiPaper,
   title: theme.uniqueStyles.loginTitle,
-
 })
+
 class LoginPage extends React.Component {
   constructor(props) {
     super(props)
@@ -35,10 +33,11 @@ class LoginPage extends React.Component {
 
   render() {
     let {classes, theme} = this.props;
-    console.log('STYLE',classes )
     return (
       <div>
-          <Paper elevation={2} className={classes.container}>
+          <Paper elevation={2} className={classes.container}
+          style={{marginTop: '3em'}}
+          >
             <p className={classes.loginTitle}>Poller</p>
             <NavigateGettingStartedButton/>
           </Paper>

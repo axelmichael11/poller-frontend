@@ -239,6 +239,7 @@ class ProfileSettings extends React.Component {
     }  
   }
 
+
   updateMaleCheckBox() {
     this.setState((oldState) => {
       if (oldState.femaleCheckBox) {
@@ -421,14 +422,8 @@ class ProfileSettings extends React.Component {
 
 
   render() {
-    const underlineFocus = {
-      borderBottomColor: '#3AB08F',
-    }
-
-    const formStyle = {
-      marginLeft: 3,
-    }
     let {classes, theme} = this.props
+    console.log('RENDER PAGE', this.state)
     return (
       <div>
         <Dialog
@@ -464,7 +459,6 @@ class ProfileSettings extends React.Component {
         <HelpTab
           helpExpanded={this.state.helpExpanded}
           handleHelpExpand={this.handleHelpExpand}
-          // classes={classes}
           helpText={this.state.helpText}
         />
 
@@ -515,7 +509,7 @@ class ProfileSettings extends React.Component {
                   control={
                     <Checkbox
                       checked={this.state.maleCheckBox}
-                      value={this.state.maleCheckBox}
+                      // value={this.state.maleCheckBox}
                       onChange={this.updateMaleCheckBox}
                         label="Male"
                         className={classes.checkBox}
@@ -528,7 +522,7 @@ class ProfileSettings extends React.Component {
                   control={
                     <Checkbox
                       checked={this.state.femaleCheckBox}
-                      value={this.state.femaleCheckBox}
+                      // value={this.state.femaleCheckBox}
                       onChange={this.updateFemaleCheckBox}
                         label="Female"
                         className={classes.checkBox}
@@ -551,7 +545,7 @@ class ProfileSettings extends React.Component {
                   control={
                     <Checkbox
                       checked={this.state.religionYesCheckBox}
-                      value={this.state.religionYesCheckBox}
+                      // value={this.state.religionYesCheckBox}
                       onChange={this.updateReligionYesCheckBox}
                         label="Yes"
                         className={classes.checkBox}
@@ -564,7 +558,7 @@ class ProfileSettings extends React.Component {
                   control={
                     <Checkbox
                       checked={this.state.religionNoCheckBox}
-                      value={this.state.religionNoCheckBox}
+                      // value={this.state.religionNoCheckBox}
                       onChange={this.updateReligionNoCheckBox}
                         label="No"
                         className={classes.checkBox}

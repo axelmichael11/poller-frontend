@@ -7,7 +7,6 @@ import { withStyles } from '@material-ui/core/styles';
 
 import {  compose } from 'recompose'
 import {loadingOn, loadingOff} from '../../action/loading-actions'
-import MaterialStyles from '../../style/material-ui-style'
 
 
 

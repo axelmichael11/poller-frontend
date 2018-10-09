@@ -30,7 +30,6 @@ import { login } from '../src/action/auth-actions';
 //Buttons...
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 
-import MaterialStyles from '../src/style/material-ui-style'
 
 import chai from 'chai'
 import chaiEnzyme from 'chai-enzyme'

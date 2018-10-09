@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 
 
 import { Link, withRouter } from 'react-router-dom'
-import InfiniteScroll from 'react-infinite-scroller'
 import {  compose } from 'recompose'
 import { withStyles } from '@material-ui/core/styles';
 
@@ -44,11 +43,6 @@ const PublicPollCard = ({question, subject, author_username, created_at, classes
         >
             <Card>
             <CardHeader
-            // action={
-            //   <IconButton>
-            //     <MoreVertIcon />
-            //   </IconButton>
-            // }
             className={classes.cardHeader}
           />
             <CardContent>

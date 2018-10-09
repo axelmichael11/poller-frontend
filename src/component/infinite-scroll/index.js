@@ -1,9 +1,7 @@
-
 import React from 'react'
 import NavBar from '../nav-bar'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
-import InfiniteScroll from 'react-infinite-scroller'
 import {  compose, branch, renderComponent} from 'recompose'
 import _ from 'lodash'
 import {fetchPolls} from '../../action/public-poll-actions.js'
@@ -15,7 +13,6 @@ import ResponsiveDialog from '../dialog'
 import NoPolls from './no-polls'
 import LoadingHOC from '../loading/loadingHOC.js'
 import MaxPolls from './max-polls'
-import QuickScroll from './quick-scroll'
 
 import { withStyles } from '@material-ui/core';
 import IconButton from '@material-ui/core/IconButton';
@@ -97,24 +94,24 @@ const withInfiniteScroll =(conditionFn) => (Component) =>
        constructor(props) {
           super(props);
           this.state={
-            scrollY : document.scrollY,
-            innerHeight: document.innerHeight,
           }
           this.onScroll = this.onScroll.bind(this);
         } 
-        componentDidMount() {
-          window.addEventListener('scroll',  this.onScroll, true);
-        }
-        componentWillUnmount() {
-          window.removeEventListener('scroll', this.onScroll, true );
-        }
+
         onScroll(){
           if (conditionFn(this.props)){
-           _.throttle(this.props.fetchPolls(), 800)
+            let debounced = _.debounce(()=>this.props.fetchPolls(), 800)
+            debounced()
           }
         }
+
         render() {
-          return (<Component {...this.props} />)
+          return (
+          <div>
+          <Component {...this.props} />
+          {this.onScroll()}
+          </div>
+          )
         }
       }
 
@@ -125,45 +122,6 @@ const withInfiniteScroll =(conditionFn) => (Component) =>
       { conditionFn(props) && <MaxPolls {...props}/>}
       </div>
     </div>
-
-
-const withQuickScroll =(conditionFn) => (Component) => 
-  class WithQuickScroll extends React.Component {    // let {classes} = props;
-  constructor(props) {
-    super(props);
-    this.state={
-      scrollY : window.pageYOffset,
-      innerHeight: window.innerHeight,
-    }
-    this.renderQuickScroll = this.renderQuickScroll.bind(this);
-  }
-
-  componentDidMount() {
-    window.addEventListener('scroll',  this.renderQuickScroll, true);
-  }
-
-  componentWillUnmount() {
-    window.removeEventListener('scroll', this.renderQuickScroll, true );
-  }
-
-  renderQuickScroll(){
-    if (conditionFn(this.props)) {
-      return (<QuickScroll/>)
-    }
-  }
-
-  render() {
-    console.log('QUICK SCROLL UP', this.state)
-    return (
-      <div>
-        <Component {...this.props} />
-        <div>
-        {this.renderQuickScroll()}
-        </div>
-      </div>
-    )
-  }
-}
 
 
 //additional props
@@ -180,9 +138,9 @@ const withQuickScroll =(conditionFn) => (Component) =>
 
 //conditions
 const infiniteScrollCondition = props =>
-(window.innerHeight + window.pageYOffset) >= document.body.offsetHeight
-&& props.list
+(window.innerHeight + window.pageYOffset) > (document.body.offsetHeight+15)
 && !props.maxPublicPolls
+&& props.list
 && !props.Loading
 && !props.error;
 
@@ -199,13 +157,9 @@ const errorCondition = props =>
  && !props.error;
 
  const maxPublicPollsCondition = props =>
- props.maxPublicPolls 
- && Object.keys(props.list).length > 0 
+props.maxPublicPolls
+&& Object.keys(props.list).length > 0 
  && !props.Loading && !props.error ;
-
- const quickScrollCondition = props =>
- window.innerHeight < window.pageYOffset
-
 
   const AdvancedList = compose(
     connect(mapStateToProps, mapDispatchToProps),

@@ -12,7 +12,6 @@ import ReportIcon from '@material-ui/icons/report'
 import {reportPoll} from '../../action/report-poll-actions'
 
 
-import MaterialStyles from '../../style/material-ui-style'
 
 
 const styles = theme => ({

@@ -13,6 +13,7 @@ import {
   import SubmitButton from '../loading/button.js'
   import MyPolls from '../my-polls'
   import HelpTab from '../help-feature'
+  import RenderFormType from './render-form-type'
 
   import { withStyles } from '@material-ui/core/styles';
   import {Button,
@@ -50,7 +51,6 @@ import MoreVertIcon from '@material-ui/icons/MoreVert';
 
 
 import poll_subjects from '../../lib/poll-subjects'
-import SubjectListSelect from './subject-select'
 
 const FeedBackSubmitButton = LoadingHOC(SubmitButton)
 
@@ -140,10 +140,21 @@ class PollCreatePage extends React.Component {
         helpExpanded:false,
         helpText: `Represent yourself! None of these fields are required,
         and no demographic information specific to you is shown in the results of a poll.
-        These can be updated as often as necessary. Why not make this app a little more interesting?`
+        These can be updated as often as necessary. Why not make this app a little more interesting?`,
+
+        //question types
+        yesNoCheckBox: false,
+        multipleChoiceCheckBox: false,
+
+        //multiple choice
+        answerOptions : [],
+        pollAnswerOption:"",
+        pollAnswerError:false,
+        answerLabels: ["A","B","C","D","E"],
+
     }
   this.handleHelpExpand = this.handleHelpExpand.bind(this)
-   this.handlePollSubmitCreate = this.handlePollSubmitCreate.bind(this)
+   this.handleYesNoPollSubmit = this.handleYesNoPollSubmit.bind(this)
    //input changes
    this.handleSubjectChange = this.handleSubjectChange.bind(this)
    this.handleQuestionChange = this.handleQuestionChange.bind(this)
@@ -167,6 +178,13 @@ class PollCreatePage extends React.Component {
    this.handleClosePollSubjectList = this.handleClosePollSubjectList.bind(this)
    this.handlePollSubjectChange = this.handlePollSubjectChange.bind(this)
    this.renderMenuItems = this.renderMenuItems.bind(this)
+   this.updateYesNoCheckBox = this.updateYesNoCheckBox.bind(this)
+
+   //multiple choice
+   this.updateMultipleChoiceCheckBox = this.updateMultipleChoiceCheckBox.bind(this)
+   this.handleSubmitAnswerOption = this.handleSubmitAnswerOption.bind(this)
+   this.validateAnswerOption =this.validateAnswerOption.bind(this)
+   this.handleAnswerOptionChange = this.handleAnswerOptionChange.bind(this)
   }
 
   pollsFetch(){
@@ -181,10 +199,11 @@ class PollCreatePage extends React.Component {
       this.setState({myPollsLoad:false , myPollsError:true, })
       })
   }
-  componentWillMount() {
+  componentDidMount() {
     this.pollsFetch()
   }
 
+  // passed down into BOTH 
   handleSubjectChange(e){
       if (e.target.value.length < 25){
         this.setState({pollSubject: e.target.value, subjectError:false})
@@ -193,6 +212,7 @@ class PollCreatePage extends React.Component {
       }
   }
 
+  //passed Down into BOTH
   handleQuestionChange(e){
     if (e.target.value.length < 150){
       this.setState({pollQuestion: e.target.value, questionError:false})
@@ -201,6 +221,7 @@ class PollCreatePage extends React.Component {
     }
   }
 
+  // BOTH
   handleSubjectValidationError(){
     this.setState((oldState)=>{
       return {
@@ -209,6 +230,7 @@ class PollCreatePage extends React.Component {
     });
   }
 
+  //BOTH
   handleQuestionValidationError(){
     this.setState((oldState)=>{
       return {
@@ -217,6 +239,7 @@ class PollCreatePage extends React.Component {
     });
   }
 
+  //passed to BOTH
   handlePollCreateSuccess(){
     this.setState((oldState)=>{
         return {
@@ -226,6 +249,8 @@ class PollCreatePage extends React.Component {
       });
   }
 
+
+  //BOTH
   handleMaxPollReached(){
     this.setState((oldState)=>{
       return {
@@ -234,6 +259,7 @@ class PollCreatePage extends React.Component {
       }
     });
   }
+
   handlePollDeleteSuccess(){
     this.setState((oldState)=>{
       return {
@@ -256,6 +282,7 @@ class PollCreatePage extends React.Component {
     });
   }
 
+  //BOTH
   handlePollClear(){
     this.setState({
           pollSubject: '',
@@ -302,12 +329,59 @@ class PollCreatePage extends React.Component {
       }
     })
   }
+
+  updateYesNoCheckBox() {
+    this.setState((oldState) => {
+      if (oldState.multipleChoiceCheckBox) {
+        return {
+          multipleChoiceCheckBox: !oldState.multipleChoiceCheckBox,
+          yesNoCheckBox: !oldState.yesNoCheckBox,
+        };
+      }
+      if (oldState.yesNoCheckBox) {
+        return {
+        yesNoCheckBox: !oldState.yesNoCheckBox,
+        }
+      }
+      if (!oldState.yesNoCheckBox) {
+        return {
+          yesNoCheckBox: !oldState.yesNoCheckBox,
+        }
+      }
+    });
+  }
+
+  updateMultipleChoiceCheckBox(){
+    this.setState((oldState) => {
+      if (oldState.yesNoCheckBox) {
+        return {
+          yesNoCheckBox: !oldState.yesNoCheckBox,
+          multipleChoiceCheckBox: !oldState.multipleChoiceCheckBox,
+        };
+      }
+      if (oldState.multipleChoiceCheckBox) {
+        return {
+        multipleChoiceCheckBox: !oldState.multipleChoiceCheckBox,
+        }
+      }
+      if (!oldState.multipleChoiceCheckBox) {
+        return {
+          multipleChoiceCheckBox: !oldState.multipleChoiceCheckBox,
+        }
+      }
+    });
+  }
   
 
-  handlePollSubmitCreate(){
+  handleYesNoPollSubmit(){
       let {pollSubject, pollQuestion} = this.state
       let {nickname} = this.props.userProfile
-      let poll = Object.assign({}, {pollSubject, pollQuestion, nickname})
+      let poll = Object.assign({}, {
+        pollSubject, 
+        pollQuestion, 
+        nickname, 
+        type:"YN",
+      })
       if (poll.pollSubject === null){
           this.handleSubjectValidationError();
           return;
@@ -391,8 +465,41 @@ class PollCreatePage extends React.Component {
     this.setState({pollSubject: parseInt(value), pollSubjectAnchor: null});
 }
 
+validateAnswerOption(){
+  if (this.state.answerOptions.length>5){
+    console.log('HITTING question error')
+  }
+}
+
+handleAnswerOptionChange(e){
+  if (e.target.value.length < 30){
+    this.setState({pollAnswerOption: e.target.value, pollAnswerError:false})
+  }else {
+    this.setState({pollAnswerError:true})
+  }
+}
+
+handleSubmitAnswerOption(){
+  if (this.state.answerOptions.length > 4){
+    console.log('MAX OPTIONS REACHED')
+  } else {
+    let {pollAnswerOption} = this.state;
+    this.setState((oldState)=>{
+      return {
+        answerOptions: [...oldState.answerOptions, pollAnswerOption],
+        pollAnswerOption: "",
+      }
+    })
+  }
+}
+
+handleDeleteAnswerOption(option){
+
+}
+
   render() {
     const {classes, theme} = this.props
+    console.log("POLL CREATE STATE: YES NO", this.state.yesNoCheckBox,"MULTIPLE CHOICE", this.state.multipleChoiceCheckBox)
     return (
         <div>
           <Dialog
@@ -415,7 +522,6 @@ class PollCreatePage extends React.Component {
             </Button>
             </div>
             <div className={classes.container}>
-
             <FeedBackSubmitButton
                 // classes={classes}
                 submitClick={this.handleSubmitPollDelete}
@@ -433,64 +539,87 @@ class PollCreatePage extends React.Component {
         <HelpTab
           helpExpanded={this.state.helpExpanded}
           handleHelpExpand={this.handleHelpExpand}
-          // classes={classes}
           helpText={this.state.helpText}
         />
 
-        <Paper className={classes.container}>
-        <Card>
-          <CardContent className={classes.cardHeader}>
-                <Typography variant="headline" component="h1" className={classes.cardHeader}>
-                    Poll Create
+            <Paper square elevation={2} className={classes.container}>
+                <Card style={{padding:7}}>
+                <CardHeader
+                    className={classes.cardHeader}
+                    title={"Poll Create"}
+                    classes={{
+                        title: classes.cardHeader
+                    }}
+                />
+
+                <CardContent className={classes.cardContent}>
+                <Toolbar>
+                <Typography variant="subheading" component="h3" style={{display:'block'}}>
+                    Question Type
                 </Typography>
-            </CardContent>
-            <Divider/>
+                <FormControlLabel
+                style={{marginLeft:'1em'}}
+                  control={
+                    <Checkbox
+                      checked={this.state.yesNoCheckBox}
+                      onChange={this.updateYesNoCheckBox}
+                        
+                        className={classes.checkBox}
+                        color="default"
+                    />
+                  }
+                  label="Yes/No"
+                />
+                 <FormControlLabel
+                  control={
+                    <Checkbox
+                      checked={this.state.multipleChoiceCheckBox}
+                      onChange={this.updateMultipleChoiceCheckBox}
+                        className={classes.checkBox}
+                        color="default"
+                    />
+                  }
+                  label="Multiple Choice"
+                />
+              </Toolbar>    
+                </CardContent>
 
-            <SubjectListSelect
-            listTitle={'Subject'}
-            list={poll_subjects}
-            handleOpenList={this.handleOpenPollSubjectList}
-            selectedItem={this.state.pollSubject!==null ? poll_subjects[this.state.pollSubject] :''}
-            anchorEl={this.state.pollSubjectAnchor}
-            handleCloseList={this.handleClosePollSubjectList}
-            renderMenuItems={this.renderMenuItems}
-            changeListValue={this.handlePollSubjectChange}
-            />
+                <Divider/>
 
-            <Divider/>
+                <RenderFormType
+                  yesNoCheckBox={this.state.yesNoCheckBox}
+                  multipleChoiceCheckBox={this.state.multipleChoiceCheckBox}
+                  handleOpenPollSubjectList={this.handleOpenPollSubjectList}
+                  pollSubject={this.state.pollSubject}
+                  pollSubjectAnchor={this.state.pollSubjectAnchor}
+                  handleClosePollSubjectList={this.handleClosePollSubjectList}
+                  renderMenuItems={this.renderMenuItems}
+                  handlePollSubjectChange={this.handlePollSubjectChange}
+                  questionError={this.state.questionError}
+                  questionErrorText={this.state.questionErrorText}
+                  pollQuestion={this.state.pollQuestion}
+                  handleQuestionChange={this.handleQuestionChange}
+                  handleYesNoPollSubmit={this.handleYesNoPollSubmit}
+                  pollCreateLoad={this.state.pollCreateLoad}
+                  handleUnknownError={this.handleUnknownError}
+                  openPollCreateError={this.state.openPollCreateError}
+                  pollCreateErrorMessage={this.state.pollCreateErrorMessage}
+                  handlePollCreateError={this.handlePollCreateError}
+                  handleSubmitAnswerOption={this.handleSubmitAnswerOption}
+                  handleAnswerOptionChange={this.handleAnswerOptionChange}
+                  answerOptions={this.state.answerOptions}
+                  answerLabels={this.state.answerLabels}
+                  pollAnswerOption={this.state.pollAnswerOption}
+                />
 
-            <CardContent className={classes.cardContent}>
-              <Toolbar className={classes.cardContent}>
-                <Typography variant="subheading" component="h3" style={{marginRight:15}}>
-                    Question
-                </Typography>
-                <FormControl fullWidth>
-                  <InputLabel >{this.state.questionError ? this.state.questionErrorText : ""}</InputLabel>
-                  <Input
-                    multiline={true}
-                    id="adornment-amount"
-                    value={this.state.pollQuestion}
-                    onChange={this.handleQuestionChange}
-                    rows={6}
-                    rowsMax="6"
-
-                  />
-                </FormControl>
-              </Toolbar>
-            </CardContent>
-            <CardContent className={classes.container}>
-              <FeedBackSubmitButton
-                submitClick={this.handlePollSubmitCreate}
-                buttonTitle={'Create Poll'}
-                Loading={this.state.pollCreateLoad}
-                timeError={this.handleUnknownError}
-                loadingError={this.state.openPollCreateError}
-                loadingErrorMessage={this.state.pollCreateErrorMessage}
-                handleLoadingError={this.handlePollCreateError}
-              />
-            </CardContent>
-          </Card>
+                
+                </Card>
         </Paper>
+
+
+
+
+
         <Paper className={classes.container} style={{marginBottom:10}}>
           <CardContent className={classes.cardHeader}>
             <Typography variant="headline" component="h1" className={classes.cardHeader}>

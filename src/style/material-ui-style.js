@@ -91,8 +91,9 @@ module.exports = {
         }
       },
 
-      MuiButton: { 
+      MuiButton: {
         root:{
+          borderRadius: 0,
           margin:'auto',
           display: 'flex',
           flexWrap: 'wrap',
@@ -131,7 +132,7 @@ module.exports = {
           fontSize: 20,
           fontFamily: "Play",
           backgroundColor: '#000',
-        }
+        },
       },
       PollCard:{
         cardHeader:{

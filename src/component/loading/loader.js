@@ -11,13 +11,11 @@ class Loader extends React.Component{
     constructor(props){
         super(props)
         this.state={
+            elapsed:0,
             limit:15000,
             start: this.props.start
         }
         this.tick = this.tick.bind(this)
-    }
-    componentWillMount(){
-        this.setState({elapsed: 0})
     }
 
     componentDidMount(){
