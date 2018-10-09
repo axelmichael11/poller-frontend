@@ -551,7 +551,6 @@ handleDeleteAnswerOption(option){
                         title: classes.cardHeader
                     }}
                 />
-
                 <CardContent className={classes.cardContent}>
                 <Toolbar>
                 <Typography variant="subheading" component="h3" style={{display:'block'}}>
@@ -563,7 +562,6 @@ handleDeleteAnswerOption(option){
                     <Checkbox
                       checked={this.state.yesNoCheckBox}
                       onChange={this.updateYesNoCheckBox}
-                        
                         className={classes.checkBox}
                         color="default"
                     />
@@ -583,9 +581,6 @@ handleDeleteAnswerOption(option){
                 />
               </Toolbar>    
                 </CardContent>
-
-                <Divider/>
-
                 <RenderFormType
                   yesNoCheckBox={this.state.yesNoCheckBox}
                   multipleChoiceCheckBox={this.state.multipleChoiceCheckBox}

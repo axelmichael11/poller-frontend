@@ -71,10 +71,7 @@ class YesNoForm extends React.Component {
         return (
             <div>
             <SubjectAndQuestionForm {...this.props}/>
-
             <Divider/>
-
-           
             <CardContent className={classes.container}>
               <FeedBackSubmitButton
                 submitClick={this.props.handleYesNoPollSubmit}
