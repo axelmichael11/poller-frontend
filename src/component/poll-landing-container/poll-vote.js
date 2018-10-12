@@ -14,6 +14,7 @@ import LoadingHOC from '../loading/loadingHOC.js'
 import ProfileCategory from './profile-category'
 import CardMenu from '../card-menu'
 import ResponsiveDialog from '../dialog'
+import {MCVoteButton, YNVoteButton} from './vote-buttons'
 
 //Methods
 
@@ -72,32 +73,8 @@ const styles = theme =>({
   cardHeader:theme.overrides.PollCard.cardHeader,
   stretchedButtons: theme.uniqueStyles.dialogStretchedButtons,
   button:theme.overrides.MuiButton,
-  
 })
 
-
-const VoteButtons = ({...props}) =>{
-  return (
-    <div 
-    // className={props.classes.buttonContainer}
-    >
-      <Button 
-      variant="outlined"
-      onClick={props.handleConfirmYesVoteAlert} 
-      className={props.classes.voteButton}
-      >
-      YES
-      </Button>
-      <Button 
-      variant="outlined"
-      onClick={props.handleConfirmNoVoteAlert} 
-      className={props.classes.voteButton}
-      >
-      NO
-      </Button>
-    </div>
-  )
-}
 
 const SubmitButton = ({...props}) =>{
   return (
@@ -116,7 +93,6 @@ const SubmitButton = ({...props}) =>{
 }
 
 const FeedBackSubmitButton = LoadingHOC(SubmitButton)
-
 
 
 class PollVotePage extends React.Component {
@@ -163,6 +139,7 @@ class PollVotePage extends React.Component {
       //poll has been deleted...
       pollNotFoundMessage:'It appears that this poll has recently been deleted! Log out or return to the explore page',
       pollNotFound:false,
+      answerLabels: this.props.answerLabels,
     }
     this.handleConfirmYesVoteAlert = this.handleConfirmYesVoteAlert.bind(this)
     this.handleSubmitVote = this.handleSubmitVote.bind(this)
@@ -182,10 +159,24 @@ class PollVotePage extends React.Component {
     this.openSubmitVoteDialog = this.openSubmitVoteDialog.bind(this)
     this.renderSubmitVoteDialogContent = this.renderSubmitVoteDialogContent.bind(this)
     this.handleSubmitVoteError = this.handleSubmitVoteError.bind(this)
+    this.handleConfirmVoteChange = this.handleConfirmVoteChange.bind(this)
+    this.renderAnswerOptions = this.renderAnswerOptions.bind(this)
+  }
+
+  handleConfirmVoteChange(value){
+    // e.persist()
+    console.log('clicking button value!!',value);
+    this.setState((oldState)=>{
+      return {
+        vote: value,
+      }
+    });
+    this.openSubmitVoteDialog()
   }
 
 
-  handleConfirmYesVoteAlert(){
+  handleConfirmYesVoteAlert(e){
+    console.log('clicking button value!!', e.target);
     this.setState((oldState)=>{
       return {
         vote:"yes",
@@ -216,6 +207,7 @@ class PollVotePage extends React.Component {
   handleSubmitVote(){
     let {vote} = this.state
     let voteData = Object.assign({}, {...this.props.userProfile, ...this.props.location.state, vote})
+    console.log('VOTE DATA', voteData)
     this.setState({dialogLoading:true})
     this.props.castVote(voteData)
     .then((result)=>{
@@ -370,22 +362,41 @@ handleReportSuccess(){
     this.setState({dialogLoading: false, submitVoteError:true})
   }
 
+  renderAnswerOptions(poll){
+    if (poll.type =='YN'){
+      return (
+        <div>
+          <YNVoteButton handleVoteClick={this.handleConfirmVoteChange} optionChoice={'Yes'} voteValue={'yes'}/>
+          <YNVoteButton handleVoteClick={this.handleConfirmVoteChange} optionChoice={'No'} voteValue={'no'}/>
+        </div>
+      )
+    }
+    if (poll.type =='MC'){
+      return(
+        <div>
+          {poll.mc_a_option ? <MCVoteButton handleVoteClick={this.handleConfirmVoteChange} optionChoice={this.state.answerLabels[0]} voteButtonText={poll.mc_a_option} voteValue={'a'}/>: null}
+          {poll.mc_b_option ? <MCVoteButton handleVoteClick={this.handleConfirmVoteChange} optionChoice={this.state.answerLabels[1]} voteButtonText={poll.mc_b_option} voteValue={'b'}/>: null}
+          {poll.mc_c_option ? <MCVoteButton handleVoteClick={this.handleConfirmVoteChange} optionChoice={this.state.answerLabels[2]} voteButtonText={poll.mc_c_option} voteValue={'c'}/>: null}
+          {poll.mc_d_option ? <MCVoteButton handleVoteClick={this.handleConfirmVoteChange} optionChoice={this.state.answerLabels[3]} voteButtonText={poll.mc_d_option} voteValue={'d'}/>: null}
+        </div>
+      )
+    }
+    
+  }
+
 
 
   render() {
     let {classes} = this.props
     let poll = this.props.location.state
-
+    console.log('POLL INFO', poll)
     return (
-
       <div>
-         
          <CardMenu
             anchorEl={this.state.anchorEl}
             renderMenuButtons={this.renderMenuButtons}
             handleClose={this.handleCloseCardMenu}
           />
-
 
         <Paper square elevation={2} className={classes.container}>
         <Card style={{padding:7}}>
@@ -411,6 +422,11 @@ handleReportSuccess(){
                    "{poll.question}"
                 </Typography>
             </CardContent>
+
+            <CardContent>
+              {this.renderAnswerOptions(poll)}
+            </CardContent>
+
             <CardContent>
             <Typography variant="subheading">
                     {subjects_list[poll.subject]}
@@ -423,17 +439,6 @@ handleReportSuccess(){
             </CardContent>
             </Card>
         </Paper>
-
-
-
-        <Paper square elevation={2} className={classes.container}>
-          <VoteButtons
-            handleConfirmNoVoteAlert={this.handleConfirmNoVoteAlert}
-            handleConfirmYesVoteAlert={this.handleConfirmYesVoteAlert}
-            classes={classes}
-          />
-        </Paper>
-
 
         <ResponsiveDialog
           dialogTitle={this.state.dialogTitle}

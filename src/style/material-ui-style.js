@@ -194,9 +194,16 @@ module.exports = {
         }
       }
     },
-
     uniqueStyles:{
-      MuiVoteButton:{ 
+      MuiVoteButton:{
+        titleText:{
+          width:'20%',
+          fontSize:30,
+        },
+        optionText:{
+          fontSize:20,
+          width:'80%',
+        },
         textAlign:'center',
             margin:15,
             textAlign: 'center',
@@ -212,12 +219,11 @@ module.exports = {
               backgroundColor: '#000',
               color:'#fff'
             },
-            margin:'auto',
-            display:'inline',
-            // display: 'flex',
-            width:'50%',
-            // flexWrap: 'wrap',
+            margin:'1em auto',
+            width:'75%',
+            height:'4em',
             textAlign:'center',
+            fontSize: 20,
           },
           helpBarButton:{
             margin:0,

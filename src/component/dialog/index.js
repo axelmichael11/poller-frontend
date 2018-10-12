@@ -44,6 +44,10 @@ const SubmitButton = ({...props}) =>{
 const FeedBackSubmitButton = LoadingHOC(SubmitButton)
 
 const styles = theme => ({
+  dialogButtons: {
+    justifyContent:'center',
+    margin: '10px',
+  }
   });
 
   
@@ -62,7 +66,9 @@ const ResponsiveDialog = ({...props}) => {
               {props.dialogContent}
             </div>
           </DialogContent>
-          <DialogActions>
+          <DialogActions
+          className={props.classes.dialogButtons}
+          >
                <div className={props.classes.container}>
             <Button 
               variant="outlined"

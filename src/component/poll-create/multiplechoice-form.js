@@ -39,12 +39,11 @@ class MultipleChoiceForm extends React.Component {
             <Divider/>
             <SubjectAndQuestionForm {...this.props}/>
             <Divider/>
-
             <RenderAnswerSubmit {...this.props}/>
            
-            <CardContent className={classes.container}>
+            {/* <CardContent className={classes.container}> */}
               <FeedBackSubmitButton
-                submitClick={this.props.handleYesNoPollSubmit}
+                submitClick={this.props.handleMultipleChoicePollSubmit}
                 buttonTitle={'Create Multiple Choice Poll'}
                 Loading={this.props.pollCreateLoad}
                 timeError={this.props.handleUnknownError}
@@ -52,7 +51,7 @@ class MultipleChoiceForm extends React.Component {
                 loadingErrorMessage={this.props.pollCreateErrorMessage}
                 handleLoadingError={this.props.handlePollCreateError}
               />
-            </CardContent>
+            {/* </CardContent> */}
             </div>
         )
     }

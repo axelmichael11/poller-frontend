@@ -7,7 +7,7 @@ import classnames from 'classnames';
 import {compose} from 'recompose'
 import PropTypes from 'prop-types';
 import * as util from '../../lib/util.js'
-import RenderPollPage from '../render-poll-page'
+import RenderPollPage from './render-poll-page.js'
 import HelpTab from '../help-feature'
 
 //Methods
@@ -15,7 +15,6 @@ import {fetchVoteHistory} from '../../action/vote-actions'
 import {loadingOff} from '../../action/loading-actions'
 
 import { withStyles } from '@material-ui/core/styles';
-
 
 
 const styles = theme => ({
@@ -44,6 +43,7 @@ class PollLandingContainer extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
+      answerLabels: ["A","B","C","D"],
       pageLoading: false,
       alreadyVoted:null,
       pollData:null,
@@ -75,9 +75,9 @@ class PollLandingContainer extends React.Component {
   }
 
   fetchVoteData(){
-    let {created_at, author_username} = this.props.location.state
+    let {created_at, author_username, type} = this.props.location.state
     
-    let voteData = Object.assign({},{created_at, author_username})
+    let voteData = Object.assign({},{created_at, author_username, type})
     this.setState({pageLoading:true})
     this.props.fetchVoteHistory(voteData)
     .then((result)=>{
@@ -146,6 +146,7 @@ class PollLandingContainer extends React.Component {
         start={Date.now()}
         timeError={this.throwError}
         throwGeneralError={ this.throwError}
+        answerLabels={this.state.answerLabels}
         />
       </div>
     )

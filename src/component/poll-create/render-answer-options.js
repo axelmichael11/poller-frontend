@@ -6,15 +6,18 @@ import _ from 'lodash'
 
 import { withStyles } from '@material-ui/core';
 
-import NotInterested from '@material-ui/icons/NotInterested';
-import MoreVertIcon from '@material-ui/icons/MoreVert';
+import {RemoveCircle,
+  NotInterested,
+  MoreVertIcon } from '@material-ui/icons'
 
-import {Button,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogContentText,
-  DialogTitle,
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableRow,
+  AppBar,
+  Button,
   InputLabel,
   Input,
   MenuItem,
@@ -51,58 +54,102 @@ const FeedBackSubmitButton = LoadingHOC(SubmitButton)
 
 const styles = (theme) =>({
   button:theme.overrides.MuiButton,
-    container: theme.overrides.MuiPaper,
   ageSelect:{
     marginLeft: 15,
   },
+  container: theme.overrides.MuiPaper.root,
+  cardHeader:theme.overrides.PollCard.cardHeader,
   cardContent:theme.overrides.PollCard.cardContent,
   text: theme.typography.text,
-
   listContainer: theme.overrides.MuiListItem.container,
   listItem:theme.overrides.MuiListItem,
-  // listTitle: theme.overrides.MuiListItem.title,
+  table:{
+    maxWidth: '85%',
+    margin: 'auto',
+  }
 })
+
+const CustomTableCell = withStyles(theme => ({
+  head: {
+    backgroundColor: theme.palette.primary.main,
+    color: theme.palette.secondary.main,
+    fontSize: 20,
+  },
+  body: {
+    fontSize: 14,
+    maxWidth:'75%',
+  },
+}))(TableCell);
 
 
 const AnswerOption = ({...props}) =>{
   let {classes} = props;
     return (
-        <div>
-            <CardContent className={classes.cardContent}>
-              <Toolbar className={classes.cardContent}>
-                <Typography variant="subheading" component="h3" style={{marginRight:15}}>
-                    Answer {props.answerLabels[props.answerOptionNumber]}:
-                </Typography>
-                <Typography variant="subheading" component="h3" style={{marginRight:15}}>
-                    {props.answerOptionText}
-                </Typography>
-              </Toolbar>
-            </CardContent>
-            <Divider/>
-        </div>
+          <TableRow>
+                <CustomTableCell>
+                {props.answerLabels[props.answerOptionNumber]}
+                </CustomTableCell>
+                <CustomTableCell>{props.answerOptionText}</CustomTableCell>
+                <CustomTableCell>
+                  <IconButton
+                  onClick={()=> props.handleRemoveOptionAnswer(props.answerOptionNumber)}
+                  >
+                    <RemoveCircle/>
+                  </IconButton>
+                </CustomTableCell>
+          </TableRow>)}
+
+
+class RenderAnswerOptions extends React.Component {
+  constructor(props){
+    super(props)
+    this.rowFeedBack = this.rowFeedBack.bind(this)
+  }
+
+  rowFeedBack(){
+    if (Object.keys(this.props.answerOptions).length === 0){
+      return (<AnswerFeedBackRow feedBackText="You need to submit at least two Options"/>)
+    }
+    if (Object.keys(this.props.answerOptions).length === 1){
+      return (<AnswerFeedBackRow feedBackText="One more Needed"/>)
+    }
+  }
+    
+    render(){
+    let {answerOptions, classes} = this.props
+    console.log("ANSWER OPTIONS TO RENDER", Object.values(answerOptions))
+    return(
+        <Table className={classes.table}>
+        <TableHead>
+          <TableRow>
+            <CustomTableCell>Optional Answers</CustomTableCell>
+            <CustomTableCell></CustomTableCell>
+            <CustomTableCell> </CustomTableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {answerOptions.map((answerOption, key) => {
+            return (
+              <AnswerOption {...this.props} 
+                key={key}
+                answerOptionNumber={key} 
+                answerOptionText={answerOption}
+              />);
+          })}
+          {this.rowFeedBack()}
+        </TableBody>
+      </Table>
     )
+  }
 }
 
-
-const RenderAnswerOptions = ({ ...props }) => {
-    let {answerOptions} = props
-    return(
-      <div className="list">
-      {answerOptions.map((answerOption, key) => 
-        <div className="list-row" key={key}>
-          <AnswerOption {...props} answerOptionNumber={key} answerOptionText={answerOption}/>
-        </div>)}
-        {null}
-    </div>
-    )}
-
-    const NoAnswersListed = ({...props}) => {
+    const AnswerFeedBackRow = ({feedBackText}) => {
       return (
-        <div>
-          <Typography variant="headline" component="h3" style={{width:'100%' , margin:'auto', textAlign:'center' }}>
-          You need to submit at least two answer options
-          </Typography>
-        </div>
+          <TableRow>
+            <CustomTableCell>{feedBackText}</CustomTableCell>
+            <CustomTableCell></CustomTableCell>
+            <CustomTableCell></CustomTableCell>
+          </TableRow>
       )
     }
 
@@ -111,7 +158,6 @@ const RenderAnswerOptions = ({ ...props }) => {
       let {classes } = props;
       return (
         <div>
-          <Divider/>
     <CardContent className={classes.cardContent}>
     <Toolbar className={classes.cardContent}>
       <Typography variant="subheading" component="h3" style={{marginRight:15}}>
@@ -120,12 +166,10 @@ const RenderAnswerOptions = ({ ...props }) => {
       <FormControl>
         <InputLabel >{props.questionError ? props.questionErrorText : ""}</InputLabel>
         <Input
-          multiline={true}
-          id="adornment-amount"
           value={props.pollAnswerOption}
           onChange={props.handleAnswerOptionChange}
           rows={6}
-          rowsMax="6"
+          rowsMax="2"
         />
       </FormControl>
       <SubmitButton
@@ -146,11 +190,15 @@ const RenderAnswerOptions = ({ ...props }) => {
   const RenderAnswerSubmit = ({...props}) => {
     let {classes} = props;
     return (
-      <div>
-        {props.answerOptions.length > 0 ?
-        <RenderAnswerOptions {...props}/>:<NoAnswersListed/>}
-
-        <SubmitAnswerOption {...props}/>
+      <div style={{
+        marginTop:'1em',
+        marginBottom:'1em',
+      }}>
+        <RenderAnswerOptions {...props}/>
+        
+        {props.answerOptions.length >= 4 ?
+          null : <SubmitAnswerOption {...props}/>}
+          <Divider/>
       </div>
     )
   }

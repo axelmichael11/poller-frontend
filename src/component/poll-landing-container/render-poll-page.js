@@ -8,12 +8,11 @@ import _ from 'lodash'
 
 
 import {fetchPolls} from '../../action/public-poll-actions.js'
-import LoginPage from '../login'
-import PublicPoll from '../public-poll-card'
 
+import PollVotePage from './poll-vote'
+import YNPollResults from './yes-no-poll-results'
+import MCPollResults from './multiple-choice-poll-results'
 
-import PollVotePage from '../poll-vote-page'
-import PollResultsPage from '../poll-results-page'
 import Loader from '../loading/loader'
 import Error from '../error'
 
@@ -63,10 +62,38 @@ const renderVotePage =(conditionFn) =>  (Component) => (props) => {
       return (
           <div>
             <Component {...props}/>
-          {conditionFn(props) && <PollResultsPage {...props}/>}
+          {conditionFn(props) && <YNPollResults {...props}/>}
           </div>
          )
   }
+
+
+  class RenderVotePage extends React.Component {
+    constructor(props){
+        super(props)
+        this.state ={};
+
+        this.renderVotePage = this.renderVotePage.bind(this)
+    }
+
+    renderVotePage(){
+        if (this.props.alreadyVoted){
+            console.log('HITTING ALREADY VOTED')
+            return <YNPollResults {...this.props}/>
+        } else {
+          return <PollVotePage {...this.props}/>
+        }
+    }
+    render(){
+        return(
+            <div>
+                {this.renderVotePage()}
+                {null}
+            </div>
+        )
+    }
+}
+
 
 
   const notYetVotedCondition = props =>
@@ -96,14 +123,23 @@ const renderVotePage =(conditionFn) =>  (Component) => (props) => {
       (props)=>props.Loading,
       renderComponent(Loader)
   ),
+  withError(withErrorCondition),
   branch(
       (props) =>
       props.alreadyVoted
-      && props.pollData
+      && props.pollData.type =='YN'
       && !props.Loading
       && !props.error,
-      renderComponent(PollResultsPage)
+      renderComponent(YNPollResults)
   ),
+  branch(
+    (props) =>
+    props.alreadyVoted
+    && props.pollData.type =='MC'
+    && !props.Loading
+    && !props.error,
+    renderComponent(MCPollResults)
+),
   branch(
     props =>
     !props.alreadyVoted
@@ -112,6 +148,6 @@ const renderVotePage =(conditionFn) =>  (Component) => (props) => {
     && !props.error,
       renderComponent(PollVotePage)
   )
-  )(Error);
+  )(withError(withErrorCondition));
 
 export default RenderPollPage

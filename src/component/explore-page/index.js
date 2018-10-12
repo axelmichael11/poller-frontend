@@ -331,6 +331,7 @@ handleReportSuccess(){
   render() {
     const {stepIndex} = this.state;
     const {classes} = this.props;
+    console.log('public polls', this.props.publicPolls)
     return (
         <div id="explore-page">
           <ResponsiveDialog

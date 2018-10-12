@@ -29,7 +29,7 @@ const styles = theme =>({
       <div className={props.classes.container}>
       <div className={props.classes.innerContainer}>
       <Link activeClass="active" to="app" spy={true} smooth={true} offset={-5} duration={700}>
-        <Button variant="outlined" 
+        <Button
           size="small" 
           color="primary" 
           aria-label="Add"

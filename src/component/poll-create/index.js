@@ -148,10 +148,10 @@ class PollCreatePage extends React.Component {
 
         //multiple choice
         answerOptions : [],
+
         pollAnswerOption:"",
         pollAnswerError:false,
-        answerLabels: ["A","B","C","D","E"],
-
+        answerLabels: ["A","B","C","D"],
     }
   this.handleHelpExpand = this.handleHelpExpand.bind(this)
    this.handleYesNoPollSubmit = this.handleYesNoPollSubmit.bind(this)
@@ -173,7 +173,7 @@ class PollCreatePage extends React.Component {
    this.handleSubmitPollDelete = this.handleSubmitPollDelete.bind(this)
    this.handleMyPollsError = this.handleMyPollsError.bind(this)
    this.pollsFetch = this.pollsFetch.bind(this)
-   this.handlePollCreateError= this.handlePollCreateError.bind(this)
+   this.handlePollCreateError = this.handlePollCreateError.bind(this)
    this.handleOpenPollSubjectList = this.handleOpenPollSubjectList.bind(this)
    this.handleClosePollSubjectList = this.handleClosePollSubjectList.bind(this)
    this.handlePollSubjectChange = this.handlePollSubjectChange.bind(this)
@@ -185,6 +185,11 @@ class PollCreatePage extends React.Component {
    this.handleSubmitAnswerOption = this.handleSubmitAnswerOption.bind(this)
    this.validateAnswerOption =this.validateAnswerOption.bind(this)
    this.handleAnswerOptionChange = this.handleAnswerOptionChange.bind(this)
+   this.handleMultipleChoicePollSubmit = this.handleMultipleChoicePollSubmit.bind(this)
+
+   //render form
+   this.renderFormType = this.renderFormType.bind(this)
+   this.handleRemoveOptionAnswer = this.handleRemoveOptionAnswer.bind(this)
   }
 
   pollsFetch(){
@@ -285,6 +290,8 @@ class PollCreatePage extends React.Component {
   //BOTH
   handlePollClear(){
     this.setState({
+          pollAnswerOption:'',
+          answerOptions:[],
           pollSubject: '',
           pollQuestion:'',
         });
@@ -411,6 +418,45 @@ class PollCreatePage extends React.Component {
       })
   }
 
+  handleMultipleChoicePollSubmit(){
+    let {pollSubject, pollQuestion, answerOptions} = this.state
+    let {nickname} = this.props.userProfile
+    let poll = Object.assign({}, {
+      pollSubject, 
+      pollQuestion, 
+      nickname, 
+      type:"MC",
+      answerOptions
+    })
+    if (poll.pollSubject === null){
+        this.handleSubjectValidationError();
+        return;
+    }
+    
+    if (poll.pollQuestion.length < 10){
+        this.handleQuestionValidationError();
+        return;
+    }
+    this.setState({pollCreateLoad:true})
+    this.props.pollSend(poll)
+    .then((res)=>{
+        if (res.status===200){
+          this.handlePollClear()
+          this.handlePollCreateSuccess()
+        } else {
+          this.handlePollClear()
+          this.handlePollCreateSuccess()
+        }
+    })
+    .catch(err=>{
+      if (err.status===550){
+        this.handleMaxPollReached();
+      } else {
+        this.handleUnknownError();
+      }
+    })
+}
+
   handleUnknownError(){
     this.setState((oldState)=>{
       return {
@@ -480,26 +526,40 @@ handleAnswerOptionChange(e){
 }
 
 handleSubmitAnswerOption(){
-  if (this.state.answerOptions.length > 4){
+  if (Object.keys(this.state.answerOptions).length >= this.state.answerLabels.length){
     console.log('MAX OPTIONS REACHED')
   } else {
-    let {pollAnswerOption} = this.state;
-    this.setState((oldState)=>{
-      return {
-        answerOptions: [...oldState.answerOptions, pollAnswerOption],
+    let {pollAnswerOption, answerOptions} = this.state;
+    let newState = [...answerOptions, pollAnswerOption]
+    this.setState({
+        answerOptions: newState,
         pollAnswerOption: "",
-      }
-    })
+      })
   }
 }
 
-handleDeleteAnswerOption(option){
+handleRemoveOptionAnswer(optionNumber){
+  let {answerOptions} = this.state;
+  let newOptions = answerOptions.filter((key, i)=> i !== optionNumber)
+  this.setState({
+    answerOptions: newOptions
+  })
+}
 
+renderFormType(){
+  if (this.props.yesNoCheckBox && !this.props.multipleChoiceCheckBox){
+      console.log('HITTING YES NO')
+      return <YesNoForm {...this.props}/>
+  }
+  if (this.props.multipleChoiceCheckBox && !this.props.yesNoCheckBox){
+      console.log('HITTING MC')
+      return <MultipleChoiceForm {...this.props}/>
+  }
 }
 
   render() {
     const {classes, theme} = this.props
-    console.log("POLL CREATE STATE: YES NO", this.state.yesNoCheckBox,"MULTIPLE CHOICE", this.state.multipleChoiceCheckBox)
+    console.log("POLL CREATE USER PROFILE:", this.props.userProfile)
     return (
         <div>
           <Dialog
@@ -605,16 +665,13 @@ handleDeleteAnswerOption(option){
                   answerOptions={this.state.answerOptions}
                   answerLabels={this.state.answerLabels}
                   pollAnswerOption={this.state.pollAnswerOption}
-                />
-
-                
+                  handleRemoveOptionAnswer={this.handleRemoveOptionAnswer}
+                  answerLabels={this.state.answerLabels}
+                  handleMultipleChoicePollSubmit={this.handleMultipleChoicePollSubmit}
+                /> 
                 </Card>
         </Paper>
-
-
-
-
-
+        
         <Paper className={classes.container} style={{marginBottom:10}}>
           <CardContent className={classes.cardHeader}>
             <Typography variant="headline" component="h1" className={classes.cardHeader}>

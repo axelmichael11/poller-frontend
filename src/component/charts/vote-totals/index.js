@@ -32,8 +32,7 @@ class TotalVotesGraph extends React.Component {
   }
 
   getData() {
-    const rand = () => Math.max(Math.floor(Math.random() * 10000), 1000);
-
+    console.log('POLL DATA', this.props, this.state)
     return [
         { x: 'Yes', y: this.props.totalVotesData.yesVotes },
         { x: 'No', y: this.props.totalVotesData.noVotes },

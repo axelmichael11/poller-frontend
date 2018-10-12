@@ -71,7 +71,7 @@ const styles = theme =>({
   },
 })
 
-class PollResultsPage extends React.Component {
+class YNPollResults extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -278,4 +278,4 @@ export const mapDispatchToProps = dispatch => ({
 export default compose(
   connect(mapStateToProps, mapDispatchToProps),
   withStyles(styles, {withTheme:true}),
-)(PollResultsPage);
+)(YNPollResults);
