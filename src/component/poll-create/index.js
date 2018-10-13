@@ -8,7 +8,6 @@ import {
   pollDelete,
   pollSend,
   } from '../../action/user-polls-actions.js'
-  import UserPollCard from '../user-poll-card'
   import LoadingHOC from '../loading/loadingHOC.js'
   import SubmitButton from '../loading/button.js'
   import MyPolls from '../my-polls'
@@ -671,7 +670,7 @@ renderFormType(){
                 /> 
                 </Card>
         </Paper>
-        
+
         <Paper className={classes.container} style={{marginBottom:10}}>
           <CardContent className={classes.cardHeader}>
             <Typography variant="headline" component="h1" className={classes.cardHeader}>

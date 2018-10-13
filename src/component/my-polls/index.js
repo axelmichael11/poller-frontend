@@ -1,7 +1,7 @@
 
 import React from 'react'
 import {compose, branch, renderComponent} from 'recompose'
-import UserPollCard from '../user-poll-card'
+import PublicPollCard from '../poll-card-design/public-poll-card'
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
   import Collapse from '@material-ui/core/Collapse';
@@ -52,7 +52,7 @@ const styles = theme => ({
 
 export const Polls = ({...props}) => props.userPolls.length > 0 ?
 props.userPolls.map((poll,key) => <div className="list-row" key={key}>
-                <UserPollCard 
+                <PublicPollCard 
                 poll={poll}
                 pollActions={<IconButton
                     className={props.classes.pollActions}

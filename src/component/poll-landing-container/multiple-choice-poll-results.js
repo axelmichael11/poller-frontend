@@ -11,6 +11,8 @@ import {
   fetchVoteHistory
 } from '../../action/vote-actions'
 
+import AnswerFilter from './answer-filter'
+import CardCase from '../poll-card-design/card-case'
 import TotalVotesGraph from '../charts/vote-totals/index'
 import profession_data from '../../lib/professions.js'
 import ethnicity_data from '../../lib/ethnicities.js'
@@ -73,13 +75,98 @@ const styles = theme =>({
 class MCPollResults extends React.Component {
     constructor(props){
         super(props)
-        this.state ={}
+        this.state ={
+            pollData: this.props.pollData,
+            // answerLabels: this.props.answerLabels,
+            answerLabels: this.props.pollData.labels,
+            answerFilters:[],
+            graphData: [],
+            tableCategory: 'totals'
+        }
+        this.handleFilterChange = this.handleFilterChange.bind(this)
+        this.deleteFilter = this.deleteFilter.bind(this)
+        this.addFilter = this.addFilter.bind(this)
+        this.renderGraphData = this.renderGraphData.bind(this)
+        this.renderTotalVotes = this.renderTotalVotes.bind(this)
     }
+
+
+    deleteFilter(answerOption){
+        let {answerFilters} = this.state;
+        let newFilters = answerFilters.filter(filter=> filter!==answerOption)
+        this.setState({
+            answerFilters: newFilters
+        })
+      }
+
+    handleFilterChange(answerOption){
+        if (this.state.answerFilters.includes(answerOption)){
+        this.deleteFilter(answerOption)
+        this.renderGraphData()
+      } else {
+        this.addFilter(answerOption)
+        this.renderGraphData()
+      }
+  }
+
+  addFilter(answerOption){
+    let {answerFilters} = this.state;
+    let newFilters = [...answerFilters, answerOption];
+    this.setState({
+        answerFilters: newFilters
+    })
+  }
+
+
+  renderGraphData() {
+    //   if (this.state.tableCategory=='totals'){
+          let {answerOptions} = this.props.pollData;
+          let {answerFilters} = this.state
+          console.log('GRAPH RENDER ', answerOptions, answerFilters )
+      return Object.keys(answerOptions).reduce((acc, curr, i) =>{
+        //   console.log('CURRENT',curr,answerOptions[curr],'', answerFilters.includes(answerOptions[curr].label))
+        if (answerOptions[curr] && answerFilters.includes(answerOptions[curr].label)){
+          let dataPoint = {
+            x: answerOptions[curr].label, 
+            y: answerOptions[curr].totalVotePercent
+          }
+          return [...acc, dataPoint];
+        } else {
+          return acc
+        }
+      }, [])
+  }
+
+  renderTotalVotes(){
+      return (
+        <TotalVotesGraph
+            totalVotes={this.state.pollData.totalVotes}
+            graphData={this.renderGraphData()}
+            poll={this.props.poll}
+        />
+      )
+  }
+
+
     render(){
-        console.log("MC DATA", this.props, this.state)
+        console.log("MC DATA", this.state, this.state.pollData)
         return(
             <div>
-                SUHHH DUDE MC
+                <CardCase 
+                {...this.props}
+                style={{
+                    height:'100%'
+                }}>
+
+                <AnswerFilter
+                    handleFilterChange={this.handleFilterChange}
+                    answerLabels={this.state.answerLabels}
+                    answerFilters={this.state.answerFilters}
+                    deleteFilter={this.deleteFilter}
+                    renderGraphData={this.renderGraphData}
+                />
+                {this.renderTotalVotes()}
+                </CardCase>
             </div>
         )
     }

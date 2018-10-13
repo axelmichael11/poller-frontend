@@ -201,6 +201,7 @@ module.exports = {
           fontSize:30,
         },
         optionText:{
+          wordBreak: 'break-all',
           fontSize:20,
           width:'80%',
         },

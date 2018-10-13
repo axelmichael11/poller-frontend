@@ -27,83 +27,74 @@ class TotalVotesGraph extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-        data: this.getData(),
+        type: this.props.type,
+        totalsData: this.props.totalsData,
     }
   }
 
-  getData() {
-    console.log('POLL DATA', this.props, this.state)
-    return [
-        { x: 'Yes', y: this.props.totalVotesData.yesVotes },
-        { x: 'No', y: this.props.totalVotesData.noVotes },
-      ];
-  }
+ 
 
   render(){
       let {classes, poll} = this.props
+      console.log(' TOTALS GRAPH STATE', this.state, this.props)
       return(
         <div>
-        <Paper square elevation={2} className={classes.container} style={{marginBottom:0}}>
-            <Card style={{marginBottom:0, padding: 7}}>
-            <CardHeader
-                action={null}
-                className={classes.cardHeader}
-                title={poll.author_username}
-                classes={{
-                    title: classes.cardHeader
+          <VictoryChart
+            responsive={true}
+            domainPadding={{ x: 100 }}
+            animate={{duration:500}}
+            >
+            {/* <VictoryLabel
+            // text={this.state.labels}
+            style={{
+              labels: {fontSize: 50},
+            }}
+            /> */}
+          { this.props.graphData.length ?
+          <VictoryAxis/>:
+          <VictoryAxis
+            tickValues={['No Data Selected']}
+            />}
+          
+          <VictoryBar 
+          barWidth={40}
+          name="Bar-1"
+                style={{
+                  strokeWidth: 5,
+                  margin: "20%", 
+                  maxWidth: "100%",
+                  labels: {
+                    fontSize: 20,
+                    margin:10,
+                    wordBreak: 'break-all',
+                    // fill: (d) => d.x === "Yes" ? '#4CAF50' : '#D32F2F'
+                  },
                 }}
+                // categories={{
+                //   x: this.state.categories
+                // }}
+                colorScale={['greyscale']}
+                labels={
+                  this.props.graphData ? (d) => `${d.y}%`: (d)=>'No Data Selected'
+                }
+                data={this.props.graphData}
+                animate={{
+                  onExit: {
+                    duration: 200,
+                    before: () => ({
+                      _y: 0,
+                      fill: "red",
+                    })
+                  }
+                }}
+                // barRatio={0.5}
             />
+            </VictoryChart>
             <CardContent>
-                <Typography variant="display3" style={{overflowWrap:'break-word'}}>
-                   "{poll.question}"
-                </Typography>
+              <Typography variant="subheading">
+                Votes: {this.props.totalVotes}
+              </Typography>
             </CardContent>
-                  <VictoryChart
-                    domainPadding={{ x: 100 }}
-                  >
-                  <VictoryAxis/>
-                  <VictoryBar name="Bar-1"
-                        style={{
-                          data: {
-                            fill: (d) => d.x === "Yes" ? '#4CAF50' : '#D32F2F',
-                            fillOpacity: 0.7,
-                          },
-                          labels: {
-                            fontSize: 20,
-                            fill: (d) => d.x === "Yes" ? '#4CAF50' : '#D32F2F'
-                          },
-                          margin: "20%", 
-                          maxWidth: "100%"
-                        }}
-                        categories={{
-                          x: ["Yes", "No"]
-                        }}
-                        labels={(d) => `${d.y}%`}
-                        data={this.state.data}
-                        animate={{
-                          duration: 2000,
-                          onLoad: { duration: 1000 }
-                        }}
-                        barRatio={1}
-                    />
-                    </VictoryChart>
-                    <CardContent>
-    
-                    <Typography variant="subheading">
-                      Votes: {this.props.totalVotesData.totalVotes}
-                    </Typography>
-
-                    <Typography variant="subheading">
-                       {subjects_list[poll.subject]}
-                    </Typography>
-
-                    <Typography variant="subheading">
-                       Poll Expiration: {poll.expiration} hours
-                    </Typography>
-                    
-                    </CardContent>
-                </Card>
-            </Paper> 
           </div>
       )
   }

@@ -47,39 +47,29 @@ const styles = theme =>({
 })
 
 
-const UserPollCard = ({classes, theme, pollActions, poll }) =>{
+const CardCase = ({...props}) =>{
+    //classes, theme, props.pollActions, poll,
     return (
-    <div className={classes.container}>
-    <Paper square elevation={2} className={classes.container}>
+    <div className={props.classes.container}>
+    <Paper square elevation={2} className={props.classes.container}>
                 <Card style={{padding:7}}>
                 <CardHeader
-                    action={pollActions}
-                    className={classes.cardHeader}
-                    title={poll.author_username}
+                    action={props.pollActions}
+                    className={props.classes.cardHeader}
+                    title={props.poll.author_username}
                     classes={{
-                        title: classes.cardHeader
+                        title: props.classes.cardHeader
                     }}
                 />
-                <Link to={{
-                pathname:`/poll/${poll.author_username}/${poll.created_at}`,
-                state: poll,
-                }}
-                style={{ textDecoration: 'none' }}
-                >
-                <CardContent className={classes.cardContent}>
-                    <Typography variant="display3" style={{overflowWrap:'break-word'}}>
-                    "{poll.question}"
-                    </Typography>
-                </CardContent>
+                {props.children}
                 <CardContent>
                 <Typography variant="subheading" component="p">
-                        {subjects_list[poll.subject]}
+                        {subjects_list[props.poll.subject]}
                     </Typography>
                 <Typography variant="subheading" component="p">
-                        Poll Expiration: {poll.expiration} hours
+                        Poll Expiration: {props.poll.expiration} hours
                     </Typography>
                 </CardContent>
-                </Link>
                 </Card>
         </Paper>
     </div>
@@ -90,4 +80,4 @@ const UserPollCard = ({classes, theme, pollActions, poll }) =>{
 export default compose(
     withRouter,
     withStyles(styles, {withTheme:true}),
-)(UserPollCard);
+)(CardCase);

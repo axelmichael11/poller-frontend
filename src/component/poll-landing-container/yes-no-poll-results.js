@@ -26,6 +26,7 @@ import * as util from '../../lib/util.js'
 //Style
 import { withStyles } from '@material-ui/core/styles';
 
+import CardCase from '../poll-card-design/card-case'
 
 import {Paper,
 Card,
@@ -166,7 +167,7 @@ class YNPollResults extends React.Component {
   
   render() {
     let {classes} = this.props
-    console.log('DATA', this.state);
+    console.log('YES NO RENDER CHART', this.state);
     return (
       <div>
         <Paper square elevation={2} className={classes.container}>

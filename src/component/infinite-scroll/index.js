@@ -6,7 +6,7 @@ import {  compose, branch, renderComponent} from 'recompose'
 import _ from 'lodash'
 import {fetchPolls} from '../../action/public-poll-actions.js'
 import LoginPage from '../login'
-import UserPollCard from '../user-poll-card'
+import PublicPollCard from '../poll-card-design/public-poll-card.js'
 import Loader from '../loading/loader'
 import Error from '../error'
 import ResponsiveDialog from '../dialog'
@@ -30,7 +30,7 @@ const List = ({ ...props }) => {
     <div className="list">
     {pollList.map((poll, key) => 
       <div className="list-row" key={key}>
-        <UserPollCard
+        <PublicPollCard
           pollActions={<IconButton
             onClick={(event)=> {
               props.handleOpenCardMenu(event)

@@ -128,12 +128,7 @@ class PollLandingContainer extends React.Component {
   render() {
     let {classes} = this.props
     return (
-      <div >
-        <HelpTab
-          helpExpanded={this.state.helpExpanded}
-          handleHelpExpand={this.handleHelpExpand}
-          helpText={this.state.alreadyVoted ? this.state.pollResultsHelpText: this.state.castVoteHelpText}
-        />
+      <div>
         <RenderPollPage
         Loading={this.state.pageLoading}
         pollData={this.state.pollData}
