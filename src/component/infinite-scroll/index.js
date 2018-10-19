@@ -99,6 +99,7 @@ const withInfiniteScroll =(conditionFn) => (Component) =>
         } 
 
         onScroll(){
+          console.log('HITTING INFINITE SCROLL', conditionFn(this.props), )
           if (conditionFn(this.props)){
             let debounced = _.debounce(()=>this.props.fetchPolls(), 800)
             debounced()
@@ -139,6 +140,7 @@ const withInfiniteScroll =(conditionFn) => (Component) =>
 //conditions
 const infiniteScrollCondition = props =>
 (window.innerHeight + window.pageYOffset) > (document.body.offsetHeight+15)
+&&  Object.keys(props.list).length !== 0 
 && !props.maxPublicPolls
 && props.list
 && !props.Loading

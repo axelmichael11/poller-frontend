@@ -1,12 +1,5 @@
 import React from 'react'
 
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
-
-import {VictoryPie, 
-  VictoryLegend, 
-  VictoryTooltip, 
-  VictoryLabel} from 'victory'
-
   import Typography from '@material-ui/core/Typography';
 
 

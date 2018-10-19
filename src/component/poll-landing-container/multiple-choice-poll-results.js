@@ -13,7 +13,15 @@ import {
 
 import AnswerFilter from './answer-filter'
 import CardCase from '../poll-card-design/card-case'
-import TotalVotesGraph from '../charts/vote-totals/index'
+
+// import TotalVotesGraph from '../charts/vote-totals/index'
+
+import BarChart from '../charts/vote-totals/d3-bar-total'
+import Chart from '../charts/d3-bar/chart'
+import ResponsiveChart from '../charts/d3-bar/responsive-chart'
+
+const ResponsiveBarChart = ResponsiveChart(Chart)
+
 import profession_data from '../../lib/professions.js'
 import ethnicity_data from '../../lib/ethnicities.js'
 import country_data from '../../lib/countries.js'
@@ -123,11 +131,10 @@ class MCPollResults extends React.Component {
           let {answerOptions} = this.props.pollData;
           let {answerFilters} = this.state
           console.log('GRAPH RENDER ', answerOptions, answerFilters )
-      return Object.keys(answerOptions).reduce((acc, curr, i) =>{
-        //   console.log('CURRENT',curr,answerOptions[curr],'', answerFilters.includes(answerOptions[curr].label))
+      let data = Object.keys(answerOptions).reduce((acc, curr, i) =>{
         if (answerOptions[curr] && answerFilters.includes(answerOptions[curr].label)){
           let dataPoint = {
-            x: answerOptions[curr].label, 
+            x: answerOptions[curr].label,
             y: answerOptions[curr].totalVotePercent
           }
           return [...acc, dataPoint];
@@ -135,21 +142,39 @@ class MCPollResults extends React.Component {
           return acc
         }
       }, [])
+
+      if (data.length === 0){
+          return [{x:'No Answers Selected', y: 0}]
+      } else {
+          return data;
+      }
   }
 
   renderTotalVotes(){
+    // <TotalVotesGraph
+    //     totalVotes={this.state.pollData.totalVotes}
+    //     answerFilters={this.state.answerFilters}
+    //     graphData={this.renderGraphData()}
+    //     dataSelected={this.renderGraphData().length > 0 ? true : false}
+    //     poll={this.props.poll}
+    // /> 
+
+    console.log('GRAPH DATA', this.renderGraphData())
       return (
-        <TotalVotesGraph
-            totalVotes={this.state.pollData.totalVotes}
-            graphData={this.renderGraphData()}
-            poll={this.props.poll}
-        />
+      
+        <ResponsiveBarChart 
+          data={this.renderGraphData()} 
+          answerFilters={this.state.answerFilters}/>
+        // <BarChart
+        //   data={this.renderGraphData()} 
+        //   answerFilters={this.state.answerFilters}
+        //   size={[500,500]}/>
       )
   }
 
 
     render(){
-        console.log("MC DATA", this.state, this.state.pollData)
+        // console.log("MC DATA", this.state, this.state.pollData)
         return(
             <div>
                 <CardCase 

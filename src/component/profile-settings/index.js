@@ -1,7 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
 // import { checkProfileExists } from '../../action/profile-actions.js'
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import {recompose, compose} from 'recompose'
 import {ageValidation} from '../../lib/util.js'
 import { withStyles } from '@material-ui/core/styles';

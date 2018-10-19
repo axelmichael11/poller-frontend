@@ -4,13 +4,8 @@ import {  compose, branch, renderComponent } from 'recompose'
 
 import Paper from '@material-ui/core/Paper';
 import { withStyles } from '@material-ui/core/styles';
-import classnames from 'classnames';
-import Card from '@material-ui/core/Card';
-import CardHeader from '@material-ui/core/CardHeader';
-import CardMedia from '@material-ui/core/CardMedia';
 import CardContent from '@material-ui/core/CardContent';
-import CardActions from '@material-ui/core/CardActions';
-import Collapse from '@material-ui/core/Collapse';
+
 
 import {VictoryBar, VictoryContainer, VictoryChart, VictoryAxis, VictoryLabel} from 'victory'
 import Typography from '@material-ui/core/Typography';
@@ -29,6 +24,8 @@ class TotalVotesGraph extends React.Component {
     this.state = {
         type: this.props.type,
         totalsData: this.props.totalsData,
+        domainPaddingXLimit: this.props.graphData.length,
+        // data
     }
   }
 
@@ -39,57 +36,44 @@ class TotalVotesGraph extends React.Component {
       console.log(' TOTALS GRAPH STATE', this.state, this.props)
       return(
         <div>
-          <VictoryChart
+          {/* <VictoryChart
             responsive={true}
-            domainPadding={{ x: 100 }}
+            domain={{ x: [1, 3], y: [0, 100] }}
+            domainPadding={{x:150}}
             animate={{duration:500}}
             >
-            {/* <VictoryLabel
-            // text={this.state.labels}
-            style={{
-              labels: {fontSize: 50},
-            }}
-            /> */}
-          { this.props.graphData.length ?
-          <VictoryAxis/>:
           <VictoryAxis
-            tickValues={['No Data Selected']}
-            />}
+            tickValues={this.props.answerFilters.reduce((acc,curr, i )=>{
+              return [...acc, i];
+            }, [])}
+        /> */}
           
           <VictoryBar 
-          barWidth={40}
-          name="Bar-1"
-                style={{
-                  strokeWidth: 5,
-                  margin: "20%", 
-                  maxWidth: "100%",
-                  labels: {
-                    fontSize: 20,
-                    margin:10,
-                    wordBreak: 'break-all',
-                    // fill: (d) => d.x === "Yes" ? '#4CAF50' : '#D32F2F'
-                  },
+          barWidth={30}
+          
+                
+                categories={{
+                  x: this.props.answerFilters
                 }}
-                // categories={{
-                //   x: this.state.categories
-                // }}
+                labels={this.props.answerFilters.length > 0 ? (d) => `${d.y}%`: null}
                 colorScale={['greyscale']}
                 labels={
-                  this.props.graphData ? (d) => `${d.y}%`: (d)=>'No Data Selected'
+                  this.props.graphData ? (d) => `${d.y}%`: null
                 }
+                // labels={(d)=> d.y}
                 data={this.props.graphData}
-                animate={{
-                  onExit: {
-                    duration: 200,
-                    before: () => ({
-                      _y: 0,
-                      fill: "red",
-                    })
-                  }
-                }}
+                // animate={{
+                //   onExit: {
+                //     duration: 200,
+                //     before: () => ({
+                //       _y: 0,
+                //       fill: "red",
+                //     })
+                //   }
+                // }}
                 // barRatio={0.5}
             />
-            </VictoryChart>
+            {/* </VictoryChart> */}
             <CardContent>
               <Typography variant="subheading">
                 Votes: {this.props.totalVotes}

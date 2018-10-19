@@ -17,7 +17,6 @@ import NavMenu from '../nav-menu/index.js'
 
 //Style
 
-import {grey50} from 'material-ui/styles/colors';
 
 
 //new Material UI
