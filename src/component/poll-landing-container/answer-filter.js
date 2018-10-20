@@ -73,7 +73,7 @@ class AnswerFilter extends React.Component {
         <AppBar 
         position="static" 
         color="default"
-        id="explore-bar"
+        // id="explore-bar"
         style={{    
           backgroundColor: '#FFF'
         }}>

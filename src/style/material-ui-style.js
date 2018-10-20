@@ -195,6 +195,16 @@ module.exports = {
       }
     },
     uniqueStyles:{
+      highCharts:{
+        title:{
+          fontSize: 25,
+          fontFamily: "Play",
+        },
+        text:{
+          fontSize: 12,
+          fontFamily: "Play",
+        }
+      },
       MuiVoteButton:{
         titleText:{
           width:'20%',

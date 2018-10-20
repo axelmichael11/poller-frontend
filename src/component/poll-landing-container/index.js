@@ -82,6 +82,7 @@ class PollLandingContainer extends React.Component {
     this.props.fetchVoteHistory(voteData)
     .then((result)=>{
       if (result.status==200){
+        console.log('RESULTTTTT^^^', result)
         this.setState({
         alreadyVoted:true,
         pollData: result,

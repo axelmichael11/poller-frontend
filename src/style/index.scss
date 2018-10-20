@@ -52,6 +52,16 @@ body{
     height:83px;
 }
 
+#mc-results-clear {
+    position:absolute;
+    height:1em;
+}
+#mc-results {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    right: 0;
+}
 
 #title {
     font-family: 'Play', sans-serif;
@@ -141,4 +151,6 @@ body{
 .yes-no-votes-title{
     font-size: 3em;
 }
+
+
 

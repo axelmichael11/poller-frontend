@@ -4,7 +4,8 @@ import { Link, withRouter } from 'react-router-dom'
 import PieResults from '../charts/yes-no-pie/index'
 import {  compose, branch, renderComponent } from 'recompose'
 import classnames from 'classnames';
-
+import ReactHighcharts from 'react-highcharts';
+import Swipe from 'react-easy-swipe';
 
 import randomColor from 'randomcolor'; // import the script
 import {
@@ -63,21 +64,11 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 const styles = theme =>({
   container: theme.overrides.MuiPaper.root,
   cardHeader:theme.overrides.PollCard.cardHeader,
-  // typography: theme.typography.text,
-  expand: {
-    color:theme.palette.secondary.main,
-    transform: 'rotate(0deg)',
-    transition: theme.transitions.create('transform', {
-      duration: theme.transitions.duration.shortest,
-    }),
-    marginLeft: 'auto',
-  },
-  expandOpen: {
-    transform: 'rotate(180deg)',
-  },
-  actions: {
-    display: 'flex',
-  },
+  typography: theme.typography.text,
+  highCharts: theme.uniqueStyles.highCharts,
+  highCharts:{
+    fontFamily: 'Play',
+  }
 })
 
 class MCPollResults extends React.Component {
@@ -88,14 +79,27 @@ class MCPollResults extends React.Component {
             // answerLabels: this.props.answerLabels,
             answerLabels: this.props.pollData.labels,
             answerFilters:[],
+            answerColorScheme: this.generateAnswerColorScheme(),
             graphData: [],
             tableCategory: 'totals'
         }
+        
         this.handleFilterChange = this.handleFilterChange.bind(this)
         this.deleteFilter = this.deleteFilter.bind(this)
         this.addFilter = this.addFilter.bind(this)
         this.renderGraphData = this.renderGraphData.bind(this)
         this.renderTotalVotes = this.renderTotalVotes.bind(this)
+        this.easeOutBounce = this.easeOutBounce.bind(this)
+        this.onSwipeStart = this.onSwipeStart.bind(this)
+        this.onSwipeMove = this.onSwipeMove.bind(this)
+        this.onSwipeEnd = this.onSwipeEnd.bind(this)
+    }
+
+    generateAnswerColorScheme(){
+      let {answerOptions} = this.props.pollData;
+      let data = Object.keys(answerOptions).reduce((acc, curr, i) =>{
+        return [...acc, randomColor()]
+      }, [])
     }
 
 
@@ -134,8 +138,9 @@ class MCPollResults extends React.Component {
       let data = Object.keys(answerOptions).reduce((acc, curr, i) =>{
         if (answerOptions[curr] && answerFilters.includes(answerOptions[curr].label)){
           let dataPoint = {
-            x: answerOptions[curr].label,
-            y: answerOptions[curr].totalVotePercent
+            name: answerOptions[curr].label,
+            y: answerOptions[curr].totalVotePercent,
+            color:answerOptions[curr].color,
           }
           return [...acc, dataPoint];
         } else {
@@ -143,12 +148,25 @@ class MCPollResults extends React.Component {
         }
       }, [])
 
-      if (data.length === 0){
-          return [{x:'No Answers Selected', y: 0}]
-      } else {
+      // if (data.length === 0){
+      //     return [{name:'No Answers Selected', y: null}]
+      // } else {
           return data;
-      }
+      // }
   }
+
+  easeOutBounce(pos){
+    if ((pos) < (1 / 2.75)) {
+        return (7.5625 * pos * pos);
+    }
+    if (pos < (2 / 2.75)) {
+        return (7.5625 * (pos -= (1.5 / 2.75)) * pos + 0.75);
+    }
+    if (pos < (2.5 / 2.75)) {
+        return (7.5625 * (pos -= (2.25 / 2.75)) * pos + 0.9375);
+    }
+    return (7.5625 * (pos -= (2.625 / 2.75)) * pos + 0.984375);
+};
 
   renderTotalVotes(){
     // <TotalVotesGraph
@@ -158,30 +176,132 @@ class MCPollResults extends React.Component {
     //     dataSelected={this.renderGraphData().length > 0 ? true : false}
     //     poll={this.props.poll}
     // /> 
-
+    // console.log('HIGH CHART', highBarChart)
     console.log('GRAPH DATA', this.renderGraphData())
-      return (
-      
-        <ResponsiveBarChart 
-          data={this.renderGraphData()} 
-          answerFilters={this.state.answerFilters}/>
-        // <BarChart
-        //   data={this.renderGraphData()} 
-        //   answerFilters={this.state.answerFilters}
-        //   size={[500,500]}/>
-      )
-  }
+    console.log('CSS PROPERTIES', this.props.classes.highCharts.title, this.props.classes.highCharts.text)
+    let config = {
+      tooltip: { enabled: false },
+      noData:{
+        attr:'No Data to display',
+        style: {
+          fontFamily:'Play',
+          'fontSize': 20
+        }
+      },
+      chart: {
+        type: 'column',
+        animation: {
+          duration: 1000,
+          easing: this.easeOutBounce
+        }
+      },
+      title: {
+        text: 'Total Votes',
+        style: {
+
+          fontFamily:'Play',
+          'fontSize': 30,
+          'paddingTop':10,
+        }
+      },
+      series: [{
+        data: this.renderGraphData(),
+        animation: {
+          duration: 1000,
+          easing: this.easeOutBounce
+        }
+      }],
+      credits: {
+        enabled: false
+      },
+      plotOptions: {
+        column: {
+           dataLabels: {
+               format: '{y}%',
+               enabled: true,
+               overflow: 'allow',
+               crop: false,
+               style: {
+                fontFamily:'Play',
+                'fontSize': 20
+              }
+           },
+        },
+        
+     },
+      xAxis: {
+        lineWidth: 0,
+        gridLineWidth: 0,
+        minorGridLineWidth: 0,
+        lineColor: 'transparent',
+        categories: this.state.answerFilters,
+        min:0,
+        max: this.state.answerFilters.length-1,
+          labels: {
+            align:'center',
+            formatter: function () {
+              return this.value
+            },
+            style: {
+              fontFamily:'Play',
+              fontFamily: 'Play',
+              'fontSize': 25
+            }
+          },
+        // min:0,
+        // max:this.state.answerFilters.length-1,
+        // minorTickLength: 0,
+        tickLength: 0
+      },
+      yAxis: {
+        min: 0,
+        max: 100,
+        // lineWidth: 0,
+        gridLineWidth: 0,
+        minorGridLineWidth: 0,
+        lineColor: 'transparent',
+        // minorTickLength: 0,
+        // tickLength: 0,
+        visible:false,
+        title:{
+          text: undefined
+        }
+      },
+      legend:{
+        enabled: false,
+      }
+    };
+    return <ReactHighcharts config = {config}></ReactHighcharts>
+    }
+
+    onSwipeStart(event) {
+      console.log('Start swiping...', event);
+    }
+  
+    onSwipeMove(position, event) {
+      console.log(`Moved ${position.x} pixels horizontally`, event);
+      console.log(`Moved ${position.y} pixels vertically`, event);
+    }
+  
+    onSwipeEnd(event) {
+      console.log('End swiping...', event);
+    }
+  
 
 
     render(){
-        // console.log("MC DATA", this.state, this.state.pollData)
+      console.log('FILTERS', this.state.answerFilters, 'DATA', this.renderGraphData())
+      const boxStyle = {
+        position: 'absolute',
+        bottom: 0,
+      };
+
         return(
             <div>
+            <div id="mc-results-clear"></div>
+            <div id="mc-results">
                 <CardCase 
-                {...this.props}
-                style={{
-                    height:'100%'
-                }}>
+                {...this.props}>
 
                 <AnswerFilter
                     handleFilterChange={this.handleFilterChange}
@@ -190,8 +310,14 @@ class MCPollResults extends React.Component {
                     deleteFilter={this.deleteFilter}
                     renderGraphData={this.renderGraphData}
                 />
+               <Swipe
+                  onSwipeStart={this.onSwipeStart}
+                  onSwipeMove={this.onSwipeMove}
+                  onSwipeEnd={this.onSwipeEnd}>
                 {this.renderTotalVotes()}
+              </Swipe>
                 </CardCase>
+            </div>
             </div>
         )
     }
