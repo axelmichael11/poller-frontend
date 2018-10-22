@@ -7,7 +7,6 @@ import classnames from 'classnames';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Avatar from '@material-ui/core/Avatar';
-import Chip from '@material-ui/core/Chip';
 
 
 
@@ -43,10 +42,6 @@ const styles = theme => ({
         overflow: 'auto',
         maxHeight: 200,
     },
-  
-  chip: {
-    margin: theme.spacing.unit / 2,
-  },
     text: {
       fontFamily:"Play",
         fontSize: 25,
@@ -73,7 +68,7 @@ class AnswerFilter extends React.Component {
         <AppBar 
         position="static" 
         color="default"
-        // id="explore-bar"
+        id="answer-filter-bar"
         style={{    
           backgroundColor: '#FFF'
         }}>
@@ -84,21 +79,21 @@ class AnswerFilter extends React.Component {
             indicatorColor="primary"
             textColor="primary"
           >
-          {this.props.answerLabels.map( (data, key) =>{
+          {Object.keys(this.props.answerOptions).map( (answerOption, i) =>{
+            let data = this.props.answerOptions[answerOption];
             return (<Tab
-            key={key}
-            onClick={()=>this.props.handleFilterChange(data)}
-            label={data}
-            value={data}
+            key={i}
+            onClick={()=>this.props.handleFilterChange(answerOption)}
+            label={data.label}
+            value={data.label}
               style={{
-                backgroundColor:
-                  this.props.answerFilters.includes(data)
+                backgroundColor: Object.keys(this.props.answerFilters).includes(answerOption)
                     ? theme.palette.primary.main
                     : theme.palette.secondary.main,
-                  color: this.props.answerFilters.includes(data)
+                  color: Object.keys(this.props.answerFilters).includes(answerOption)
                   ? theme.palette.secondary.main
                   : theme.palette.primary.main,
-                  height:'70px'
+                  height:'70px',
               }}
             />)
           })}

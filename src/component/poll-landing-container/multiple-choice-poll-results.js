@@ -64,7 +64,7 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 const styles = theme =>({
   container: theme.overrides.MuiPaper.root,
   cardHeader:theme.overrides.PollCard.cardHeader,
-  typography: theme.typography.text,
+  headline: {...theme.typography.title, fontSize: 30},
   highCharts: theme.uniqueStyles.highCharts,
   highCharts:{
     fontFamily: 'Play',
@@ -76,10 +76,9 @@ class MCPollResults extends React.Component {
         super(props)
         this.state ={
             pollData: this.props.pollData,
-            // answerLabels: this.props.answerLabels,
-            answerLabels: this.props.pollData.labels,
-            answerFilters:[],
-            answerColorScheme: this.generateAnswerColorScheme(),
+            answerOptions: this.props.pollData.answerOptions,
+            answerFilters:{},
+            categories: [],
             graphData: [],
             tableCategory: 'totals'
         }
@@ -95,64 +94,76 @@ class MCPollResults extends React.Component {
         this.onSwipeEnd = this.onSwipeEnd.bind(this)
     }
 
-    generateAnswerColorScheme(){
-      let {answerOptions} = this.props.pollData;
-      let data = Object.keys(answerOptions).reduce((acc, curr, i) =>{
-        return [...acc, randomColor()]
-      }, [])
-    }
+    
 
-
-    deleteFilter(answerOption){
-        let {answerFilters} = this.state;
-        let newFilters = answerFilters.filter(filter=> filter!==answerOption)
-        this.setState({
-            answerFilters: newFilters
-        })
-      }
-
+    
     handleFilterChange(answerOption){
-        if (this.state.answerFilters.includes(answerOption)){
+      if (this.state.answerFilters[answerOption]){
         this.deleteFilter(answerOption)
         this.renderGraphData()
       } else {
         this.addFilter(answerOption)
         this.renderGraphData()
       }
-  }
+    }
+    
+    deleteFilter(answerOption){
+        let {answerFilters, answerOptions} = this.state;
+        
+        let newFilters = Object.keys(answerFilters)
+        .reduce((acc, curr, i)=>{
+          if (curr != answerOption){
+            acc[curr] = answerOptions[curr];
+            return acc;
+          } else {
+            return acc;
+          }
+        }, {})
 
-  addFilter(answerOption){
+        let categories = Object.keys(newFilters).reduce((acc,curr)=>{
+          return [...acc, newFilters[curr].label]
+        }, [])
+
+        this.setState({
+            answerFilters: newFilters,
+            categories: categories,
+        })
+      }
+
+    addFilter(answerOption){
     let {answerFilters} = this.state;
-    let newFilters = [...answerFilters, answerOption];
+    let {answerOptions} = this.state;
+    
+    let newFilter = {};
+    newFilter[answerOption] = answerOptions[answerOption];
+    let newFilters = Object.assign({}, answerFilters, newFilter)
+
+    let categories = Object.keys(newFilters).reduce((acc,curr)=>{
+      return [...acc, newFilters[curr].label]
+    }, [])
+
+    // let newFilters = Object.assign({}, ...answerFilters, answerOption);
     this.setState({
-        answerFilters: newFilters
+        answerFilters: newFilters,
+        categories: categories,
     })
   }
 
 
   renderGraphData() {
-    //   if (this.state.tableCategory=='totals'){
-          let {answerOptions} = this.props.pollData;
-          let {answerFilters} = this.state
-          console.log('GRAPH RENDER ', answerOptions, answerFilters )
-      let data = Object.keys(answerOptions).reduce((acc, curr, i) =>{
-        if (answerOptions[curr] && answerFilters.includes(answerOptions[curr].label)){
+      let {answerOptions} = this.state;
+      let {answerFilters} = this.state
+      
+      let data = Object.keys(answerFilters).reduce((acc, curr, i) =>{
           let dataPoint = {
-            name: answerOptions[curr].label,
-            y: answerOptions[curr].totalVotePercent,
-            color:answerOptions[curr].color,
+            name: answerFilters[curr].label,
+            y: answerFilters[curr].totalVotePercent,
+            color: answerFilters[curr].color,
           }
           return [...acc, dataPoint];
-        } else {
-          return acc
-        }
       }, [])
 
-      // if (data.length === 0){
-      //     return [{name:'No Answers Selected', y: null}]
-      // } else {
-          return data;
-      // }
+      return data;
   }
 
   easeOutBounce(pos){
@@ -169,17 +180,7 @@ class MCPollResults extends React.Component {
 };
 
   renderTotalVotes(){
-    // <TotalVotesGraph
-    //     totalVotes={this.state.pollData.totalVotes}
-    //     answerFilters={this.state.answerFilters}
-    //     graphData={this.renderGraphData()}
-    //     dataSelected={this.renderGraphData().length > 0 ? true : false}
-    //     poll={this.props.poll}
-    // /> 
-    // console.log('HIGH CHART', highBarChart)
-    console.log('GRAPH DATA', this.renderGraphData())
-    console.log('CSS PROPERTIES', this.props.classes.highCharts.title, this.props.classes.highCharts.text)
-    let config = {
+      let config = {
       tooltip: { enabled: false },
       noData:{
         attr:'No Data to display',
@@ -196,13 +197,7 @@ class MCPollResults extends React.Component {
         }
       },
       title: {
-        text: 'Total Votes',
-        style: {
-
-          fontFamily:'Play',
-          'fontSize': 30,
-          'paddingTop':10,
-        }
+        text:null,
       },
       series: [{
         data: this.renderGraphData(),
@@ -234,9 +229,9 @@ class MCPollResults extends React.Component {
         gridLineWidth: 0,
         minorGridLineWidth: 0,
         lineColor: 'transparent',
-        categories: this.state.answerFilters,
+        categories: this.state.categories,
         min:0,
-        max: this.state.answerFilters.length-1,
+        max: this.state.categories.length-1,
           labels: {
             align:'center',
             formatter: function () {
@@ -269,9 +264,10 @@ class MCPollResults extends React.Component {
       },
       legend:{
         enabled: false,
-      }
+      },
     };
-    return <ReactHighcharts config = {config}></ReactHighcharts>
+    // return <ResponsiveBarChart data={this.renderGraphData()}/>
+    return <ReactHighcharts config={config}></ReactHighcharts>
     }
 
     onSwipeStart(event) {
@@ -290,25 +286,27 @@ class MCPollResults extends React.Component {
 
 
     render(){
-      console.log('FILTERS', this.state.answerFilters, 'DATA', this.renderGraphData())
+      // console.log('ANSWER FILTERS',this.state.answerFilters, 'GRAPH DATA', this.renderGraphData())
       const boxStyle = {
         position: 'absolute',
         bottom: 0,
       };
+      let {classes} = this.props;
 
         return(
-            <div>
-            <div id="mc-results-clear"></div>
             <div id="mc-results">
+            <div>
                 <CardCase 
                 {...this.props}>
 
+                    {/* <div id="mc-results-clear"></div> */}
+                    <Typography className={classes.headline}> Total Votes </Typography>
                 <AnswerFilter
                     handleFilterChange={this.handleFilterChange}
-                    answerLabels={this.state.answerLabels}
                     answerFilters={this.state.answerFilters}
                     deleteFilter={this.deleteFilter}
                     renderGraphData={this.renderGraphData}
+                    answerOptions={this.state.answerOptions}
                 />
                <Swipe
                   onSwipeStart={this.onSwipeStart}

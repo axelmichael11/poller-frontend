@@ -53,14 +53,19 @@ body{
 }
 
 #mc-results-clear {
-    position:absolute;
-    height:1em;
+    
+    height: 10em;
 }
 #mc-results {
     position: absolute;
     left: 0;
     bottom: 0;
     right: 0;
+    min-height: calc(100vh - 50px);
+}
+
+#answer-filter-bar {
+    max-width: 25em;
 }
 
 #title {
