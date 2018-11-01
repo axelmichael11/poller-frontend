@@ -59,13 +59,13 @@ body{
 #mc-results {
     position: absolute;
     left: 0;
-    bottom: 0;
+    top: 0;
     right: 0;
     min-height: calc(100vh - 50px);
 }
 
 #answer-filter-bar {
-    max-width: 25em;
+    max-width: 40em;
 }
 
 #title {

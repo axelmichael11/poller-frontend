@@ -121,7 +121,7 @@ module.exports = {
       },
       MuiPaper:{
         root:{
-          maxWidth: 600, 
+          maxWidth: 900, 
           margin: 'auto',
           marginBottom:20,
           flexGrow: 1
@@ -174,7 +174,7 @@ module.exports = {
 
       MuiCardActions:{
        root:{
-        maxWidth: 600, 
+        maxWidth: 900, 
         margin: 'auto',
         flexGrow: 1,
         backgroundColor:primaryColor,
@@ -183,7 +183,7 @@ module.exports = {
       },
       MuiCollapse:{
         container:{
-          maxWidth: 600, 
+          maxWidth: 900, 
           margin: 'auto',
           backgroundColor:secondaryColor,
           color:primaryColor,

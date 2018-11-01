@@ -4,8 +4,6 @@ import { Link, withRouter } from 'react-router-dom'
 import PieResults from '../charts/yes-no-pie/index'
 import {  compose, branch, renderComponent } from 'recompose'
 import classnames from 'classnames';
-import ReactHighcharts from 'react-highcharts';
-import Swipe from 'react-easy-swipe';
 
 import randomColor from 'randomcolor'; // import the script
 import {
@@ -13,23 +11,28 @@ import {
 } from '../../action/vote-actions'
 
 import AnswerFilter from './answer-filter'
-import CardCase from '../poll-card-design/card-case'
+import AnswerCardCase from '../poll-card-design/answer-card-case'
 
 // import TotalVotesGraph from '../charts/vote-totals/index'
 
-import BarChart from '../charts/vote-totals/d3-bar-total'
-import Chart from '../charts/d3-bar/chart'
-import ResponsiveChart from '../charts/d3-bar/responsive-chart'
 
-const ResponsiveBarChart = ResponsiveChart(Chart)
+
+import ReactHighcharts from 'react-highcharts'
+import DemographicSelect from './demographic-select'
+import SwipeActionsWrapper from '../swipe-actions-wrapper'
+import SwipeableViews from 'react-swipeable-views';
+import RenderSwipeGraphs from './render-swipe-graphs'
+
+
 
 import profession_data from '../../lib/professions.js'
 import ethnicity_data from '../../lib/ethnicities.js'
 import country_data from '../../lib/countries.js'
 //Methods
 
-import * as util from '../../lib/util.js'
 //These will be used, to store id of the user in the database...
+import * as util from '../../lib/util.js'
+
 
 
 
@@ -37,7 +40,9 @@ import * as util from '../../lib/util.js'
 import { withStyles } from '@material-ui/core/styles';
 
 
-import {Paper,
+import {
+  MenuItem,
+  Paper,
 Card,
 CardHeader,
 CardMedia,
@@ -54,9 +59,6 @@ Button} from '@material-ui/core'
 
 
 import Delete from '@material-ui/icons/Delete';
-import FavoriteIcon from '@material-ui/icons/Favorite';
-import ShareIcon from '@material-ui/icons/Share';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
 
 
@@ -68,6 +70,9 @@ const styles = theme =>({
   highCharts: theme.uniqueStyles.highCharts,
   highCharts:{
     fontFamily: 'Play',
+  },
+  menuItem:{
+    
   }
 })
 
@@ -79,37 +84,50 @@ class MCPollResults extends React.Component {
             answerOptions: this.props.pollData.answerOptions,
             answerFilters:{},
             categories: [],
-            graphData: [],
-            tableCategory: 'totals'
+            tableCategory: 'totals',
+            selectedDemographics:{},
+            demographicLabels: this.props.pollData.demographicLabels,
+            demographicDialogOpen:false,
         }
         
-        this.handleFilterChange = this.handleFilterChange.bind(this)
-        this.deleteFilter = this.deleteFilter.bind(this)
-        this.addFilter = this.addFilter.bind(this)
-        this.renderGraphData = this.renderGraphData.bind(this)
-        this.renderTotalVotes = this.renderTotalVotes.bind(this)
-        this.easeOutBounce = this.easeOutBounce.bind(this)
-        this.onSwipeStart = this.onSwipeStart.bind(this)
-        this.onSwipeMove = this.onSwipeMove.bind(this)
-        this.onSwipeEnd = this.onSwipeEnd.bind(this)
-    }
-
-    
-
-    
-    handleFilterChange(answerOption){
-      if (this.state.answerFilters[answerOption]){
-        this.deleteFilter(answerOption)
-        this.renderGraphData()
-      } else {
-        this.addFilter(answerOption)
-        this.renderGraphData()
-      }
-    }
-    
-    deleteFilter(answerOption){
-        let {answerFilters, answerOptions} = this.state;
+        // answerOption Change
+        this.handleAnswerOptionChange = this.handleAnswerOptionChange.bind(this)
+        this.deleteAnswerOptionFilter = this.deleteAnswerOptionFilter.bind(this)
+        this.addAnswerOptionFilter = this.addAnswerOptionFilter.bind(this)
         
+        //methods for demographic modal
+        this.handleDemographicChange = this.handleDemographicChange.bind(this)
+        this.addDemographicFilter = this.addDemographicFilter.bind(this)
+        this.deleteDemographicFilter = this.deleteDemographicFilter.bind(this)
+        this.handleOpenDemographicDialog = this.handleOpenDemographicDialog.bind(this)
+        this.handleCloseDemographicDialog = this.handleCloseDemographicDialog.bind(this)
+        this.renderDemographicList = this.renderDemographicList.bind(this)
+
+        //GRAPH DATA
+        this.getAnswerFilters = this.getAnswerFilters.bind(this)
+        this.renderGraphData = this.renderGraphData.bind(this)
+        this.renderTotalVotesData =this.renderTotalVotesData.bind(this)
+        this.renderDemographicsData =this.renderDemographicsData.bind(this)
+    }
+
+
+
+    
+
+    
+
+    
+    handleAnswerOptionChange(answerOption){
+      let {answerFilters, demographic} = this.state;
+        if (this.state.answerFilters[answerOption]){
+          this.deleteAnswerOptionFilter(answerOption)
+        } else {
+          this.addAnswerOptionFilter(answerOption)
+        }
+      }
+    
+    deleteAnswerOptionFilter(answerOption){
+        let {answerFilters, answerOptions} = this.state;
         let newFilters = Object.keys(answerFilters)
         .reduce((acc, curr, i)=>{
           if (curr != answerOption){
@@ -119,7 +137,6 @@ class MCPollResults extends React.Component {
             return acc;
           }
         }, {})
-
         let categories = Object.keys(newFilters).reduce((acc,curr)=>{
           return [...acc, newFilters[curr].label]
         }, [])
@@ -130,7 +147,7 @@ class MCPollResults extends React.Component {
         })
       }
 
-    addFilter(answerOption){
+    addAnswerOptionFilter(answerOption){
     let {answerFilters} = this.state;
     let {answerOptions} = this.state;
     
@@ -141,152 +158,173 @@ class MCPollResults extends React.Component {
     let categories = Object.keys(newFilters).reduce((acc,curr)=>{
       return [...acc, newFilters[curr].label]
     }, [])
-
-    // let newFilters = Object.assign({}, ...answerFilters, answerOption);
     this.setState({
         answerFilters: newFilters,
         categories: categories,
     })
   }
 
+    handleDemographicChange(label){
+      console.log('HANDLE DEM CHANGE LABEL', label)
+      let {selectedDemographics} =this.state;
+      // values are the demographic labels
+      if (Object.values(selectedDemographics).includes(label)){
+        this.deleteDemographicFilter(label);
+        
+        // this.renderGraphData()
+      } else {
+        this.addDemographicFilter(label)
+        // this.renderGraphData()
+      }
+    }
 
-  renderGraphData() {
-      let {answerOptions} = this.state;
-      let {answerFilters} = this.state
-      
-      let data = Object.keys(answerFilters).reduce((acc, curr, i) =>{
-          let dataPoint = {
-            name: answerFilters[curr].label,
-            y: answerFilters[curr].totalVotePercent,
-            color: answerFilters[curr].color,
-          }
-          return [...acc, dataPoint];
-      }, [])
+    addDemographicFilter(label){
+      let {demographicLabels, selectedDemographics} =this.state;
+      let newSelectedDemographics =  Object.keys(demographicLabels).reduce((acc, curr, i)=>{
+            if (demographicLabels[curr]==label){
+              let demographicKey = Object.keys(demographicLabels)[i]
+              acc[demographicKey]= demographicLabels[curr]
+              return acc;
+            } else {
+              return acc;
+            }
+        },selectedDemographics)
+          
+          console.log('NEWSELECTEDDEMOGRPHAICS', newSelectedDemographics)
+          this.setState({
+            selectedDemographics: newSelectedDemographics,
+          })
+        
+    }
 
-      return data;
+  deleteDemographicFilter(label){
+    let {selectedDemographics, demographicLabels} = this.state;
+    let newSelectedDemographics = Object.keys(demographicLabels)
+    .reduce((acc, curr, i)=>{
+      if (demographicLabels[curr]==label){
+        delete acc[curr]
+        return acc;
+      } else {
+        return acc;
+      }
+    }, selectedDemographics)
+    this.setState({
+        selectedDemographics: newSelectedDemographics,
+    })
+  }
+  
+
+  handleOpenDemographicDialog(){
+    this.setState({
+      demographicDialogOpen:true,
+    })
   }
 
-  easeOutBounce(pos){
-    if ((pos) < (1 / 2.75)) {
-        return (7.5625 * pos * pos);
-    }
-    if (pos < (2 / 2.75)) {
-        return (7.5625 * (pos -= (1.5 / 2.75)) * pos + 0.75);
-    }
-    if (pos < (2.5 / 2.75)) {
-        return (7.5625 * (pos -= (2.25 / 2.75)) * pos + 0.9375);
-    }
-    return (7.5625 * (pos -= (2.625 / 2.75)) * pos + 0.984375);
-};
+  handleCloseDemographicDialog(){
+    this.setState({
+      demographicDialogOpen:false,
+    })
+  }
 
-  renderTotalVotes(){
-      let config = {
-      tooltip: { enabled: false },
-      noData:{
-        attr:'No Data to display',
-        style: {
-          fontFamily:'Play',
-          'fontSize': 20
-        }
-      },
-      chart: {
-        type: 'column',
-        animation: {
-          duration: 1000,
-          easing: this.easeOutBounce
-        }
-      },
-      title: {
-        text:null,
-      },
-      series: [{
-        data: this.renderGraphData(),
-        animation: {
-          duration: 1000,
-          easing: this.easeOutBounce
-        }
-      }],
-      credits: {
-        enabled: false
-      },
-      plotOptions: {
-        column: {
-           dataLabels: {
-               format: '{y}%',
-               enabled: true,
-               overflow: 'allow',
-               crop: false,
-               style: {
-                fontFamily:'Play',
-                'fontSize': 20
-              }
-           },
-        },
-        
-     },
-      xAxis: {
-        lineWidth: 0,
-        gridLineWidth: 0,
-        minorGridLineWidth: 0,
-        lineColor: 'transparent',
-        categories: this.state.categories,
-        min:0,
-        max: this.state.categories.length-1,
-          labels: {
-            align:'center',
-            formatter: function () {
-              return this.value
-            },
-            style: {
-              fontFamily:'Play',
-              fontFamily: 'Play',
-              'fontSize': 25
-            }
-          },
-        // min:0,
-        // max:this.state.answerFilters.length-1,
-        // minorTickLength: 0,
-        tickLength: 0
-      },
-      yAxis: {
-        min: 0,
-        max: 100,
-        // lineWidth: 0,
-        gridLineWidth: 0,
-        minorGridLineWidth: 0,
-        lineColor: 'transparent',
-        // minorTickLength: 0,
-        // tickLength: 0,
-        visible:false,
-        title:{
-          text: undefined
-        }
-      },
-      legend:{
-        enabled: false,
-      },
-    };
-    // return <ResponsiveBarChart data={this.renderGraphData()}/>
-    return <ReactHighcharts config={config}></ReactHighcharts>
-    }
 
-    onSwipeStart(event) {
-      console.log('Start swiping...', event);
+  renderDemographicList(){
+    let {demographicLabels, selectedDemographics} = this.state;
+    let {theme} = this.props;
+    return (Object.values(demographicLabels).map((label, key) => (
+            <MenuItem 
+            key={key}
+            //  selected={demographic === 'Pyxis'}
+            value={label}
+              onClick={()=>this.handleDemographicChange(label)}
+              style={{
+                backgroundColor:
+                  Object.values(selectedDemographics).includes(label)
+                    ? 'rgb(10,2,8,0.6)'
+                    : 'rgb(255,255,255, 0.3)',
+                  color: Object.values(selectedDemographics).includes(label)
+                  ? theme.palette.secondary.main
+                  : theme.palette.primary.main,
+                  
+              }}
+              >
+              {label}
+            </MenuItem>
+          )
+        )
+      )
+  }
+  getAnswerFilters(){
+    return this.state.answerFilters
+  }
+
+
+
+  //GRAPH DATA
+
+  renderTotalVotesData() {
+    // let {answerOptions} = this.state;
+    let {answerFilters} = this.state;
+    console.log('ANSWER FILTERS', answerFilters)
+    let data = Object.keys(answerFilters).reduce((acc, curr, i) =>{
+        let dataPoint = {
+          name: answerFilters[curr].label,
+          y: answerFilters[curr].totalVotePercent,
+          color: answerFilters[curr].color,
+        }
+        return [...acc, dataPoint];
+    }, [])
+    
+    let totalsData = {
+      title:'Total Votes',
+      data: data,
+      categories: this.state.categories,
     }
+    console.log('TOTALS DATA', totalsData)
+    return totalsData;
+}
+
+
+renderDemographicsData(){
+  let {demographicLabels, answerFilters, answerOptions} = this.state;
+
+  let totalDemographicsData = Object.keys(demographicLabels).reduce((demographicDataAcc, currentDemographic, i) =>{      
+      let dataPoints = Object.keys(answerFilters).reduce((answerFiltersAcc, currentAnswerFilter)=>{
+        let currentAnswerFilterAtCurrentDemographic = answerFilters[currentAnswerFilter].demographics[currentDemographic]
+        return [...answerFiltersAcc, ...currentAnswerFilterAtCurrentDemographic]
+      }, [])
+
+      let demographicData = {
+        title: demographicLabels[currentDemographic],
+        data: dataPoints,
+        categories: dataPoints.map(dataPoint=>dataPoint.name),
+      }
+      console.log('demgoraphic DATA', demographicData)
+    return [...demographicDataAcc, demographicData];
+  }, [])
+
+  console.log('Demographic Data DATA', totalDemographicsData)
+  return totalDemographicsData;
+}
+
+
+
+renderGraphData() {
+  let demographicsData = this.renderDemographicsData()
+  let totalsData = this.renderTotalVotesData()
+  let graphData = [totalsData, ...demographicsData]
+  console.log('GRAPH DATA', graphData);
+  return graphData;
+}
+
   
-    onSwipeMove(position, event) {
-      console.log(`Moved ${position.x} pixels horizontally`, event);
-      console.log(`Moved ${position.y} pixels vertically`, event);
-    }
-  
-    onSwipeEnd(event) {
-      console.log('End swiping...', event);
-    }
+
+
   
 
 
     render(){
-      // console.log('ANSWER FILTERS',this.state.answerFilters, 'GRAPH DATA', this.renderGraphData())
+      let body = document.getElementsByTagName('body');
+
       const boxStyle = {
         position: 'absolute',
         bottom: 0,
@@ -296,25 +334,25 @@ class MCPollResults extends React.Component {
         return(
             <div id="mc-results">
             <div>
-                <CardCase 
+                <AnswerCardCase 
                 {...this.props}>
 
-                    {/* <div id="mc-results-clear"></div> */}
-                    <Typography className={classes.headline}> Total Votes </Typography>
+                <RenderSwipeGraphs
+                chartTitles={this.state.chartTitles}
+                chartData={this.renderGraphData()}
+                pollData={this.props.pollData}
+                demographicLabels={this.state.demographicLabels}
+                categories={this.state.categories}
+                />
+
                 <AnswerFilter
-                    handleFilterChange={this.handleFilterChange}
+                    handleAnswerOptionChange={this.handleAnswerOptionChange}
                     answerFilters={this.state.answerFilters}
-                    deleteFilter={this.deleteFilter}
-                    renderGraphData={this.renderGraphData}
+                    deleteAnswerOptionFilter={this.deleteAnswerOptionFilter}
                     answerOptions={this.state.answerOptions}
                 />
-               <Swipe
-                  onSwipeStart={this.onSwipeStart}
-                  onSwipeMove={this.onSwipeMove}
-                  onSwipeEnd={this.onSwipeEnd}>
-                {this.renderTotalVotes()}
-              </Swipe>
-                </CardCase>
+
+                </AnswerCardCase>
             </div>
             </div>
         )

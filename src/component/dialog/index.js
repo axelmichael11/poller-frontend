@@ -53,7 +53,6 @@ const styles = theme => ({
   
 
 const ResponsiveDialog = ({...props}) => {
-  
     return (
       <div>
         <Dialog

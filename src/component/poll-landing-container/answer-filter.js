@@ -15,7 +15,8 @@ import Avatar from '@material-ui/core/Avatar';
 import {
   AppBar,
   Tabs,
-  Tab } from '@material-ui/core';
+  Tab, 
+  Typography} from '@material-ui/core';
 
 
 import MoreVertIcon from '@material-ui/icons/MoreVert';
@@ -63,13 +64,16 @@ class AnswerFilter extends React.Component {
 
   render(){
     let {classes, theme} = this.props;
+    console.log("PROPS ON ANSWER FILTER", this.props)
     return(
          <div>
         <AppBar 
         position="static" 
         color="default"
         id="answer-filter-bar"
-        style={{    
+        style={{  
+          flexGrow: 1,
+          width: '100%',  
           backgroundColor: '#FFF'
         }}>
           <Tabs
@@ -78,17 +82,27 @@ class AnswerFilter extends React.Component {
             scrollButtons="on"
             indicatorColor="primary"
             textColor="primary"
+            centered
           >
           {Object.keys(this.props.answerOptions).map( (answerOption, i) =>{
             let data = this.props.answerOptions[answerOption];
             return (<Tab
             key={i}
-            onClick={()=>this.props.handleFilterChange(answerOption)}
-            label={data.label}
+            onClick={()=>this.props.handleAnswerOptionChange(answerOption)}
+            label={
+              <div>
+              <Typography variant="subheading" component="p">
+                {data.label}
+              </Typography>
+              <Typography variant="subheading" component="p">
+                {data.answerOption}
+              </Typography>
+              </div>
+            }
             value={data.label}
               style={{
                 backgroundColor: Object.keys(this.props.answerFilters).includes(answerOption)
-                    ? theme.palette.primary.main
+                    ? this.props.answerFilters[answerOption].color
                     : theme.palette.secondary.main,
                   color: Object.keys(this.props.answerFilters).includes(answerOption)
                   ? theme.palette.secondary.main

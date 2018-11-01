@@ -28,8 +28,7 @@ if (production){
       __AUTH0_CLIENT_DOMAIN__: JSON.stringify(process.env.AUTH0_CLIENT_DOMAIN),
       __POLLER_APP__: JSON.stringify(process.env.POLLER_APP),
       __AUTH0_REDIRECT_URI__:JSON.stringify(process.env.AUTH0_REDIRECT_URI),
-      __ORIGIN__: JSON.stringify(process.env.ORIGIN)
-
+      __ORIGIN__: JSON.stringify(process.env.ORIGIN),
     }),
   ]
 } else {
