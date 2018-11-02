@@ -70,39 +70,37 @@ menu:{
  
 })
 
-class DemographicSelect extends React.Component {
+class ChartDesign extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      demographicAnchorEl: null,
-      demographicLabels: this.props.demographicLabels,
-      selectedDemographics: this.props.selectedDemographics,
+      anchorEl: null,
+      chartTypes: this.props.chartTypes,
+      chartOptions: this.props.chartOptions,
     }
     this.handleClick = this.handleClick.bind(this);
     this.handleClose = this.handleClose.bind(this);
     
   }
-  getSelectedDemographics(){
+  getchartOptions(){
 
   }
 
   handleClick(event){
-    this.setState({ demographicAnchorEl: event.currentTarget });
+    this.setState({ anchorEl: event.currentTarget });
   };
 
   handleClose(){
-    this.setState({ demographicAnchorEl: null });
+    this.setState({ anchorEl: null });
   };
   
   render() {
     let {classes, theme} = this.props
-    let {demographicAnchorEl} = this.state;
-    let {demographicLabels , selectedDemographics} = this.props;
-    console.log('DEMOGRAPHIC SELECT', this.state , this.props, 'PROFILE',this.props.userProfile ,
-    'DEMOGRAPHIC LABELS',Object.values(demographicLabels),'SELECTED DEMOGRAPHIS ON MENU LISTTTT',Object.values(selectedDemographics), );
+    let {anchorEl} = this.state;
+    let {chartTypes , chartOptions} = this.props;
 
     return (
-      <div>
+      <div style={{position:'absolute'}}>
           <Button 
             variant="fab" 
             color="primary" 
@@ -111,24 +109,11 @@ class DemographicSelect extends React.Component {
             onClick={this.handleClick}>
           <AddIcon />
         </Button>
-        {/* <Popper 
-          anchorEl={demographicAnchorEl}
-          open={Boolean(demographicAnchorEl)}
-         transition 
-         disablePortal>
-            {() => {
-              return (
-              <Grow
-                // {...TransitionProps}
-                id="menu-list-grow"
-                style={{ transformOrigin: 'center top'}}
-              > */}
           <Menu
             id="long-menu"
-            anchorEl={demographicAnchorEl}
-            open={Boolean(demographicAnchorEl)}
+            anchorEl={anchorEl}
+            open={Boolean(anchorEl)}
             onClose={this.handleClose}
-            // onChange={this.props.handleDemographicChange}
             PaperProps={{
               style: {
                 maxHeight: ITEM_HEIGHT * 4.5,
@@ -138,15 +123,9 @@ class DemographicSelect extends React.Component {
                 backgroundColor: "rgba(0, 0, 0, 0.3)",
               },
             }}
-            className={theme.menu}
-          >
-            {this.props.renderDemographicList}
-          </Menu>
-        {/* </Grow>
-        )
-        }}
-        </Popper> */}
-        
+          className={theme.menu}>
+            {this.props.renderChartDesignOptions}
+          </Menu> 
       </div>
     )
   }
@@ -162,4 +141,4 @@ export const mapStateToProps = state => ({
 export default compose(
     connect(mapStateToProps, mapDispatchToProps),
   withStyles(styles, {withTheme:true}),
-)(DemographicSelect);
+)(ChartDesign);

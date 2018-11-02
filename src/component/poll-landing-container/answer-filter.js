@@ -64,7 +64,6 @@ class AnswerFilter extends React.Component {
 
   render(){
     let {classes, theme} = this.props;
-    console.log("PROPS ON ANSWER FILTER", this.props)
     return(
          <div>
         <AppBar 
@@ -82,7 +81,7 @@ class AnswerFilter extends React.Component {
             scrollButtons="on"
             indicatorColor="primary"
             textColor="primary"
-            centered
+            // centered
           >
           {Object.keys(this.props.answerOptions).map( (answerOption, i) =>{
             let data = this.props.answerOptions[answerOption];

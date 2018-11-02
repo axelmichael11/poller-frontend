@@ -18,7 +18,7 @@ import AnswerCardCase from '../poll-card-design/answer-card-case'
 
 
 import ReactHighcharts from 'react-highcharts'
-import DemographicSelect from './demographic-select'
+import ChartDesign from './chart-design'
 import SwipeActionsWrapper from '../swipe-actions-wrapper'
 import SwipeableViews from 'react-swipeable-views';
 import RenderSwipeGraphs from './render-swipe-graphs'
@@ -57,11 +57,13 @@ AppBar,
 Toolbar,
 Button} from '@material-ui/core'
 
-
+// ICONS
 import Delete from '@material-ui/icons/Delete';
-
-
-
+import PieChartIcon from '@material-ui/icons/PieChart'
+import AreaChartIcon from '@material-ui/icons/photo'
+import LineChartIcon from '@material-ui/icons/ShowChart'
+import BarChartIcon from '@material-ui/icons/assessment'
+import ScatterIcon from '@material-ui/icons/Grain'
 
 const styles = theme =>({
   container: theme.overrides.MuiPaper.root,
@@ -85,7 +87,49 @@ class MCPollResults extends React.Component {
             answerFilters:{},
             categories: [],
             tableCategory: 'totals',
-            selectedDemographics:{},
+            chartOptions:{
+              chartType:{
+                name:'column',
+                icon:<BarChartIcon/>
+              },
+              showLegend:false,
+            },
+            chartTypes:[
+              {name:'column', icon:<BarChartIcon/>},
+              {name:'bar', icon:<BarChartIcon/>},
+              {name:'area', icon:<AreaChartIcon/>},
+              {name:'areaspline', 
+                icon:<AreaChartIcon/>
+              },
+              {name:'line', icon:<LineChartIcon/>},
+              {name:'pie', icon:<PieChartIcon/>},
+              {name:'scatter', 
+                icon:<ScatterIcon/>,
+                tooltip: {
+                  headerFormat: '<b>{series.name}</b><br>',
+                  pointFormat: '{point.name}, {point.y} %'
+               }
+              },
+              // {name:'errorbar', icon:<AssessmentIcon/>},
+              // {name:'funnel', icon:<AssessmentIcon/>},
+              // {name:'variwide', icon:<AssessmentIcon/>},
+              // {name:'sunburst', icon:<AssessmentIcon/>},
+              // {name:'scatter3d', icon:<AssessmentIcon/>},
+              // {name:'columnrange', icon:<AssessmentIcon/>},
+              // {name:'variablepie', icon:<AssessmentIcon/>},
+              // {name:'pareto', icon:<AssessmentIcon/>},
+              // {name:'heatmap', icon:<AssessmentIcon/>},
+              // {name:'bellcurve', icon:<AssessmentIcon/>},
+              // {name:'bubble', icon:<AssessmentIcon/>},
+              // {name:'bullet', icon:<AssessmentIcon/>},
+              // {name:'boxplot', icon:<AssessmentIcon/>},
+              // {name:'polygon', icon:<AssessmentIcon/>},
+              // {name:'pyramid', icon:<AssessmentIcon/>}, !!!!
+              // {name:'histogram', icon:<AssessmentIcon/>},
+
+
+
+            ],
             demographicLabels: this.props.pollData.demographicLabels,
             demographicDialogOpen:false,
         }
@@ -96,18 +140,20 @@ class MCPollResults extends React.Component {
         this.addAnswerOptionFilter = this.addAnswerOptionFilter.bind(this)
         
         //methods for demographic modal
-        this.handleDemographicChange = this.handleDemographicChange.bind(this)
-        this.addDemographicFilter = this.addDemographicFilter.bind(this)
+        this.handleChartDesignChange = this.handleChartDesignChange.bind(this)
+        this.addChartDesignOption = this.addChartDesignOption.bind(this)
         this.deleteDemographicFilter = this.deleteDemographicFilter.bind(this)
-        this.handleOpenDemographicDialog = this.handleOpenDemographicDialog.bind(this)
-        this.handleCloseDemographicDialog = this.handleCloseDemographicDialog.bind(this)
-        this.renderDemographicList = this.renderDemographicList.bind(this)
+        this.handleOpenChartDesign = this.handleOpenChartDesign.bind(this)
+        this.handleCloseChartDesign = this.handleCloseChartDesign.bind(this)
+        this.renderChartDesignOptions = this.renderChartDesignOptions.bind(this)
 
         //GRAPH DATA
         this.getAnswerFilters = this.getAnswerFilters.bind(this)
         this.renderGraphData = this.renderGraphData.bind(this)
         this.renderTotalVotesData =this.renderTotalVotesData.bind(this)
         this.renderDemographicsData =this.renderDemographicsData.bind(this)
+        this.getChartOptions=this.getChartOptions.bind(this)
+        this.handleChangeShowLegend = this.handleChangeShowLegend.bind(this)
     }
 
 
@@ -164,37 +210,36 @@ class MCPollResults extends React.Component {
     })
   }
 
-    handleDemographicChange(label){
+    handleChartDesignChange(label){
       console.log('HANDLE DEM CHANGE LABEL', label)
-      let {selectedDemographics} =this.state;
+      let {chartType} =this.state.chartOptions;
       // values are the demographic labels
-      if (Object.values(selectedDemographics).includes(label)){
-        this.deleteDemographicFilter(label);
-        
-        // this.renderGraphData()
+      if (label == chartType.name){
+      console.log('already selected');
       } else {
-        this.addDemographicFilter(label)
+        this.addChartDesignOption(label)
         // this.renderGraphData()
       }
     }
 
-    addDemographicFilter(label){
-      let {demographicLabels, selectedDemographics} =this.state;
-      let newSelectedDemographics =  Object.keys(demographicLabels).reduce((acc, curr, i)=>{
-            if (demographicLabels[curr]==label){
-              let demographicKey = Object.keys(demographicLabels)[i]
-              acc[demographicKey]= demographicLabels[curr]
-              return acc;
-            } else {
-              return acc;
-            }
-        },selectedDemographics)
-          
-          console.log('NEWSELECTEDDEMOGRPHAICS', newSelectedDemographics)
+    addChartDesignOption(label){
+      let {chartOptions, chartTypes} =this.state;
+      
+      let newChartType = chartTypes.reduce((acc,curr)=>{
+        if (curr.name==label){
+          acc['name']=curr.name
+          acc['icon']=curr.icon
+          return acc
+        } else {
+          return acc
+        }
+      },{})
+      console.log('NEW CHART TYPE', newChartType)
+      chartOptions.chartType = newChartType;
+      console.log('new chart options', chartOptions)
           this.setState({
-            selectedDemographics: newSelectedDemographics,
+            chartOptions: chartOptions,
           })
-        
     }
 
   deleteDemographicFilter(label){
@@ -214,44 +259,65 @@ class MCPollResults extends React.Component {
   }
   
 
-  handleOpenDemographicDialog(){
+  handleOpenChartDesign(){
     this.setState({
       demographicDialogOpen:true,
     })
   }
 
-  handleCloseDemographicDialog(){
+  handleCloseChartDesign(){
     this.setState({
       demographicDialogOpen:false,
     })
   }
 
 
-  renderDemographicList(){
-    let {demographicLabels, selectedDemographics} = this.state;
+  renderChartDesignOptions(){
+    let {chartTypes,chartOptions} = this.state;
     let {theme} = this.props;
-    return (Object.values(demographicLabels).map((label, key) => (
+    console.log('CHART DESIGN OPTIONS', chartOptions)
+    return (
+    <div >
+      {chartTypes.map((chart, key) => (
             <MenuItem 
             key={key}
             //  selected={demographic === 'Pyxis'}
-            value={label}
-              onClick={()=>this.handleDemographicChange(label)}
+            value={chart.name}
+              onClick={()=>this.handleChartDesignChange(chart.name)}
               style={{
-                backgroundColor:
-                  Object.values(selectedDemographics).includes(label)
+                backgroundColor: chartOptions.chartType.name == chart.name
                     ? 'rgb(10,2,8,0.6)'
                     : 'rgb(255,255,255, 0.3)',
-                  color: Object.values(selectedDemographics).includes(label)
+                  color: chartOptions.chartType.name == chart.name
                   ? theme.palette.secondary.main
                   : theme.palette.primary.main,
-                  
-              }}
+                  // width:'50%'
+                }}
               >
-              {label}
+              {chart.icon} {chart.name}
+            </MenuItem>))}
+            <MenuItem 
+            //  selected={demographic === 'Pyxis'}
+            // value={chart.name}
+              onClick={()=>this.handleChangeShowLegend()}
+              style={{
+                backgroundColor: chartOptions.chartType.showLegend
+                    ? 'rgb(10,2,8,0.6)'
+                    : 'rgb(255,255,255, 0.3)',
+                  color:  chartOptions.chartType.showLegend
+                  ? theme.palette.secondary.main
+                  : theme.palette.primary.main,
+                  // width:'50%'
+                }}>
+              Show Legend
             </MenuItem>
+            </div>
           )
-        )
-      )
+        //   +( 
+        //   <div style={{width:'50%'}}>
+        //   suhhh dude
+        //   </div>
+        // )
   }
   getAnswerFilters(){
     return this.state.answerFilters
@@ -268,6 +334,7 @@ class MCPollResults extends React.Component {
     let data = Object.keys(answerFilters).reduce((acc, curr, i) =>{
         let dataPoint = {
           name: answerFilters[curr].label,
+          z:0,
           y: answerFilters[curr].totalVotePercent,
           color: answerFilters[curr].color,
         }
@@ -315,6 +382,20 @@ renderGraphData() {
   console.log('GRAPH DATA', graphData);
   return graphData;
 }
+getChartOptions(){
+  let {chartOptions} = this.state;
+  return chartOptions
+}
+
+handleChangeShowLegend(){
+  let {chartOptions} = this.state
+
+  chartOptions.showLegend = !chartOptions.showLegend;
+  console.log('Changing legend' , chartOptions)
+  this.setState({
+    chartOptions : chartOptions,
+  })
+}
 
   
 
@@ -336,13 +417,19 @@ renderGraphData() {
             <div>
                 <AnswerCardCase 
                 {...this.props}>
-
+                <ChartDesign
+                  chartOptions={this.state.chartOptions}
+                  chartTypes={this.state.chartTypes}
+                  renderChartDesignOptions={this.renderChartDesignOptions()}
+                />
                 <RenderSwipeGraphs
                 chartTitles={this.state.chartTitles}
+                chartOptions={this.getChartOptions()}
                 chartData={this.renderGraphData()}
                 pollData={this.props.pollData}
                 demographicLabels={this.state.demographicLabels}
                 categories={this.state.categories}
+                chartOptions={this.state.chartOptions}
                 />
 
                 <AnswerFilter
@@ -351,7 +438,6 @@ renderGraphData() {
                     deleteAnswerOptionFilter={this.deleteAnswerOptionFilter}
                     answerOptions={this.state.answerOptions}
                 />
-
                 </AnswerCardCase>
             </div>
             </div>

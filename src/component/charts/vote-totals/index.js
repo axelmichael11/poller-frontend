@@ -29,8 +29,6 @@ class TotalVotesGraph extends React.Component {
     }
   }
 
- 
-
   render(){
       let {classes, poll} = this.props
       console.log(' TOTALS GRAPH STATE', this.state, this.props)
@@ -49,9 +47,7 @@ class TotalVotesGraph extends React.Component {
         /> */}
           
           <VictoryBar 
-          barWidth={30}
-          
-                
+            barWidth={30}
                 categories={{
                   x: this.props.answerFilters
                 }}

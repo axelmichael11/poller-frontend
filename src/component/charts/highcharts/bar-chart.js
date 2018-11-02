@@ -1,11 +1,12 @@
 import React from 'react'
 import ReactHighcharts from 'react-highcharts';
-
+import CHARTCONFIG from './chart-type-config'
 
 const BarChart = ({...props})=>{
-  console.log('PROPS ON BARCHART', props)
+  // console.log('PROPS ON BARCHART', props)
     let config = {
-        tooltip: { enabled: false },
+      
+        tooltip: CHARTCONFIG.tooltip,
         noData:{
           attr:'No Data to display',
           style: {
@@ -14,7 +15,8 @@ const BarChart = ({...props})=>{
           }
         },
         chart: {
-          type: 'column',
+          marginBottom: props.chartOptions.showLegend ? 100 : 20,
+          type: props.chartOptions.chartType.name,
           animation: {
             duration: 1000,
             // easing: this.easeOutBounce
@@ -30,26 +32,13 @@ const BarChart = ({...props})=>{
           animation: {
             duration: 1000,
             // easing: this.easeOutBounce
-          }
+          },
+          // datalabels: CHARTCONFIG.dataLabels[props.chartOptions.chartType.name]
         }],
         credits: {
           enabled: false
         },
-        plotOptions: {
-          column: {
-             dataLabels: {
-                 format: '{y}%',
-                 enabled: true,
-                 overflow: 'allow',
-                 crop: false,
-                 style: {
-                  fontFamily:'Play',
-                  'fontSize': 20
-                }
-             },
-          },
-          
-       },
+        plotOptions: CHARTCONFIG.plotOptions,
         xAxis: {
           lineWidth: 0,
           gridLineWidth: 0,
@@ -66,27 +55,36 @@ const BarChart = ({...props})=>{
               style: {
                 fontFamily:'Play',
                 fontFamily: 'Play',
-                'fontSize': 25
+                fontSize: '2em'
               }
             },
           tickLength: 0
         },
         yAxis: {
           min: 0,
-          max: 100,
-          // lineWidth: 0,
+          max: 105,
           gridLineWidth: 0,
           minorGridLineWidth: 0,
           lineColor: 'transparent',
-          // minorTickLength: 0,
-          // tickLength: 0,
           visible:false,
           title:{
             text: undefined
           }
         },
         legend:{
-          enabled: false,
+          enabled: props.chartOptions.showLegend,
+          align: 'center',
+          verticalAlign: 'bottom',
+          x: 0,
+          y: 0,
+            borderRadius: 5,
+            borderWidth: 1,
+            backgroundColor:'black',
+            style:{
+                fontFamily:'Play',
+                backgroundColor:'rgb(10,2,8,0.6)',
+                color:'#ffffff'
+            },
         },
       };
       // return <ResponsiveBarChart data={this.renderGraphData()}/>

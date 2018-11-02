@@ -172,6 +172,7 @@ class RenderSwipeGraphs extends React.Component {
                     <BarChart data={graph.data.length ? graph.data : this.state.noDataSelected.data} 
                     categories={graph.categories ? graph.categories: this.state.noDataSelected.categories}
                     style={this.renderChartStyle()}
+                    chartOptions={this.props.chartOptions}
                     />
                 </div>
                 )
