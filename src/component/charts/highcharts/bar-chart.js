@@ -3,9 +3,8 @@ import ReactHighcharts from 'react-highcharts';
 import CHARTCONFIG from './chart-type-config'
 
 const BarChart = ({...props})=>{
-  // console.log('PROPS ON BARCHART', props)
+  console.log('PROPS ON BARCHART', props)
     let config = {
-      
         tooltip: CHARTCONFIG.tooltip,
         noData:{
           attr:'No Data to display',
@@ -15,14 +14,13 @@ const BarChart = ({...props})=>{
           }
         },
         chart: {
-          marginBottom: props.chartOptions.showLegend ? 100 : 20,
           type: props.chartOptions.chartType.name,
           animation: {
             duration: 1000,
             // easing: this.easeOutBounce
           },
-          marginTop: 30,
-          marginBottom: 30,
+          marginTop:20,
+          marginBottom: props.chartOptions.showLegend ? 100 : 40,
         },
         title: {
           text:null,
@@ -44,6 +42,7 @@ const BarChart = ({...props})=>{
           gridLineWidth: 0,
           minorGridLineWidth: 0,
           lineColor: 'transparent',
+          visibile: props.chartOptions.showXAxis,
           categories: props.categories,
           min:0,
           max: props.categories.length-1,
@@ -61,12 +60,17 @@ const BarChart = ({...props})=>{
           tickLength: 0
         },
         yAxis: {
+          labels: {
+            formatter: function() {
+               return this.value+"%";
+            }
+          },
           min: 0,
-          max: 105,
+          max: 100,
           gridLineWidth: 0,
           minorGridLineWidth: 0,
           lineColor: 'transparent',
-          visible:false,
+          visible:props.chartOptions.showYAxis,
           title:{
             text: undefined
           }
@@ -77,14 +81,18 @@ const BarChart = ({...props})=>{
           verticalAlign: 'bottom',
           x: 0,
           y: 0,
-            borderRadius: 5,
-            borderWidth: 1,
-            backgroundColor:'black',
-            style:{
-                fontFamily:'Play',
-                backgroundColor:'rgb(10,2,8,0.6)',
-                color:'#ffffff'
-            },
+          borderRadius: 5,
+          borderWidth: 1,
+          backgroundColor:'black',
+          color:'#ffffff',
+          style:{
+              fontFamily:'Play',
+              backgroundColor:'rgb(10,2,8,0.6)',
+          },
+         labelFormatter:function(){
+           console.log('THIS', this)
+           return this.name
+         }
         },
       };
       // return <ResponsiveBarChart data={this.renderGraphData()}/>

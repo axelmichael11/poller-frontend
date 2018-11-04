@@ -22,7 +22,7 @@ import ChartDesign from './chart-design'
 import SwipeActionsWrapper from '../swipe-actions-wrapper'
 import SwipeableViews from 'react-swipeable-views';
 import RenderSwipeGraphs from './render-swipe-graphs'
-
+import GenerateColorChange from './generate-color-change'
 
 
 import profession_data from '../../lib/professions.js'
@@ -41,6 +41,8 @@ import { withStyles } from '@material-ui/core/styles';
 
 
 import {
+  FormControlLabel,
+  Checkbox,
   MenuItem,
   Paper,
 Card,
@@ -64,6 +66,7 @@ import AreaChartIcon from '@material-ui/icons/photo'
 import LineChartIcon from '@material-ui/icons/ShowChart'
 import BarChartIcon from '@material-ui/icons/assessment'
 import ScatterIcon from '@material-ui/icons/Grain'
+import ColorChangeIcon from '@material-ui/icons/autorenew'
 
 const styles = theme =>({
   container: theme.overrides.MuiPaper.root,
@@ -73,9 +76,7 @@ const styles = theme =>({
   highCharts:{
     fontFamily: 'Play',
   },
-  menuItem:{
-    
-  }
+  colorChangeButton: theme.uniqueStyles.colorChangeButton.root
 })
 
 class MCPollResults extends React.Component {
@@ -93,6 +94,8 @@ class MCPollResults extends React.Component {
                 icon:<BarChartIcon/>
               },
               showLegend:false,
+              showYAxis:false,
+              showXAxis:false,
             },
             chartTypes:[
               {name:'column', icon:<BarChartIcon/>},
@@ -110,6 +113,7 @@ class MCPollResults extends React.Component {
                   pointFormat: '{point.name}, {point.y} %'
                }
               },
+              //charts to explore...
               // {name:'errorbar', icon:<AssessmentIcon/>},
               // {name:'funnel', icon:<AssessmentIcon/>},
               // {name:'variwide', icon:<AssessmentIcon/>},
@@ -126,9 +130,6 @@ class MCPollResults extends React.Component {
               // {name:'polygon', icon:<AssessmentIcon/>},
               // {name:'pyramid', icon:<AssessmentIcon/>}, !!!!
               // {name:'histogram', icon:<AssessmentIcon/>},
-
-
-
             ],
             demographicLabels: this.props.pollData.demographicLabels,
             demographicDialogOpen:false,
@@ -149,11 +150,16 @@ class MCPollResults extends React.Component {
 
         //GRAPH DATA
         this.getAnswerFilters = this.getAnswerFilters.bind(this)
-        this.renderGraphData = this.renderGraphData.bind(this)
+        this.renderChartData = this.renderChartData.bind(this)
         this.renderTotalVotesData =this.renderTotalVotesData.bind(this)
         this.renderDemographicsData =this.renderDemographicsData.bind(this)
         this.getChartOptions=this.getChartOptions.bind(this)
         this.handleChangeShowLegend = this.handleChangeShowLegend.bind(this)
+        this.handleChangeShowXAxis = this.handleChangeShowXAxis.bind(this)
+        this.handleChangeShowYAxis = this.handleChangeShowYAxis.bind(this)
+        this.renderAxisOptions = this.renderAxisOptions.bind(this)
+        this.handleGenerateNewColors = this.handleGenerateNewColors.bind(this)
+        this.changeColors = this.changeColors.bind(this)
     }
 
 
@@ -218,7 +224,7 @@ class MCPollResults extends React.Component {
       console.log('already selected');
       } else {
         this.addChartDesignOption(label)
-        // this.renderGraphData()
+        // this.renderChartData()
       }
     }
 
@@ -296,31 +302,87 @@ class MCPollResults extends React.Component {
               >
               {chart.icon} {chart.name}
             </MenuItem>))}
-            <MenuItem 
-            //  selected={demographic === 'Pyxis'}
-            // value={chart.name}
-              onClick={()=>this.handleChangeShowLegend()}
-              style={{
-                backgroundColor: chartOptions.chartType.showLegend
-                    ? 'rgb(10,2,8,0.6)'
-                    : 'rgb(255,255,255, 0.3)',
-                  color:  chartOptions.chartType.showLegend
-                  ? theme.palette.secondary.main
-                  : theme.palette.primary.main,
-                  // width:'50%'
-                }}>
-              Show Legend
-            </MenuItem>
+            {this.renderAxisOptions()}
             </div>
           )
-        //   +( 
-        //   <div style={{width:'50%'}}>
-        //   suhhh dude
-        //   </div>
-        // )
   }
   getAnswerFilters(){
     return this.state.answerFilters
+  }
+
+  renderAxisOptions(){
+    let {theme, classes} = this.props;
+    let {chartOptions} = this.state;
+    return(
+      <div>
+        <MenuItem 
+            onClick={this.handleChangeShowXAxis}
+            style={{
+              backgroundColor: chartOptions.chartType.showXAxis
+                  ? 'rgb(10,2,8,0.6)'
+                  : 'rgb(255,255,255, 0.3)',
+                color: chartOptions.chartType.showXAxis
+                ? theme.palette.secondary.main
+                : theme.palette.primary.main,
+                // width:'50%'
+              }}>
+                <FormControlLabel
+                 onClick={this.handleChangeShowXAxis}
+                  label="X Axis"
+                  control={
+                    <Checkbox
+                    onClick={this.handleChangeShowXAxis}
+                        checked={chartOptions.showXAxis}        
+                          label="X Axis"
+                          classes={{
+                            root:{
+                              backgroundColor: chartOptions.chartType.showXAxis
+                              ? 'rgb(10,2,8,0.0)'
+                              : 'rgb(255,255,255, 0.0)',
+                              color: chartOptions.chartType.showXAxis
+                              ? theme.palette.secondary.main
+                              : theme.palette.primary.main,
+                            }
+                              // width:'50%'
+                            }}
+                            color={chartOptions.chartType.showXAxis
+                              ? 'rgb(10,2,8,0.0)'
+                              : 'rgb(255,255,255, 0.0)'}
+                              />
+                    }
+                      />
+            </MenuItem>
+            <MenuItem 
+            onClick={this.handleChangeShowYAxis}
+            style={{
+              backgroundColor: chartOptions.chartType.showYAxis
+                  ? 'rgb(10,2,8,0.6)'
+                  : 'rgb(255,255,255, 0.3)',
+                color: chartOptions.chartType.showYAxis
+                ? theme.palette.secondary.main
+                : theme.palette.primary.main,
+                // width:'50%'
+              }}>
+                <FormControlLabel
+                onClick={this.handleChangeShowYAxis}
+          control={
+            <Checkbox
+                checked={chartOptions.showYAxis}
+                onClick={this.handleChangeShowYAxis}
+                  label="Y Axis"
+                  // classes={{
+                  //   root:{}
+                  // }}
+                    color={chartOptions.chartType.showYAxis
+                      ? 'rgb(10,2,8,0.0)'
+                      : 'rgb(255,255,255, 0.0)'}
+              />
+          }
+          label="Y Axis"
+        />
+            </MenuItem>
+        </div>
+    )
   }
 
 
@@ -333,8 +395,8 @@ class MCPollResults extends React.Component {
     console.log('ANSWER FILTERS', answerFilters)
     let data = Object.keys(answerFilters).reduce((acc, curr, i) =>{
         let dataPoint = {
-          name: answerFilters[curr].label,
-          z:0,
+          id: answerFilters[curr].label,
+          name:null,
           y: answerFilters[curr].totalVotePercent,
           color: answerFilters[curr].color,
         }
@@ -375,13 +437,14 @@ renderDemographicsData(){
 
 
 
-renderGraphData() {
+renderChartData() {
   let demographicsData = this.renderDemographicsData()
   let totalsData = this.renderTotalVotesData()
-  let graphData = [totalsData, ...demographicsData]
-  console.log('GRAPH DATA', graphData);
-  return graphData;
+  let chartData = [totalsData, ...demographicsData]
+  console.log('GRAPH DATA', chartData);
+  return chartData;
 }
+
 getChartOptions(){
   let {chartOptions} = this.state;
   return chartOptions
@@ -397,21 +460,77 @@ handleChangeShowLegend(){
   })
 }
 
-  
+handleChangeShowYAxis(){
+  let {chartOptions} = this.state
 
+  chartOptions.showYAxis = !chartOptions.showYAxis;
+  console.log('Changing legend' , chartOptions)
+  this.setState({
+    chartOptions : chartOptions,
+  })
+}
 
-  
+handleChangeShowXAxis(){
+  let {chartOptions} = this.state
+  chartOptions.showXAxis = !chartOptions.showXAxis;
+  console.log('Changing x axis' , chartOptions)
+  this.setState({
+    chartOptions : chartOptions,
+  })
+}
 
+handleGenerateNewColors(){
+  let {answerOptions, answerFilters} = this.state;
+  console.log('ANSWER OPTIONS' , answerOptions)
+  let newAnswerOptions = Object.keys(answerOptions).reduce((acc, answerOption)=>{
+    let newAnswerOption = this.changeColors(answerOptions[answerOption], randomColor());
+    acc[answerOption] = newAnswerOption;
+    return acc;
+  }, {})
+
+  let newAnswerFilters = Object.keys(newAnswerOptions).reduce((acc, newAnswerOption)=>{
+    if (answerFilters[newAnswerOption]){
+      acc[newAnswerOption] = newAnswerOptions[newAnswerOption]
+      return acc
+    } else {
+      return acc
+    }
+  },{})
+
+  console.log('RESULT OF COLOR CHANGE', newAnswerOptions)
+  this.setState({
+    answerOptions: newAnswerOptions,
+    answerFilters: newAnswerFilters,
+  })
+}
+
+changeColors(answerOption, newColor){
+  // console.log('new color', newColor)
+  let newObject = {};
+  for (var key in answerOption){
+    if (typeof answerOption[key] == 'object'){
+        newObject[key] = this.changeColors(answerOption[key], newColor);
+    }
+    if (Object.keys(this.state.demographicLabels).includes(key)){
+      newObject[key] = answerOption[key].map(dataPoint=>{
+        dataPoint.color = newColor;
+        return dataPoint
+      })
+    }
+    if (key == 'color'){
+      newObject[key] = newColor
+    }
+    if(key != 'color' && key != 'demographic'){
+      newObject[key] = answerOption[key];
+    }
+  }
+  return newObject;
+}
 
     render(){
-      let body = document.getElementsByTagName('body');
 
-      const boxStyle = {
-        position: 'absolute',
-        bottom: 0,
-      };
       let {classes} = this.props;
-
+      console.log('MC STATE', this.state.answerOptions)
         return(
             <div id="mc-results">
             <div>
@@ -422,10 +541,14 @@ handleChangeShowLegend(){
                   chartTypes={this.state.chartTypes}
                   renderChartDesignOptions={this.renderChartDesignOptions()}
                 />
+              <GenerateColorChange
+              handleGenerateNewColors={this.handleGenerateNewColors}
+              />
+              
                 <RenderSwipeGraphs
                 chartTitles={this.state.chartTitles}
                 chartOptions={this.getChartOptions()}
-                chartData={this.renderGraphData()}
+                chartData={this.renderChartData()}
                 pollData={this.props.pollData}
                 demographicLabels={this.state.demographicLabels}
                 categories={this.state.categories}

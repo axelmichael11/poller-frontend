@@ -102,6 +102,7 @@ class ChartDesign extends React.Component {
     return (
       <div style={{position:'absolute'}}>
           <Button 
+            size="small"
             variant="fab" 
             color="primary" 
             aria-label="Add" 
