@@ -22,13 +22,13 @@ import { withStyles } from '@material-ui/core/styles';
 
 
 import { 
-  Popper,
-  Grow,
+  Popover,
   Dialog,
   List,
   ListItem,
   ListItemText,
   Menu,
+  MenuList,
     MenuItem,
     Toolbar,
     Button } from '@material-ui/core'
@@ -45,29 +45,18 @@ const styles = theme =>({
   fab: {
     margin: theme.spacing.unit * 2,
   },
-  absolute: {
-    position: 'absolute',
-    bottom: theme.spacing.unit * 2,
-    right: theme.spacing.unit * 3,
+  container:{
+    display:'inline-block'
+  },
+    selectedItem:{
+      backgroundColor: 'rgb(10,2,8,0.6)',
+      color: theme.palette.secondary.main
+  },
+  unselectedItem:{
+      backgroundColor: 'rgb(255,255,255, 0.6)',
+      color: theme.palette.primary.main
   },
 
-  selectedItem:{
-    backgroundColor: 'rgb(10,2,8,0.6)',
-    color: theme.palette.secondary.main
-},
-unselectedItem:{
-    backgroundColor: 'rgb(255,255,255, 0.6)',
-    color: theme.palette.primary.main
-},
-menu:{
-  paper:{
-
-    backgroundColor: "rgb(0, 0, 0)",
-    /* RGBa with 0.6 opacity */
-    backgroundColor: "rgba(0, 0, 0, 0.6)",
-  }
-}
- 
 })
 
 class ChartDesign extends React.Component {
@@ -87,6 +76,7 @@ class ChartDesign extends React.Component {
   }
 
   handleClick(event){
+    console.log('ANCHOR EL', event.currentTarget)
     this.setState({ anchorEl: event.currentTarget });
   };
 
@@ -100,37 +90,79 @@ class ChartDesign extends React.Component {
     let {chartTypes , chartOptions} = this.props;
 
     return (
-      <div style={{position:'absolute'}}>
+      <div className={classes.container}>
           <Button 
+            // buttonRef={node => {
+            //   anchorEl = node;
+            // }}
+            aria-haspopup="true"
+            aria-owns={Boolean(anchorEl) ? 'simple-popper' : undefined}
             size="small"
-            variant="fab" 
+            variant="contained" 
             color="primary" 
-            aria-label="Add" 
-            className={classes.fab}
             onClick={this.handleClick}>
           <AddIcon />
         </Button>
-          <Menu
-            id="long-menu"
-            anchorEl={anchorEl}
-            open={Boolean(anchorEl)}
-            onClose={this.handleClose}
-            PaperProps={{
-              style: {
-                maxHeight: ITEM_HEIGHT * 4.5,
-                width: 200,
-                backgroundColor: "rgb(0, 0, 0)",
-                /* RGBa with 0.6 opacity */
-                backgroundColor: "rgba(0, 0, 0, 0.3)",
-              },
-            }}
-          className={theme.menu}>
-            {this.props.renderChartDesignOptions}
-          </Menu> 
+        <Popover
+          id="simple-popper"
+          open={Boolean(anchorEl)}
+          anchorEl={anchorEl}
+          onClose={this.handleClose}
+          anchorOrigin={{
+            vertical: 'bottom',
+            horizontal: 'center',
+          }}
+          transformOrigin={{
+            vertical: 'top',
+            horizontal: 'center',
+          }}
+          PaperProps={{
+            style:{
+              maxHeight: ITEM_HEIGHT * 4.5,
+              width: 200,
+              backgroundColor: "rgb(0, 0, 0)",
+    //     /* RGBa with 0.6 opacity */
+              backgroundColor: "rgba(0, 0, 0, 0.3)"
+            }
+          }}
+        >
+        <MenuList
+        >
+        {this.props.renderChartDesignOptions}
+        </MenuList>
+        </Popover>
       </div>
     )
   }
 }
+
+// <Menu
+// id="long-menu"
+// anchorEl={anchorEl}
+// open={Boolean(anchorEl)}
+// onClose={this.handleClose}
+// PaperProps={{
+//   root:{
+//   },
+//   style:{
+//     maxHeight: ITEM_HEIGHT * 4.5,
+//     width: 200,
+//     backgroundColor: "rgb(0, 0, 0)",
+    /* RGBa with 0.6 opacity */
+    // backgroundColor: "rgba(0, 0, 0, 0.3)",
+  // }
+// // }}
+// paper={{
+//   top:'6em',
+
+// }}
+// classes={{top:'6em'}}
+// // className={theme.menu}
+// >
+// {this.props.renderChartDesignOptions}
+// </Menu> */}
+
+
 
 export const mapStateToProps = state => ({
     userProfile: state.userProfile,

@@ -13,6 +13,7 @@ import Avatar from '@material-ui/core/Avatar';
 
 
 import {
+  Button,
   AppBar,
   Tabs,
   Tab, 
@@ -26,32 +27,25 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
 import subjects_list  from '../../lib/poll-subjects'
 
-const styles = theme => ({
-    selectedItem:{
-        backgroundColor: theme.palette.primary.main,
-        color: theme.palette.secondary.main
-    },
-    unselectedItem:{
-        backgroundColor: theme.palette.secondary.main,
-        color: theme.palette.primary.main
-    },
-    list:{
-        width: '100%',
-        maxWidth: 360,
-        backgroundColor: theme.palette.background.paper,
-        position: 'relative',
-        overflow: 'auto',
-        maxHeight: 200,
-    },
-    text: {
-      fontFamily:"Play",
-        fontSize: 25,
-        display:'inline',
-    },
-    actions: {
-      display: 'flex',
-    },
 
+const ITEM_HEIGHT = 48;
+
+const styles = theme => ({
+    cardContent:{
+      root:{
+        wordWrap: 'break-word'
+      }
+    },
+    container:{
+      display:'inline-block'
+    },
+    answerFilterButton:{
+      root:{
+        display:'inline-block',
+        // color:theme.palette.primary.main,
+        margin: theme.spacing.unit * 2,
+      },
+    }
 });
 
 class AnswerFilter extends React.Component {
@@ -116,6 +110,52 @@ class AnswerFilter extends React.Component {
     )
   }  
 }
+
+// class AnswerFilter extends React.Component {
+//   constructor(props){
+//       super(props)
+//       this.state = {
+//       }
+//   }
+
+// render(){
+//   let {classes, theme} = this.props;
+//   return(
+//     <div style={{width:'80%', textAlign:'center', display:'inline-flex', marginBottom:'10px'}}>
+//       {Object.keys(this.props.answerOptions).map( (answerOption, i) =>{
+//           let data = this.props.answerOptions[answerOption];
+//           return (
+//           <Button 
+//             key={i}
+//             onChange={()=>this.props.handleAnswerOptionChange(answerOption)}
+//             size="small"
+//             variant="contained" 
+//             color="primary" 
+//             aria-label="Add" 
+//             value={data.label}
+//             className={classes.answerFilterButton}
+//             style={{
+//               backgroundColor: Object.keys(this.props.answerFilters).includes(answerOption)
+//                   ? this.props.answerFilters[answerOption].color
+//                   : theme.palette.secondary.main,
+//                 color: Object.keys(this.props.answerFilters).includes(answerOption)
+//                 ? theme.palette.secondary.main
+//                 : theme.palette.primary.main,
+//                 height:'70px',
+//             }}
+//             onClick={this.props.handleExpandQuestion}>
+//             <Typography variant="title">
+//               {data.label}
+//             </Typography>
+//             <Typography component="p">
+//               {data.answerOption}
+//             </Typography>
+//         </Button>
+//         )})}
+//     </div>
+//     )
+//   }  
+// }
 
   
 export default compose(

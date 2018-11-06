@@ -31,14 +31,12 @@ import Delete from '@material-ui/icons/Delete';
 
 const styles = theme =>({
     container: theme.overrides.MuiPaper.root,
-    cardHeader:theme.overrides.PollCard.cardHeader,
-    deleteButton: theme.overrides.MuiIcon,
-    titleFont:{
-        title: {
-            backgroundColor: theme.palette.primary.main,
-            color: theme.palette.secondary.main,
-        }
-    },
+    answerCardHeader:{
+        textAlign:'center',
+        color: theme.palette.secondary.main,
+        backgroundColor: theme.palette.secondary.main,
+        height:'1em',
+        },
     clearSpace: {
         backgroundColor: theme.palette.primary.main,
         paddingTop: '5em',
@@ -57,12 +55,12 @@ const AnswerCardCase = ({...props}) =>{
     <Paper square elevation={2} className={props.classes.container}>
                 <Card style={{padding:7}}>
                 <CardHeader
-                    action={props.pollActions}
-                    className={props.classes.cardHeader}
-                    title={props.poll.author_username}
-                    classes={{
-                        title: props.classes.cardHeader
-                    }}
+                    // action={props.pollActions}
+                    className={props.classes.answerCardHeader}
+                    // title={props.poll.author_username}
+                    // classes={{
+                    //     title: props.classes.cardHeader
+                    // }}
                     style={{
                         // paddingTop: '5em'
                     }}

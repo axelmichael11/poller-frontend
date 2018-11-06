@@ -23,7 +23,7 @@ import SwipeActionsWrapper from '../swipe-actions-wrapper'
 import SwipeableViews from 'react-swipeable-views';
 import RenderSwipeGraphs from './render-swipe-graphs'
 import GenerateColorChange from './generate-color-change'
-
+import {QuestionExpandWithStyle, QuestionCardContentWithStyle} from './display-question'
 
 import profession_data from '../../lib/professions.js'
 import ethnicity_data from '../../lib/ethnicities.js'
@@ -67,6 +67,7 @@ import LineChartIcon from '@material-ui/icons/ShowChart'
 import BarChartIcon from '@material-ui/icons/assessment'
 import ScatterIcon from '@material-ui/icons/Grain'
 import ColorChangeIcon from '@material-ui/icons/autorenew'
+import MoreHorizIcon from '@material-ui/icons/MoreHoriz'
 
 const styles = theme =>({
   container: theme.overrides.MuiPaper.root,
@@ -88,6 +89,7 @@ class MCPollResults extends React.Component {
             answerFilters:{},
             categories: [],
             tableCategory: 'totals',
+            questionExpanded:true,
             chartOptions:{
               chartType:{
                 name:'column',
@@ -160,6 +162,8 @@ class MCPollResults extends React.Component {
         this.renderAxisOptions = this.renderAxisOptions.bind(this)
         this.handleGenerateNewColors = this.handleGenerateNewColors.bind(this)
         this.changeColors = this.changeColors.bind(this)
+        this.handleExpandQuestion = this.handleExpandQuestion.bind(this);
+
     }
 
 
@@ -315,71 +319,50 @@ class MCPollResults extends React.Component {
     let {chartOptions} = this.state;
     return(
       <div>
-        <MenuItem 
-            onClick={this.handleChangeShowXAxis}
-            style={{
-              backgroundColor: chartOptions.chartType.showXAxis
-                  ? 'rgb(10,2,8,0.6)'
-                  : 'rgb(255,255,255, 0.3)',
-                color: chartOptions.chartType.showXAxis
-                ? theme.palette.secondary.main
-                : theme.palette.primary.main,
-                // width:'50%'
-              }}>
-                <FormControlLabel
-                 onClick={this.handleChangeShowXAxis}
-                  label="X Axis"
-                  control={
+        <MenuItem
+        style={{
+          backgroundColor: chartOptions.chartType.showXAxis
+          ? 'rgb(10,2,8,0.6)'
+          : 'rgb(255,255,255, 0.3)',
+        color: chartOptions.chartType.showXAxis
+                              ? theme.palette.secondary.main
+                              : theme.palette.primary.main,
+
+        }}>
                     <Checkbox
-                    onClick={this.handleChangeShowXAxis}
+                    // indeterminate={true}
+                    onClick={()=>this.handleChangeShowXAxis()}
                         checked={chartOptions.showXAxis}        
                           label="X Axis"
                           classes={{
-                            root:{
                               backgroundColor: chartOptions.chartType.showXAxis
-                              ? 'rgb(10,2,8,0.0)'
-                              : 'rgb(255,255,255, 0.0)',
+                                ? 'rgb(10,2,8,0.6)'
+                                : 'rgb(255,255,255, 0.3)',
                               color: chartOptions.chartType.showXAxis
                               ? theme.palette.secondary.main
                               : theme.palette.primary.main,
-                            }
-                              // width:'50%'
-                            }}
-                            color={chartOptions.chartType.showXAxis
-                              ? 'rgb(10,2,8,0.0)'
-                              : 'rgb(255,255,255, 0.0)'}
-                              />
-                    }
-                      />
+                          }}/> X Axis
             </MenuItem>
-            <MenuItem 
-            onClick={this.handleChangeShowYAxis}
+            <MenuItem
             style={{
+              // root:{
               backgroundColor: chartOptions.chartType.showYAxis
-                  ? 'rgb(10,2,8,0.6)'
-                  : 'rgb(255,255,255, 0.3)',
-                color: chartOptions.chartType.showYAxis
-                ? theme.palette.secondary.main
-                : theme.palette.primary.main,
-                // width:'50%'
-              }}>
-                <FormControlLabel
-                onClick={this.handleChangeShowYAxis}
-          control={
+              ? 'rgb(10,2,8,0.6)'
+              : 'rgb(255,255,255, 0.3)'
+            // }
+            }}>
             <Checkbox
                 checked={chartOptions.showYAxis}
-                onClick={this.handleChangeShowYAxis}
+                onClick={()=>this.handleChangeShowYAxis()}
                   label="Y Axis"
-                  // classes={{
-                  //   root:{}
-                  // }}
-                    color={chartOptions.chartType.showYAxis
-                      ? 'rgb(10,2,8,0.0)'
-                      : 'rgb(255,255,255, 0.0)'}
-              />
-          }
-          label="Y Axis"
-        />
+                  classes={{
+                    backgroundColor: chartOptions.chartType.showYAxis
+                      ? 'rgb(10,2,8,0.6)'
+                      : 'rgb(255,255,255, 0.3)',
+                    color: chartOptions.chartType.showYAxis
+                    ? theme.palette.secondary.main
+                    : theme.palette.primary.main,
+                }}/> Y Axis
             </MenuItem>
         </div>
     )
@@ -404,18 +387,16 @@ class MCPollResults extends React.Component {
     }, [])
     
     let totalsData = {
-      title:'Total Votes',
+      title:'Total',
       data: data,
       categories: this.state.categories,
     }
-    console.log('TOTALS DATA', totalsData)
     return totalsData;
 }
 
 
 renderDemographicsData(){
   let {demographicLabels, answerFilters, answerOptions} = this.state;
-
   let totalDemographicsData = Object.keys(demographicLabels).reduce((demographicDataAcc, currentDemographic, i) =>{      
       let dataPoints = Object.keys(answerFilters).reduce((answerFiltersAcc, currentAnswerFilter)=>{
         let currentAnswerFilterAtCurrentDemographic = answerFilters[currentAnswerFilter].demographics[currentDemographic]
@@ -427,11 +408,10 @@ renderDemographicsData(){
         data: dataPoints,
         categories: dataPoints.map(dataPoint=>dataPoint.name),
       }
-      console.log('demgoraphic DATA', demographicData)
+      
     return [...demographicDataAcc, demographicData];
   }, [])
 
-  console.log('Demographic Data DATA', totalDemographicsData)
   return totalDemographicsData;
 }
 
@@ -526,25 +506,44 @@ changeColors(answerOption, newColor){
   }
   return newObject;
 }
+handleExpandQuestion(event){
+  this.setState(state => ({ questionExpanded: !state.questionExpanded }));
+};
 
     render(){
-
       let {classes} = this.props;
-      console.log('MC STATE', this.state.answerOptions)
+      console.log('MC STATE', this.state)
         return(
             <div id="mc-results">
-            <div>
-                <AnswerCardCase 
-                {...this.props}>
-                <ChartDesign
-                  chartOptions={this.state.chartOptions}
-                  chartTypes={this.state.chartTypes}
-                  renderChartDesignOptions={this.renderChartDesignOptions()}
+              <div>
+                  <AnswerCardCase 
+                  {...this.props}>
+                  <div style={{float:'right', width:'200px'}}>
+                  <div style={{
+                        position: 'fixed',
+                        zIndex: 20,
+                        textAlign: 'center',
+                  }}>
+                  <ChartDesign
+                    chartOptions={this.state.chartOptions}
+                    chartTypes={this.state.chartTypes}
+                    renderChartDesignOptions={this.renderChartDesignOptions()}
+                  />
+                  <GenerateColorChange
+                  handleGenerateNewColors={this.handleGenerateNewColors}
+                  />
+                  <QuestionExpandWithStyle
+                    handleExpandQuestion={this.handleExpandQuestion}
+                    questionExpanded={this.state.questionExpanded}
+                  />
+              </div>
+              </div>
+                <QuestionCardContentWithStyle
+                  authorUsername={this.props.pollData.author_username}
+                  question={this.props.pollData.question}
+                  questionExpanded={this.state.questionExpanded}
                 />
-              <GenerateColorChange
-              handleGenerateNewColors={this.handleGenerateNewColors}
-              />
-              
+                
                 <RenderSwipeGraphs
                 chartTitles={this.state.chartTitles}
                 chartOptions={this.getChartOptions()}
@@ -553,8 +552,8 @@ changeColors(answerOption, newColor){
                 demographicLabels={this.state.demographicLabels}
                 categories={this.state.categories}
                 chartOptions={this.state.chartOptions}
+                answerFilters={this.state.answerFilters}
                 />
-
                 <AnswerFilter
                     handleAnswerOptionChange={this.handleAnswerOptionChange}
                     answerFilters={this.state.answerFilters}

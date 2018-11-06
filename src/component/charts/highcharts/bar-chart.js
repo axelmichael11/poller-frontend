@@ -3,23 +3,31 @@ import ReactHighcharts from 'react-highcharts';
 import CHARTCONFIG from './chart-type-config'
 
 const BarChart = ({...props})=>{
-  console.log('PROPS ON BARCHART', props)
+  const yValues = props.data.map(datapoint=>datapoint.y)
+  const maxHeight = Math.round(Math.max(...yValues))
     let config = {
         tooltip: CHARTCONFIG.tooltip,
         noData:{
           attr:'No Data to display',
+          position:{
+            align:'center',
+            verticalAlign:'middle',
+          },
           style: {
             fontFamily:'Play',
             'fontSize': 20
           }
         },
         chart: {
+          // height:''
           type: props.chartOptions.chartType.name,
           animation: {
             duration: 1000,
             // easing: this.easeOutBounce
           },
           marginTop:20,
+          marginRight:20,
+          // marginLeft:20,
           marginBottom: props.chartOptions.showLegend ? 100 : 40,
         },
         title: {
@@ -38,6 +46,11 @@ const BarChart = ({...props})=>{
         },
         plotOptions: CHARTCONFIG.plotOptions,
         xAxis: {
+          labels:{
+            style:{
+
+            }
+          },
           lineWidth: 0,
           gridLineWidth: 0,
           minorGridLineWidth: 0,
@@ -54,7 +67,8 @@ const BarChart = ({...props})=>{
               style: {
                 fontFamily:'Play',
                 fontFamily: 'Play',
-                fontSize: '2em'
+                fontSize: '2em',
+                color:'#000000'
               }
             },
           tickLength: 0
@@ -66,7 +80,7 @@ const BarChart = ({...props})=>{
             }
           },
           min: 0,
-          max: 100,
+          max: maxHeight,
           gridLineWidth: 0,
           minorGridLineWidth: 0,
           lineColor: 'transparent',

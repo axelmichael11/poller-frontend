@@ -35,10 +35,13 @@ const styles = theme =>({
   fab: {
     margin: theme.spacing.unit * 2,
   },
+  container:{
+    display:'inline-block'
+  },
   colorChangeButton: theme.uniqueStyles.colorChangeButton.root,
  colorChangeIcon:{
-   backgroundColor:'linear-gradient(45deg, orange, yellow, green, cyan, blue, violet)',
-  color:'linear-gradient(45deg, orange, yellow, green, cyan, blue, violet)',
+   backgroundColor:'linear-gradient(90deg, orange, yellow, green, cyan, blue, violet)',
+  color:'linear-gradient(90deg, orange, yellow, green, cyan, blue, violet)',
  }
 })
 
@@ -55,14 +58,13 @@ class GenerateColorChange extends React.Component {
     let {chartTypes , chartOptions} = this.props;
 
     return (
-      <div style={{position:'absolute'}}>
+      <div className={classes.container}>
           <Button 
             size="small"
-            variant="fab" 
+            variant="contained" 
             color="primary" 
             onClick={this.props.handleGenerateNewColors}>
           <ColorChangeIcon  
-            className={classes.colorChangeIcon}
           />
         </Button>
       </div>

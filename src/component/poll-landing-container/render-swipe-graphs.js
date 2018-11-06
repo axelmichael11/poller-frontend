@@ -51,10 +51,6 @@ const styles = theme => ({
         marginBottom: 10,
         backgroundColor: theme.palette.primary.main,
     },
-    bodyText:{
-        margin:35,
-        
-    },
     button:{
         display:'inline-block',
         width:'10%',
@@ -134,11 +130,8 @@ class RenderSwipeGraphs extends React.Component {
 
   render() {
     const { classes, theme } = this.props;
-    console.log('REACT SWIPE GRAPHS STATE', this.state)
-    console.log('REACT SWIPE GRAPHS PROPS', this.props)
     const maxSteps = this.props.chartData.length;
     const {graphIndex} = this.state;
-    console.log('BARCHART STEP DATA', this.props.chartData)
 
     return (
       <div className={classes.containerDiv}>
@@ -147,14 +140,12 @@ class RenderSwipeGraphs extends React.Component {
         style={{
             display : 'flex',
             alignItems :' center',
-          }}
-        >
+          }}>
         <Button size="small"  
             className={classes.button} 
             onClick={this.handleBack} 
-            disabled={graphIndex === 0}
-        >
-            {theme.direction === 'rtl' ? <KeyboardArrowRight /> : <KeyboardArrowLeft />}
+            disabled={graphIndex === 0}>
+                {theme.direction === 'rtl' ? <KeyboardArrowRight /> : <KeyboardArrowLeft />}
         </Button>
         <div className={classes.graph}>
             <SwipeableViews
@@ -164,18 +155,31 @@ class RenderSwipeGraphs extends React.Component {
             enableMouseEvents
             >
             {this.props.chartData.map((graph, key) => {
-                return (
-                <div key={key}>
-                    <Typography 
-                        variant="headline" 
-                        className={classes.bodyText}>{graph.title}</Typography>
-                    <BarChart data={graph.data.length ? graph.data : this.state.noDataSelected.data} 
-                    categories={graph.categories ? graph.categories: this.state.noDataSelected.categories}
-                    style={this.renderChartStyle()}
-                    chartOptions={this.props.chartOptions}
-                    />
-                </div>
-                )
+                if (Object.keys(this.props.answerFilters).length){
+                    return (
+                    <div key={key}>
+                        <Typography 
+                        variant="display2" style={{margin:'1em 0'}}>{graph.title} Vote Results</Typography>
+                        <BarChart 
+                        // data={graph.data.length ? graph.data : this.state.noDataSelected.data} 
+                        // categories={graph.categories ? graph.categories: this.state.noDataSelected.categories}
+                        data={graph.data} 
+                        categories={graph.categories}
+                        style={this.renderChartStyle()}
+                        chartOptions={this.props.chartOptions}
+                        />
+                    </div>
+                    )
+                } else {
+                    return (
+                    <div>
+                        <Typography 
+                        variant="display2" style={{margin:'1em 0'}}>{graph.title} Vote Results</Typography>
+                        <Typography 
+                        variant="display2" style={{fontSize:'3em', margin:'3em'}}>No Answers Selected</Typography>
+                    </div>
+                    )
+                }
             })}
             </SwipeableViews>
             </div>
@@ -183,9 +187,7 @@ class RenderSwipeGraphs extends React.Component {
             size="small" 
             className={classes.button} 
             onClick={this.handleNext} 
-            disabled={graphIndex === maxSteps - 1}
-            // style={classes.buttonPosition}
-            >
+            disabled={graphIndex === maxSteps - 1}>
               {theme.direction === 'rtl' ? <KeyboardArrowLeft /> : <KeyboardArrowRight />}
             </Button>
       </div>
@@ -197,8 +199,7 @@ class RenderSwipeGraphs extends React.Component {
           style={{backgroundColor:'white'}}
           nextButton={<div></div>}
           backButton={<div></div>}
-        />        
-        
+        />
     </div>
     );
   }

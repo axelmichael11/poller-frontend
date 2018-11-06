@@ -41,7 +41,9 @@ module.exports = {
       },
       display2:{
         fontFamily:"Play",
-        textAlign:'center'
+        textAlign:'center',
+        color:primaryColor,
+        backgroundColor:secondaryColor,
       },
       subheading:{
         display:'block',
@@ -69,7 +71,7 @@ module.exports = {
         margin:'auto',
         color:primaryColor,
         backgroundColor: secondaryColor,
-
+        textAlign:'center'
       }
 
     },
@@ -157,8 +159,8 @@ module.exports = {
       MuiCheckbox: {
         root:{
           color: primaryColor,
-          backgroundColor: secondaryColor,
-          marginBottom: 16,
+          // backgroundColor: secondaryColor,
+          // marginBottom: 16,
           marginLeft: 10,
           fontFamily: 'Play',
           fontSize: 20,
