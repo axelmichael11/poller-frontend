@@ -41,11 +41,15 @@ module.exports = {
       },
       display2:{
         fontFamily:"Play",
-        textAlign:'center'
+        textAlign:'center',
+        color:primaryColor,
+        backgroundColor:secondaryColor,
+        fontSize:30,
       },
       subheading:{
         display:'block',
         fontFamily:"Play",
+        fontSize:14,
       },
 
       title:{
@@ -57,6 +61,9 @@ module.exports = {
       display1:{
         color:secondaryColor,
         backgroundColor: primaryColor,
+        textAlign: 'left',
+        padding: '5px',
+        fontSize:30,
       },
 
       display3:{
@@ -69,8 +76,11 @@ module.exports = {
         margin:'auto',
         color:primaryColor,
         backgroundColor: secondaryColor,
+        textAlign:'center'
+      },
+      overflowWrap:'break-word',
+      fontSize:10,
 
-      }
 
     },
     overrides: {
@@ -91,8 +101,9 @@ module.exports = {
         }
       },
 
-      MuiButton: { 
+      MuiButton: {
         root:{
+          borderRadius: 0,
           margin:'auto',
           display: 'flex',
           flexWrap: 'wrap',
@@ -120,7 +131,7 @@ module.exports = {
       },
       MuiPaper:{
         root:{
-          maxWidth: 600, 
+          maxWidth: 900, 
           margin: 'auto',
           marginBottom:20,
           flexGrow: 1
@@ -131,11 +142,17 @@ module.exports = {
           fontSize: 20,
           fontFamily: "Play",
           backgroundColor: '#000',
-        }
+        },
       },
       PollCard:{
         cardHeader:{
           textAlign:'center',
+          fontFamily: appFonts,
+          color: secondaryColor,
+          backgroundColor: primaryColor,
+          },
+          subheading:{
+            textAlign:'center',
           fontFamily: appFonts,
           color: secondaryColor,
           backgroundColor: primaryColor,
@@ -156,8 +173,8 @@ module.exports = {
       MuiCheckbox: {
         root:{
           color: primaryColor,
-          backgroundColor: secondaryColor,
-          marginBottom: 16,
+          // backgroundColor: secondaryColor,
+          // marginBottom: 16,
           marginLeft: 10,
           fontFamily: 'Play',
           fontSize: 20,
@@ -173,7 +190,7 @@ module.exports = {
 
       MuiCardActions:{
        root:{
-        maxWidth: 600, 
+        maxWidth: 900, 
         margin: 'auto',
         flexGrow: 1,
         backgroundColor:primaryColor,
@@ -182,7 +199,7 @@ module.exports = {
       },
       MuiCollapse:{
         container:{
-          maxWidth: 600, 
+          maxWidth: 900, 
           margin: 'auto',
           backgroundColor:secondaryColor,
           color:primaryColor,
@@ -193,9 +210,37 @@ module.exports = {
         }
       }
     },
-
     uniqueStyles:{
-      MuiVoteButton:{ 
+      colorChangeButton:{
+        root: {
+          // Some CSS
+          color: 'linear-gradient(45deg, orange, yellow, green, cyan, blue, violet)',
+          background: 'black',
+          height: 48,
+          // padding: '0 30px',
+          boxShadow: '0 3px 5px 2px rgba(255, 105, 135, .3)',
+        },
+      },
+      highCharts:{
+        title:{
+          fontSize: 25,
+          fontFamily: "Play",
+        },
+        text:{
+          fontSize: 12,
+          fontFamily: "Play",
+        }
+      },
+      MuiVoteButton:{
+        titleText:{
+          width:'20%',
+          fontSize:30,
+        },
+        optionText:{
+          wordBreak: 'break-all',
+          fontSize:20,
+          width:'80%',
+        },
         textAlign:'center',
             margin:15,
             textAlign: 'center',
@@ -211,38 +256,17 @@ module.exports = {
               backgroundColor: '#000',
               color:'#fff'
             },
-            margin:'auto',
-            display:'inline',
-            // display: 'flex',
-            width:'50%',
-            // flexWrap: 'wrap',
+            margin:'1em auto',
+            width:'75%',
+            height:'4em',
             textAlign:'center',
+            fontSize: 20,
+            '&:hover': {
+              backgroundColor: '#000',
+              color:'#fff'
+            },
           },
-          helpBarButton:{
-            margin:0,
-            padding:0,
-            textAlign:'center',
-            backgroundColor: '#000',
-            display:'inline-block',
-            // verticalAlign:'top',
-            color:"#fff",
-            fontFamily: [
-              'Play',
-              'Roboto',
-              'Arial',
-              'sans-serif',
-            ].join(','),
-            // '&:hover': {
-            //   backgroundColor: '#fff',
-            //   color:'#000'
-            // },
-              // verticalAlign:'top',
-              width: '75%',
-              maxWidth: '75%', 
-              flexGrow: 1,
-              display:'inline-block'
-    
-          },
+        
           filterButton:{
             margin:0,
             padding:0,
@@ -298,7 +322,7 @@ module.exports = {
               backgroundColor: '#fff',
               color:'#000'
             }
-          }
+          },
     },
   },
     pie_hover_text:{
@@ -315,4 +339,12 @@ module.exports = {
       block: {
         maxWidth: 250,
       },
+      loginTitle: {
+        fontFamily: 'Play,sans-serif',
+        fontSize: '5em',
+        display: 'flex',
+        alignItems: 'center',
+        margin:'0 auto',
+        padding:0,
+    }
 }

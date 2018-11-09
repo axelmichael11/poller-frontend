@@ -3,8 +3,6 @@ import React from 'react';
 import {compose} from 'recompose'
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
-import CircularProgress from '@material-ui/core/CircularProgress';
-import Snackbar from '@material-ui/core/Snackbar';
 import Button from '@material-ui/core/Button';
 
 

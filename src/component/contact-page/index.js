@@ -7,18 +7,21 @@ import { withStyles } from '@material-ui/core/styles';
 
 import {  compose } from 'recompose'
 import {loadingOn, loadingOff} from '../../action/loading-actions'
-import MaterialStyles from '../../style/material-ui-style'
 
-import '../../style/index.scss'
+
 
 
 import IconButton from '@material-ui/core/IconButton';
+
+
 import EmailIcon from '@material-ui/icons/email'
 import AccountIcon from '@material-ui/icons/accountbox'
 import CreateIcon from '@material-ui/icons/create'
-import Paper from '@material-ui/core/Paper';
-import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
+
+
+import {Paper,
+ Typography,
+ Button} from '@material-ui/core'
 import FeedBackPage from '../feedback-page'
 
 

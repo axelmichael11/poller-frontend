@@ -1,26 +1,28 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {compose} from 'recompose'
-
-import Button from '@material-ui/core/Button';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import withMobileDialog from '@material-ui/core/withMobileDialog';
 import { withStyles } from '@material-ui/core/styles';
 
-
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import ReportIcon from '@material-ui/icons/report'
 import LoadingHOC from '../loading/loadingHOC.js'
 import {MyPolls} from '../my-polls'
 
-import HelpTab from '../help-feature'
+
+
+import {Button,
+ Dialog,
+ DialogActions,
+ DialogContent,
+ DialogContentText,
+ DialogTitle,
+ withMobileDialog,
+ List,
+ ListItem,
+ ListItemIcon,
+ ListItemText } from '@material-ui/core'
+
+
+import ReportIcon from '@material-ui/icons/report'
+
 
 
 const SubmitButton = ({...props}) =>{
@@ -41,12 +43,15 @@ const SubmitButton = ({...props}) =>{
 const FeedBackSubmitButton = LoadingHOC(SubmitButton)
 
 const styles = theme => ({
+  dialogButtons: {
+    justifyContent:'center',
+    margin: '10px',
+  }
   });
 
   
 
 const ResponsiveDialog = ({...props}) => {
-  
     return (
       <div>
         <Dialog
@@ -59,7 +64,9 @@ const ResponsiveDialog = ({...props}) => {
               {props.dialogContent}
             </div>
           </DialogContent>
-          <DialogActions>
+          <DialogActions
+          className={props.classes.dialogButtons}
+          >
                <div className={props.classes.container}>
             <Button 
               variant="outlined"

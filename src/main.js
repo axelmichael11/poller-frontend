@@ -1,4 +1,3 @@
-
 import React from 'react'
 import ReactDom from 'react-dom'
 import App from './component/app'
@@ -9,33 +8,31 @@ import {profileFetch} from './action/profile-actions.js'
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import MaterialStyles from './style/material-ui-style'
 import { Route, BrowserRouter, Switch, Router } from 'react-router-dom'
+import './style/index.scss'
+const theme = createMuiTheme(MaterialStyles.pollerTheme)
 
 const store = storeCreate()
 persistStore(store)
-
-const theme = createMuiTheme(MaterialStyles.pollerTheme)
 
 class Main extends React.Component {
   componentWillUpdate() {
     persistStore(store)
   }
 
-  componentWillMount() {
-    // load the token
-  
-  }
-
   render() {
     return (
+      <div>
+      <MuiThemeProvider theme={theme}>
       <Provider store={store}>
-        <MuiThemeProvider theme={theme}>
           <BrowserRouter>
             <App />
           </BrowserRouter>
-        </MuiThemeProvider>
       </Provider>
+      </MuiThemeProvider>
+      </div>
     )
   }
 }
 
-ReactDom.render(<Main />, document.getElementById('root'))
+
+ReactDom.render(<Main/>, document.getElementById('root'))

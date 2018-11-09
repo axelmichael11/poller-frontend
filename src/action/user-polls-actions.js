@@ -43,6 +43,7 @@ export const pollDelete = (poll) => (dispatch, getState) => {
         .set('content-type', 'application/json')
         .then(res => {
             let parsed = JSON.parse(res.text)
+            console.log('MY POLLS', parsed)
             dispatch(fetchUserPolls(parsed))
             parsed.status=res.status
             return parsed
@@ -58,6 +59,7 @@ export const pollDelete = (poll) => (dispatch, getState) => {
             .send(poll)
             .then(res => {
                 let parsed = JSON.parse(res.text)
+                console.log('RESPONSE FROM POLL CREATE', parsed)
                 dispatch(createPoll(parsed))
                 parsed.status=res.status
                 return parsed

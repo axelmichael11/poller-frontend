@@ -1,7 +1,6 @@
 import React from 'react'
 import { withRouter, Route } from 'react-router'
 import { connect } from 'react-redux'
-import { Link } from 'react-router-dom'
 import { NavLink } from 'react-router-dom'
 import {compose} from 'recompose'
 import MenuItem from '@material-ui/core/MenuItem';
@@ -9,6 +8,10 @@ import MenuItem from '@material-ui/core/MenuItem';
 import { withStyles } from '@material-ui/core/styles';
 
 import {logout} from '../../action/auth-actions'
+
+import Scroll from 'react-scroll'
+const Link       = Scroll.Link;
+
 
 const styles = theme => ({
     root: {
@@ -33,7 +36,9 @@ class LogoutButton extends React.Component{
     render(){
         return (
             <div>
+                <Link activeClass="active" to="app" spy={true} smooth={false} offset={-5} duration={0}>
                 <MenuItem onClick={()=>this.nextPath()}>Log out</MenuItem>
+                </Link>
            </div>
         )
     }

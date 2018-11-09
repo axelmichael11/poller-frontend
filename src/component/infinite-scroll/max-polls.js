@@ -3,7 +3,6 @@ import React from 'react'
 import {  compose, branch, renderComponent} from 'recompose'
 
 
-import '../../style/index.scss'
 
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';

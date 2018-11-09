@@ -13,31 +13,29 @@ import { login, logout } from '../../action/auth-actions.js'
 import * as util from '../../lib/util.js'
 //These will be used, to store id of the user in the database...
 
-
-
-
 import NavMenu from '../nav-menu/index.js'
-
 
 //Style
 
-import {grey50} from 'material-ui/styles/colors';
 
 
 //new Material UI
-import MaterialStyles from '../../style/material-ui-style'
 import { withStyles } from '@material-ui/core/styles';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
-import IconButton from '@material-ui/core/IconButton';
+
+import {AppBar,
+  Toolbar,
+  Typography,
+  MenuItem,
+  Menu } from '@material-ui/core'
+
+
 import MenuIcon from '@material-ui/icons/Menu';
 import AccountCircle from '@material-ui/icons/AccountCircle';
-import Switch from '@material-ui/core/Switch';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import FormGroup from '@material-ui/core/FormGroup';
-import MenuItem from '@material-ui/core/MenuItem';
-import Menu from '@material-ui/core/Menu';
+
+import QuickScroll from './quick-scroll'
+
+
+
 
 
 
@@ -46,7 +44,6 @@ const styles = theme =>({
 
 })
 
-
 class NavBar extends React.Component {
   constructor(props) {
     super(props)
@@ -54,12 +51,51 @@ class NavBar extends React.Component {
       landing: true,
       loggedIn: this.props.loggedIn,
       openMenu: false,
+      scrollY : 0,
+      innerHeight: 0,
+      pageYOffset: 0,
+      offsetHeight: 0,
+    }
+
+    this.updateScrollPosition = this.updateScrollPosition.bind(this);
+    this.quickScrollCondition = this.quickScrollCondition.bind(this);
+    this.resetScroll = this.resetScroll.bind(this);
+  }
+
+  componentDidMount(){
+    window.addEventListener('scroll', ()=>this.updateScrollPosition(), true);
+  }
+
+  componentWillUnmount(){
+    console.log('NAVBAR COMPONENT UNMOUTNED')
+    // window.removeEventListener('scroll', ()=>this.updateScrollPosition(), true);
+
+  }
+
+  updateScrollPosition(){
+    this.setState({
+      innerHeight: window.innerHeight,
+      scrollY: window.scrollY,
+      pageYOffset: window.pageYOffset,
+      offsetHeight: document.body.offsetHeight+19
+    });
+  }
+
+  resetScroll(){
+    this.setState({
+      innerHeight: 0,
+      scrollY: 0,
+      pageYOffset: window.pageYOffset,
+      offsetHeight: 0,
+    });
+  }
+  quickScrollCondition(){
+    if(this.state.pageYOffset > this.state.innerHeight){
+      return true
+    } else {
+      return false
     }
   }
-
-  componentWillMount() {
-  }
-
 
   handleOpenMenu(){
     this.setState({
@@ -77,13 +113,14 @@ class NavBar extends React.Component {
     const { classes } = this.props;
     return (
       <div>
-          <AppBar position="static" className={classes.appBar}>
+          <div id="nav-clear"></div>
+          <AppBar position="static" className={classes.appBar} id="nav-bar">
           <Toolbar>
-         
             <Typography variant="display1" color="inherit" style={{flex: 1}}>
               Poller
             </Typography>
-            <NavMenu/>
+            {this.quickScrollCondition() && <QuickScroll/>}
+            <NavMenu resetScroll={this.resetScroll}/>
           </Toolbar>
         </AppBar>
       </div>
@@ -108,16 +145,9 @@ NavBar.propTypes = {
 
 };
 
-
 export default compose(
   // These are both single-argument HOCs
   withRouter,
   connect(mapStateToProps, mapDispatchToProps),
   withStyles(styles , {withTheme: true})
 )(NavBar)
-
-
-
-// export default withStyles(styles)(withRouter(connect(mapStateToProps, mapDispatchToProps)(NavBar)));
-
-// export default withRouter(connect(mapStateToProps, mapDispatchToProps)(NavBar))

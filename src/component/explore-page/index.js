@@ -3,33 +3,32 @@ import React from 'react'
 import NavBar from '../nav-bar'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
-
 import {  compose } from 'recompose'
-import {loadingOn, loadingOff} from '../../action/loading-actions'
-import MaterialStyles from '../../style/material-ui-style'
 
-import '../../style/index.scss'
-
+import subjects_list from '../../lib/poll-subjects'
 import {getPublicPolls, fetchPublicPolls} from '../../action/public-poll-actions.js'
-
-import Paper from '@material-ui/core/Paper';
-import LoginPage from '../login'
-import { withStyles } from '@material-ui/core';
-import Typography from '@material-ui/core/Typography';
-import AdvancedList from '../infinite-scroll'
-import ResponsiveDialog from '../dialog'
-import CardMenu from '../card-menu'
-import MenuItem from '@material-ui/core/MenuItem';
 import {reportPoll} from '../../action/report-poll-actions'
 import {handleThen} from '../../lib/util'
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import NotInterested from '@material-ui/icons/NotInterested';
-import Snackbar from '@material-ui/core/Snackbar';
-import DialogContentText from '@material-ui/core/DialogContentText';
+import {loadingOn, loadingOff} from '../../action/loading-actions'
 
+
+import AdvancedList from '../infinite-scroll'
+import LoginPage from '../login'
+import ResponsiveDialog from '../dialog'
+import CardMenu from '../card-menu'
 import PollFilter from './filter.js'
-import subjects_list from '../../lib/poll-subjects'
+
+
+import { withStyles } from '@material-ui/core';
+
+import {MenuItem,
+  ListItemIcon,
+  ListItemText,
+  Snackbar,
+  DialogContentText} from '@material-ui/core'
+
+import NotInterested from '@material-ui/icons/NotInterested';
+
 
 const styles = theme =>({
   button: theme.overrides.MuiButton,
@@ -82,8 +81,11 @@ class ExplorePage extends React.Component {
       anchorEl: null,
       pollMenuFocus:null,
 
-
-
+      //scroll
+      scrollY : 0,
+      innerHeight: 0,
+      pageYOffset: 0,
+      offsetHeight: 0,
     }
 
     this.fetchPolls = this.fetchPolls.bind(this)
@@ -104,15 +106,24 @@ class ExplorePage extends React.Component {
     this.handleMaxCategory = this.handleMaxCategory.bind(this)
     this.handleClearAllCategories = this.handleClearAllCategories.bind(this)
     this.addFilter = this.addFilter.bind(this)
+    this.updateScrollPosition = this.updateScrollPosition.bind(this);
   }
-
-  componentWillMount(){
+  componentDidMount(){
+    if(Object.keys(this.props.publicPolls)== 0){
       this.fetchPolls()
+    }
+    // window.addEventListener('scroll', ()=>this.updateScrollPosition(), true);
   }
 
-  componentWillUnmount(){
+  updateScrollPosition(){
+    this.setState({
+      innerHeight: window.innerHeight,
+      scrollY: window.pageYOffset,
+      pageYOffset: window.pageYOffset,
+      offsetHeight: document.body.offsetHeight+19
+    });
+    console.log('EXPLORE PAGE HITTING ON SCROLL ')
   }
-
   fetchPolls(){
     this.setState({exploreLoading:true, exploreError:false })
     this.props.getPublicPolls()
@@ -147,7 +158,6 @@ class ExplorePage extends React.Component {
 
 
   openReportDialog(poll){
-
     this.setState({
       dialogTitle: this.state.reportTitle,
       dialogContent: this.state.reportContent,
@@ -315,13 +325,15 @@ handleReportSuccess(){
       })
       .catch(err=>console.log(err))
   }
+  
 
 
   render() {
     const {stepIndex} = this.state;
     const {classes} = this.props;
+    console.log('public polls', this.props.publicPolls)
     return (
-        <div>
+        <div id="explore-page">
           <ResponsiveDialog
                 dialogTitle={this.state.dialogTitle}
                 dialogContent={this.state.dialogContent}
@@ -332,19 +344,15 @@ handleReportSuccess(){
                 submitLoading={this.state.reportLoading}
                 timeError={this.handleReportError}
                 />
-
                 <CardMenu
                   anchorEl={this.state.anchorEl}
                   renderMenuButtons={this.renderMenuButtons}
                   handleClose={this.handleCloseCardMenu}
-                />
-              
+                />     
           <PollFilter
           filterExpanded={this.state.filterExpanded}
           handleFilterExpand={this.handleFilterExpand}
-          // classes={classes}
           handleFilterChange={this.handleFilterChange}
-          helpText={this.state.helpText}
           categories={Object.keys(subjects_list)}
           categoryFilters={this.state.categoryFilters}
           pollFilters ={this.state.pollFilters}
@@ -352,14 +360,8 @@ handleReportSuccess(){
           handleClearAllCategories={this.handleClearAllCategories}
           />
 
-            <div 
-            // style={{overflow:'auto', 
-            // maxWidth:'605px', 
-            // maxHeight:'1000px', 
-            // position:'relative',
-            // margin:'auto'
-            // }}
-            >
+            <div>
+              <div id="explore-bar-clear"></div>
             <AdvancedList
               list={this.state.categoryFilters.length > 0 ?
                 this.state.filteredPolls:
@@ -377,6 +379,10 @@ handleReportSuccess(){
               setPoll={this.setPoll}
               pollCount={this.state.pollCount}
               maxPublicPolls={this.state.maxPublicPolls}
+              innerHeight={this.state.innerHeight}
+              scrollY= {this.state.scrollY}
+              pageYOffset={this.state.pageYOffset}
+              offsetHeight={this.state.offsetHeight}
               />
             </div>
 

@@ -1,37 +1,29 @@
 import React from 'react'
-import { connect } from 'react-redux'
+import { connect, Provider } from 'react-redux'
 // import Auth0Lock from 'auth0-lock'
-import { Link, withRouter } from 'react-router-dom'
-import {compose} from 'recompose'
-
-
-import randomstring from "randomstring"
-import auth0 from 'auth0-js';
-
-import { createBrowserHistory } from 'history'
-
-
-import { Route, BrowserRouter, Switch, Router } from 'react-router-dom'
-import LandingContainer from '../landing-container'
-
-import LoginPage from '../login'
 
 import {
   localStorageProfileFetch,
 } from '../../action/profile-actions.js'
-
 import {storageLogin} from '../../action/storage-login-attempt'
-
 import PrivateRoute from './privateroute.js'
-
 import GettingStartedPage from '../getting-started/horizontal'
-
 import Callback from '../callback'
 
-// import Auth from '../auth0-js/auth'
+import { Link, withRouter } from 'react-router-dom'
+import {compose} from 'recompose'
+import randomstring from "randomstring"
+import auth0 from 'auth0-js';
+import { createBrowserHistory } from 'history'
+import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
+import { Route, BrowserRouter, Switch, Router } from 'react-router-dom'
+import LandingContainer from '../landing-container'
+import LoginPage from '../login'
+import storeCreate from '../../lib/store-create'
+import { persistStore } from 'redux-persist'
 
 
-// const auth = new Auth();
+
 
 
 import {
@@ -42,6 +34,7 @@ import {
 } from '../../action/storage-login-attempt.js'
 import {setAuthToken} from '../../action/auth0-actions.js'
 import { login, logout } from '../../action/auth-actions.js'
+
 
 
 
@@ -71,7 +64,7 @@ class App extends React.Component {
       if (authResult && authResult.accessToken && authResult.idToken) {
         this.setSession(authResult);
         result = authResult
-        this.props.profileFetch()
+        // this.props.profileFetch()
         this.props.history.push('/explore')
         return resolve()
         
@@ -130,18 +123,20 @@ class App extends React.Component {
   }
 
   render() {
+    let {classes} = this.props;
     return (
       <div className="app">
-          <div>
-              <Switch>
-              <Route  path="/gettingstarted" render={()=><GettingStartedPage login={this.login}/>}/>
-              <Route  path="/login" render={() =><LoginPage login={this.login} />}/>
-              <Route path="/callback" render={(props) => {
-                this.handleCallBackAuthentication(props);
-                return <Callback {...props} /> 
-              }}/>
-              <PrivateRoute loggedIn={this.isAuthenticated()} path="/" redirectTo="/login" component={LandingContainer} />
-              </Switch>
+          <div >
+                <Switch>
+                <Route  path="/gettingstarted" render={()=><GettingStartedPage login={this.login}/>}/>
+                <Route  path="/login" render={(props) =><LoginPage login={this.login} props={props}/>}/>
+                <Route path="/callback" render={(props) => {
+                  // this.handleCallBackAuthentication(props);
+                  return <Callback {...props} handleCallBackAuthentication={this.handleCallBackAuthentication}/> 
+                }}/>
+                <PrivateRoute loggedIn={this.isAuthenticated()} path="/" redirectTo="/login" component={LandingContainer} />
+                </Switch>
+        
           </div>
       </div>
     )

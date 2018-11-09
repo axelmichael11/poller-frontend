@@ -14,6 +14,7 @@ const storeUserProfile = (userProfile) => {
 
   export const profileFetch = () => (dispatch, getState) => {
     let { auth0Token } = getState()
+    console.log('FIRING PROFILE FETCH')
     return superagent
       .get(`${__API_URL__}/api/user`)
       .set('Authorization', `Bearer ${auth0Token}`)

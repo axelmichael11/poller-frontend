@@ -4,7 +4,6 @@ import {compose} from 'recompose'
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import Snackbar from '@material-ui/core/Snackbar';
 
 
 
@@ -12,13 +11,11 @@ class Loader extends React.Component{
     constructor(props){
         super(props)
         this.state={
+            elapsed:0,
             limit:15000,
             start: this.props.start
         }
         this.tick = this.tick.bind(this)
-    }
-    componentWillMount(){
-        this.setState({elapsed: 0})
     }
 
     componentDidMount(){

@@ -73,6 +73,7 @@ export const getPublicPolls = () => (dispatch, getState) => {
         parsed.polls = JSON.parse(res.text)
         fetchPollsExperiment(dispatch, getState, parsed.polls)
         parsed.status = res.status
+        console.log('PARSED EXPLLORE POLLS', parsed)
         return parsed;
     })
 }

@@ -1,68 +1,55 @@
 import React from 'react'
 import { connect } from 'react-redux'
-// import { checkProfileExists } from '../../action/profile-actions.js'
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import {recompose, compose} from 'recompose'
+import classnames from 'classnames';
+import PropTypes from 'prop-types';
+import MenuListSelect from './menu-list-select'
+import LoadingHOC from '../loading/loadingHOC.js'
+
 import {ageValidation} from '../../lib/util.js'
-
-
-
 import {
   profileUpdate,
 } from '../../action/profile-actions.js'
-import classnames from 'classnames';
 
-import PropTypes from 'prop-types';
-import Button from '@material-ui/core/Button';
 import { withStyles } from '@material-ui/core/styles';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-
-import DialogTitle from '@material-ui/core/DialogTitle';
-import InputLabel from '@material-ui/core/InputLabel';
-import Input from '@material-ui/core/Input';
-import MenuItem from '@material-ui/core/MenuItem';
-import FormControl from '@material-ui/core/FormControl';
-import Select from '@material-ui/core/Select';
-import Divider from '@material-ui/core/Divider';
-import Paper from '@material-ui/core/Paper';
-import Typography from '@material-ui/core/Typography';
-import Checkbox from '@material-ui/core/Checkbox';
-import Card from '@material-ui/core/Card';
-import CardActions from '@material-ui/core/CardActions';
-import CardContent from '@material-ui/core/CardContent';
-import CardHeader from '@material-ui/core/CardHeader';
-import CardMedia from '@material-ui/core/CardMedia';
-import MenuList from '@material-ui/core/MenuList';
-import Snackbar from '@material-ui/core/Snackbar';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import DropDownArrowIcon from '@material-ui/icons/ArrowDropDown'
-import IconButton from '@material-ui/core/IconButton';
-import Collapse from '@material-ui/core/Collapse';
+import {DialogTitle,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  InputLabel,
+  Input,
+  MenuItem,
+  FormControl,
+  Select,
+  Divider,
+  Paper,
+  Typography,
+  Checkbox,
+  Card,
+  CardActions,
+  CardContent,
+  CardHeader,
+  CardMedia,
+  MenuList,
+  Snackbar,
+  IconButton,
+  Collapse,
+  Avatar,
+  TextField,
+  Toolbar,
+  FormControlLabel,
+  List,
+  ListItem,
+  ListItemText,
+  Button,
+  Menu} from '@material-ui/core'
 import MoreVertIcon from '@material-ui/icons/MoreVert';
-import Avatar from '@material-ui/core/Avatar';
-import TextField from '@material-ui/core/TextField';
-import Toolbar from '@material-ui/core/Toolbar';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
-import Menu from '@material-ui/core/Menu';
 
 import country_list from '../../lib/countries.js'
 import profession_list from '../../lib/professions.js'
 import ethnicity_list from '../../lib/ethnicities.js'
 import politics_list from '../../lib/politics.js'
-
-import MenuListSelect from './menu-list-select'
-import LoadingHOC from '../loading/loadingHOC.js'
-
-
-import MaterialStyles from '../../style/material-ui-style'
-
-import HelpTab from '../help-feature'
 
 
 const SubmitButton = ({...props}) =>{
@@ -155,13 +142,6 @@ class ProfileSettings extends React.Component {
       ethnicityAnchor:null,
       politicsAnchor:null,
 
-       //help text
-    helpExpanded:false,
-    helpText:`Update your profile information if you want this information to be anonymously submitted when
-    answering questions! None of these fields are required,
-    and no demographic information specific to you is shown in the results of a poll.
-    These can be updated as often as necessary. Why not make this app a little more interesting?`,
-
     //loading
     updateLoading: false
 
@@ -250,6 +230,7 @@ class ProfileSettings extends React.Component {
       this.setState({profession: parseInt(value) , professionAnchor: null});
     }  
   }
+
 
   updateMaleCheckBox() {
     this.setState((oldState) => {
@@ -433,14 +414,8 @@ class ProfileSettings extends React.Component {
 
 
   render() {
-    const underlineFocus = {
-      borderBottomColor: '#3AB08F',
-    }
-
-    const formStyle = {
-      marginLeft: 3,
-    }
     let {classes, theme} = this.props
+    console.log('RENDER PAGE', this.state)
     return (
       <div>
         <Dialog
@@ -473,27 +448,20 @@ class ProfileSettings extends React.Component {
           </DialogActions>
         </Dialog>
 
-        <HelpTab
-          helpExpanded={this.state.helpExpanded}
-          handleHelpExpand={this.handleHelpExpand}
-          // classes={classes}
-          helpText={this.state.helpText}
-        />
-
         
 
         <form className={classes.container} noValidate onSubmit={this.handleSubmit} autoComplete="off">
-        <Paper className={classes.container}>
-          <Card>
-          <CardContent className={classes.cardHeader}>
-                <Typography variant="headline" component="h1" className={classes.cardHeader}>
-                    {this.props.userProfile.nickname}
-                </Typography>
-                <Typography variant="subheading" component="h5"  className={classes.cardHeader}>
-                    {this.props.userProfile.email}
-                </Typography>
-            </CardContent>
-            <Divider/>
+        <Paper square elevation={2} className={classes.container}>
+                <Card style={{padding:7}}>
+                <CardHeader
+                    className={classes.cardHeader}
+                    title={this.props.userProfile.nickname}
+                    subheader={this.props.userProfile.email}
+                    classes={{
+                        color: theme.palette.secondary.main,
+                        title: classes.cardHeader
+                    }}
+                />
             <CardContent className={classes.cardContent}>
               <Toolbar className={classes.cardContent}>
                 <Typography variant="subheading" component="h3">
@@ -527,7 +495,7 @@ class ProfileSettings extends React.Component {
                   control={
                     <Checkbox
                       checked={this.state.maleCheckBox}
-                      value={this.state.maleCheckBox}
+                      // value={this.state.maleCheckBox}
                       onChange={this.updateMaleCheckBox}
                         label="Male"
                         className={classes.checkBox}
@@ -540,7 +508,7 @@ class ProfileSettings extends React.Component {
                   control={
                     <Checkbox
                       checked={this.state.femaleCheckBox}
-                      value={this.state.femaleCheckBox}
+                      // value={this.state.femaleCheckBox}
                       onChange={this.updateFemaleCheckBox}
                         label="Female"
                         className={classes.checkBox}
@@ -563,7 +531,7 @@ class ProfileSettings extends React.Component {
                   control={
                     <Checkbox
                       checked={this.state.religionYesCheckBox}
-                      value={this.state.religionYesCheckBox}
+                      // value={this.state.religionYesCheckBox}
                       onChange={this.updateReligionYesCheckBox}
                         label="Yes"
                         className={classes.checkBox}
@@ -576,7 +544,7 @@ class ProfileSettings extends React.Component {
                   control={
                     <Checkbox
                       checked={this.state.religionNoCheckBox}
-                      value={this.state.religionNoCheckBox}
+                      // value={this.state.religionNoCheckBox}
                       onChange={this.updateReligionNoCheckBox}
                         label="No"
                         className={classes.checkBox}

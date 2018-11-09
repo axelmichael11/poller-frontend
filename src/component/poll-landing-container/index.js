@@ -6,21 +6,14 @@ import classnames from 'classnames';
 
 import {compose} from 'recompose'
 import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
-import {loadingOff} from '../../action/loading-actions'
+import * as util from '../../lib/util.js'
+import RenderPollPage from './render-poll-page.js'
 
 //Methods
 import {fetchVoteHistory} from '../../action/vote-actions'
+import {loadingOff} from '../../action/loading-actions'
 
-
-import * as util from '../../lib/util.js'
-
-import RenderPollPage from '../render-poll-page'
-import ArrayBackIcon from '@material-ui/icons/arrowback';
-
-
-import Button from '@material-ui/core/Button';
-import HelpTab from '../help-feature'
+import { withStyles } from '@material-ui/core/styles';
 
 
 const styles = theme => ({
@@ -49,16 +42,15 @@ class PollLandingContainer extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
+      answerLabels: ["A","B","C","D"],
       pageLoading: false,
       alreadyVoted:null,
       pollData:null,
-      helpExpanded: false,
       error:false,
       castVoteHelpText:"Cast your Vote! Remember, however you have set your profile information is how your vote data will be submitted. Represent yourself in the answer!",
       pollResultsHelpText: "These are the results of how people have voted based on age, political preference, gender, religious affiliation, ethnicity, and profession! See for yourself how people are voting!"
     }
     this.fetchVoteData = this.fetchVoteData.bind(this)
-    this.handleHelpExpand = this.handleHelpExpand.bind(this)
     this.successOnCastVote = this.successOnCastVote.bind(this)
     this.errorOnCastVote = this.errorOnCastVote.bind(this)
     this.throwError = this.throwError.bind(this)
@@ -66,10 +58,6 @@ class PollLandingContainer extends React.Component {
 
   componentWillMount() {
     this.fetchVoteData()
-  }
-  
-  handleHelpExpand(){
-    this.setState({ helpExpanded: !this.state.helpExpanded });
   }
 
   successOnCastVote(pollData){
@@ -80,13 +68,14 @@ class PollLandingContainer extends React.Component {
   }
 
   fetchVoteData(){
-    let {created_at, author_username} = this.props.location.state
+    let {created_at, author_username, type} = this.props.location.state
     
-    let voteData = Object.assign({},{created_at, author_username})
+    let voteData = Object.assign({},{created_at, author_username, type})
     this.setState({pageLoading:true})
     this.props.fetchVoteHistory(voteData)
     .then((result)=>{
       if (result.status==200){
+        console.log('RESULTTTTT^^^', result)
         this.setState({
         alreadyVoted:true,
         pollData: result,
@@ -133,12 +122,7 @@ class PollLandingContainer extends React.Component {
   render() {
     let {classes} = this.props
     return (
-      <div >
-        <HelpTab
-          helpExpanded={this.state.helpExpanded}
-          handleHelpExpand={this.handleHelpExpand}
-          helpText={this.state.alreadyVoted ? this.state.pollResultsHelpText: this.state.castVoteHelpText}
-        />
+      <div>
         <RenderPollPage
         Loading={this.state.pageLoading}
         pollData={this.state.pollData}
@@ -151,6 +135,7 @@ class PollLandingContainer extends React.Component {
         start={Date.now()}
         timeError={this.throwError}
         throwGeneralError={ this.throwError}
+        answerLabels={this.state.answerLabels}
         />
       </div>
     )

@@ -6,9 +6,9 @@ import ErrorIcon from '@material-ui/icons/error'
 import PropTypes from 'prop-types';
 
 
-import Paper from '@material-ui/core/Paper';
-import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
+import {Paper,
+  Typography,
+  Button} from '@material-ui/core';
 
 
 const styles = theme=> ({
