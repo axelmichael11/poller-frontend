@@ -1,7 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { Link, withRouter } from 'react-router-dom'
-import PieResults from '../charts/yes-no-pie/index'
 import {  compose, branch, renderComponent } from 'recompose'
 import classnames from 'classnames';
 
@@ -28,6 +27,8 @@ import {QuestionExpandWithStyle, QuestionCardContentWithStyle} from './display-q
 import profession_data from '../../lib/professions.js'
 import ethnicity_data from '../../lib/ethnicities.js'
 import country_data from '../../lib/countries.js'
+import subjects_list from '../../lib/poll-subjects'
+
 //Methods
 
 //These will be used, to store id of the user in the database...
@@ -97,7 +98,6 @@ class MCPollResults extends React.Component {
               },
               showLegend:false,
               showYAxis:false,
-              showXAxis:false,
             },
             chartTypes:[
               {name:'column', icon:<BarChartIcon/>},
@@ -157,7 +157,6 @@ class MCPollResults extends React.Component {
         this.renderDemographicsData =this.renderDemographicsData.bind(this)
         this.getChartOptions=this.getChartOptions.bind(this)
         this.handleChangeShowLegend = this.handleChangeShowLegend.bind(this)
-        this.handleChangeShowXAxis = this.handleChangeShowXAxis.bind(this)
         this.handleChangeShowYAxis = this.handleChangeShowYAxis.bind(this)
         this.renderAxisOptions = this.renderAxisOptions.bind(this)
         this.handleGenerateNewColors = this.handleGenerateNewColors.bind(this)
@@ -319,30 +318,6 @@ class MCPollResults extends React.Component {
     let {chartOptions} = this.state;
     return(
       <div>
-        <MenuItem
-        style={{
-          backgroundColor: chartOptions.chartType.showXAxis
-          ? 'rgb(10,2,8,0.6)'
-          : 'rgb(255,255,255, 0.3)',
-        color: chartOptions.chartType.showXAxis
-                              ? theme.palette.secondary.main
-                              : theme.palette.primary.main,
-
-        }}>
-                    <Checkbox
-                    // indeterminate={true}
-                    onClick={()=>this.handleChangeShowXAxis()}
-                        checked={chartOptions.showXAxis}        
-                          label="X Axis"
-                          classes={{
-                              backgroundColor: chartOptions.chartType.showXAxis
-                                ? 'rgb(10,2,8,0.6)'
-                                : 'rgb(255,255,255, 0.3)',
-                              color: chartOptions.chartType.showXAxis
-                              ? theme.palette.secondary.main
-                              : theme.palette.primary.main,
-                          }}/> X Axis
-            </MenuItem>
             <MenuItem
             style={{
               // root:{
@@ -445,15 +420,6 @@ handleChangeShowYAxis(){
 
   chartOptions.showYAxis = !chartOptions.showYAxis;
   console.log('Changing legend' , chartOptions)
-  this.setState({
-    chartOptions : chartOptions,
-  })
-}
-
-handleChangeShowXAxis(){
-  let {chartOptions} = this.state
-  chartOptions.showXAxis = !chartOptions.showXAxis;
-  console.log('Changing x axis' , chartOptions)
   this.setState({
     chartOptions : chartOptions,
   })

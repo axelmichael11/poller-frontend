@@ -6,7 +6,7 @@ import { Link, withRouter } from 'react-router-dom'
 import {  compose } from 'recompose'
 import subjects_list from '../../lib/poll-subjects'
 import { withStyles } from '@material-ui/core/styles';
-import CardCase from './card-case'
+
 
 import {Paper,
 classnames,
@@ -28,6 +28,8 @@ import FavoriteIcon from '@material-ui/icons/Favorite';
 import ShareIcon from '@material-ui/icons/Share';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Delete from '@material-ui/icons/Delete';
+import {QuestionExpandWithStyle, QuestionCardContentWithStyle} from '../poll-landing-container/display-question'
+
 
 const styles = theme =>({
     container: theme.overrides.MuiPaper.root,
@@ -47,22 +49,30 @@ const styles = theme =>({
 })
 
 
-const PublicPollCard = ({...props }) =>{
+const CardCase = ({...props}) =>{
+    //classes, theme, props.pollActions, poll,
     return (
     <div className={props.classes.container}>
-        <CardCase {...props}>
-                <Link to={{
-                pathname:`/poll/${props.poll.author_username}/${props.poll.created_at}`,
-                state: props.poll,
-                }}
-                style={{ textDecoration: 'none' }}>
-                    <CardContent className={props.classes.cardContent}>
-                        <Typography variant="display3" style={{overflowWrap:'break-word'}}>
-                        "{props.poll.question}"
-                        </Typography>
-                    </CardContent>
-                </Link>
-        </CardCase>
+    <Paper square elevation={2} className={props.classes.container}>
+                <Card style={{padding:7}}>
+                <Typography variant="subheading" component="p">
+                        {props.poll.author_username}:
+                    </Typography>
+                <QuestionCardContentWithStyle
+                  authorUsername={props.poll.author_username}
+                  question={props.poll.question}
+                  questionExpanded={this.state.questionExpanded}
+                />
+                <CardContent>
+                <Typography variant="subheading" component="p">
+                        {subjects_list[props.poll.subject]}
+                    </Typography>
+                <Typography variant="subheading" component="p">
+                        Poll Expiration: {props.poll.expiration} hours
+                    </Typography>
+                </CardContent>
+                </Card>
+        </Paper>
     </div>
     )
 }
@@ -71,4 +81,4 @@ const PublicPollCard = ({...props }) =>{
 export default compose(
     withRouter,
     withStyles(styles, {withTheme:true}),
-)(PublicPollCard);
+)(CardCase);

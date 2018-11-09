@@ -161,22 +161,19 @@ class RenderSwipeGraphs extends React.Component {
                         <Typography 
                         variant="display2" style={{margin:'1em 0'}}>{graph.title} Vote Results</Typography>
                         <BarChart 
-                        // data={graph.data.length ? graph.data : this.state.noDataSelected.data} 
-                        // categories={graph.categories ? graph.categories: this.state.noDataSelected.categories}
-                        data={graph.data} 
-                        categories={graph.categories}
-                        style={this.renderChartStyle()}
-                        chartOptions={this.props.chartOptions}
+                            data={graph.data} 
+                            categories={graph.categories}
+                            chartOptions={this.props.chartOptions}
                         />
                     </div>
                     )
                 } else {
                     return (
-                    <div>
+                    <div key={key}>
                         <Typography 
                         variant="display2" style={{margin:'1em 0'}}>{graph.title} Vote Results</Typography>
                         <Typography 
-                        variant="display2" style={{fontSize:'3em', margin:'3em'}}>No Answers Selected</Typography>
+                        variant="display2" style={{fontSize:'3em', margin:'50% auto'}}>No Answers Selected</Typography>
                     </div>
                     )
                 }

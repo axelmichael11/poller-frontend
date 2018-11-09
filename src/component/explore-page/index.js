@@ -353,7 +353,6 @@ handleReportSuccess(){
           filterExpanded={this.state.filterExpanded}
           handleFilterExpand={this.handleFilterExpand}
           handleFilterChange={this.handleFilterChange}
-          helpText={this.state.helpText}
           categories={Object.keys(subjects_list)}
           categoryFilters={this.state.categoryFilters}
           pollFilters ={this.state.pollFilters}

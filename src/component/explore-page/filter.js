@@ -70,8 +70,6 @@ const styles = theme => ({
     margin: theme.spacing.unit / 2,
   },
     container: theme.overrides.MuiPaper.root,
-    helpBarButton:theme.uniqueStyles.filterButton,
-    backButton: theme.uniqueStyles.backButton,
     text: {
       fontFamily:"Play",
         fontSize: 25,
@@ -134,6 +132,7 @@ class PollFilter extends React.Component {
             label={subjects_list[data]}
             value={data}
               style={{
+                overflowWrap:'break-word',
                 backgroundColor:
                   this.props.categoryFilters.includes(data)
                     ? theme.palette.primary.main
@@ -141,7 +140,7 @@ class PollFilter extends React.Component {
                   color: this.props.categoryFilters.includes(data)
                   ? theme.palette.secondary.main
                   : theme.palette.primary.main,
-                  height:'60px'
+                  height:75
               }}
             />)
           })}
@@ -159,7 +158,6 @@ class PollFilter extends React.Component {
 //   return (
 //       <div className={classes.container}>
 //   <Button
-//   className={classes.helpBarButton}
 //   size='small'>
 //     <CardActions 
 //       disableActionSpacing

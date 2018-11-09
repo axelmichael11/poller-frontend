@@ -108,7 +108,7 @@ class RenderAnswerOptions extends React.Component {
 
   rowFeedBack(){
     if (Object.keys(this.props.answerOptions).length === 0){
-      return (<AnswerFeedBackRow feedBackText="You need to submit at least two Options"/>)
+      return (<AnswerFeedBackRow feedBackText="You need to submit at least two options"/>)
     }
     if (Object.keys(this.props.answerOptions).length === 1){
       return (<AnswerFeedBackRow feedBackText="One more Needed"/>)

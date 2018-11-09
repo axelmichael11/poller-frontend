@@ -10,7 +10,6 @@ import _ from 'lodash'
 import {fetchPolls} from '../../action/public-poll-actions.js'
 
 import PollVotePage from './poll-vote'
-import YNPollResults from './yes-no-poll-results'
 import MCPollResults from './multiple-choice-poll-results'
 
 import Loader from '../loading/loader'
@@ -58,15 +57,6 @@ const renderVotePage =(conditionFn) =>  (Component) => (props) => {
          )
   }
 
-  const renderVoteResults =(conditionFn) => (Component) =>  (props) => {
-      return (
-          <div>
-            <Component {...props}/>
-          {conditionFn(props) && <YNPollResults {...props}/>}
-          </div>
-         )
-  }
-
 
   class RenderVotePage extends React.Component {
     constructor(props){
@@ -79,7 +69,7 @@ const renderVotePage =(conditionFn) =>  (Component) => (props) => {
     renderVotePage(){
         if (this.props.alreadyVoted){
             console.log('HITTING ALREADY VOTED')
-            return <YNPollResults {...this.props}/>
+            return <MCPollResults {...this.props}/>
         } else {
           return <PollVotePage {...this.props}/>
         }
@@ -124,14 +114,6 @@ const renderVotePage =(conditionFn) =>  (Component) => (props) => {
       renderComponent(Loader)
   ),
   withError(withErrorCondition),
-  branch(
-      (props) =>
-      props.alreadyVoted
-      && props.pollData.type =='YN'
-      && !props.Loading
-      && !props.error,
-      renderComponent(YNPollResults)
-  ),
   branch(
     (props) =>
     props.alreadyVoted

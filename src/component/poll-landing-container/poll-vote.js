@@ -15,7 +15,7 @@ import ProfileCategory from './profile-category'
 import CardMenu from '../card-menu'
 import ResponsiveDialog from '../dialog'
 import {MCVoteButton, YNVoteButton} from './vote-buttons'
-
+import AnswerCardCase from '../poll-card-design/answer-card-case'
 //Methods
 
 import * as util from '../../lib/util.js'
@@ -398,24 +398,7 @@ handleReportSuccess(){
             handleClose={this.handleCloseCardMenu}
           />
 
-        <Paper square elevation={2} className={classes.container}>
-        <Card style={{padding:7}}>
-            <CardHeader
-                action={<IconButton
-                  onClick={(event)=> {
-                    this.handleOpenCardMenu(event)
-                    this.setPoll(poll)
-                  }}>
-                  <MoreVertIcon 
-                  style={{color:'#fff'}}
-                  />
-                  </IconButton>}
-                className={classes.cardHeader}
-                title={poll.author_username}
-                classes={{
-                  title: classes.cardHeader
-              }}
-            />
+        <AnswerCardCase {...this.props}>
             
             <CardContent>
                 <Typography variant="display3" style={{textAlign:'center'}}>
@@ -424,7 +407,15 @@ handleReportSuccess(){
             </CardContent>
 
             <CardContent>
-              {this.renderAnswerOptions(poll)}
+              {Object.keys(poll.categories).map((category, key)=>
+                <div key={key}>
+                  <MCVoteButton 
+                  handleVoteClick={this.handleConfirmVoteChange} 
+                  optionChoice={category} 
+                  voteButtonText={poll.categories[category]} 
+                  voteValue={category}/>
+                </div>
+              )}
             </CardContent>
 
             <CardContent>
@@ -434,11 +425,8 @@ handleReportSuccess(){
             <Typography variant="subheading">
                     Poll Expiration: {poll.expiration} hours
             </Typography>
-               
-    
             </CardContent>
-            </Card>
-        </Paper>
+            </AnswerCardCase>
 
         <ResponsiveDialog
           dialogTitle={this.state.dialogTitle}

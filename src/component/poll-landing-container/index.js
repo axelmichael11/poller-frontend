@@ -8,7 +8,6 @@ import {compose} from 'recompose'
 import PropTypes from 'prop-types';
 import * as util from '../../lib/util.js'
 import RenderPollPage from './render-poll-page.js'
-import HelpTab from '../help-feature'
 
 //Methods
 import {fetchVoteHistory} from '../../action/vote-actions'
@@ -47,13 +46,11 @@ class PollLandingContainer extends React.Component {
       pageLoading: false,
       alreadyVoted:null,
       pollData:null,
-      helpExpanded: false,
       error:false,
       castVoteHelpText:"Cast your Vote! Remember, however you have set your profile information is how your vote data will be submitted. Represent yourself in the answer!",
       pollResultsHelpText: "These are the results of how people have voted based on age, political preference, gender, religious affiliation, ethnicity, and profession! See for yourself how people are voting!"
     }
     this.fetchVoteData = this.fetchVoteData.bind(this)
-    this.handleHelpExpand = this.handleHelpExpand.bind(this)
     this.successOnCastVote = this.successOnCastVote.bind(this)
     this.errorOnCastVote = this.errorOnCastVote.bind(this)
     this.throwError = this.throwError.bind(this)
@@ -61,10 +58,6 @@ class PollLandingContainer extends React.Component {
 
   componentWillMount() {
     this.fetchVoteData()
-  }
-  
-  handleHelpExpand(){
-    this.setState({ helpExpanded: !this.state.helpExpanded });
   }
 
   successOnCastVote(pollData){

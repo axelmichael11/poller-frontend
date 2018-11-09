@@ -55,14 +55,8 @@ const AnswerCardCase = ({...props}) =>{
     <Paper square elevation={2} className={props.classes.container}>
                 <Card style={{padding:7}}>
                 <CardHeader
-                    // action={props.pollActions}
                     className={props.classes.answerCardHeader}
-                    // title={props.poll.author_username}
-                    // classes={{
-                    //     title: props.classes.cardHeader
-                    // }}
                     style={{
-                        // paddingTop: '5em'
                     }}
                 />
                 {props.children}

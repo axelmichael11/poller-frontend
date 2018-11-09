@@ -11,7 +11,6 @@ import {
   import LoadingHOC from '../loading/loadingHOC.js'
   import SubmitButton from '../loading/button.js'
   import MyPolls from '../my-polls'
-  import HelpTab from '../help-feature'
   import RenderFormType from './render-form-type'
 
   import { withStyles } from '@material-ui/core/styles';
@@ -135,12 +134,6 @@ class PollCreatePage extends React.Component {
         unknownErrorMessage:'Unknown Error has Occurred... Try again later',
         unknownError: false,
 
-        // help
-        helpExpanded:false,
-        helpText: `Represent yourself! None of these fields are required,
-        and no demographic information specific to you is shown in the results of a poll.
-        These can be updated as often as necessary. Why not make this app a little more interesting?`,
-
         //question types
         yesNoCheckBox: false,
         multipleChoiceCheckBox: false,
@@ -152,7 +145,6 @@ class PollCreatePage extends React.Component {
         pollAnswerError:false,
         answerLabels: ["A","B","C","D"],
     }
-  this.handleHelpExpand = this.handleHelpExpand.bind(this)
    this.handleYesNoPollSubmit = this.handleYesNoPollSubmit.bind(this)
    //input changes
    this.handleSubjectChange = this.handleSubjectChange.bind(this)
@@ -309,12 +301,6 @@ class PollCreatePage extends React.Component {
       pollDeleteAlert:false, 
       pollToDelete:null})
   };
-
-
-
-  handleHelpExpand(){
-    this.setState({ helpExpanded: !this.state.helpExpanded });
-  }
 
 
   handleSubmitPollDelete(){
@@ -595,12 +581,6 @@ renderFormType(){
           </DialogActions>
         </Dialog>
 
-        <HelpTab
-          helpExpanded={this.state.helpExpanded}
-          handleHelpExpand={this.handleHelpExpand}
-          helpText={this.state.helpText}
-        />
-
             <Paper square elevation={2} className={classes.container}>
                 <Card style={{padding:7}}>
                 <CardHeader
@@ -671,13 +651,16 @@ renderFormType(){
                 </Card>
         </Paper>
 
-        <Paper className={classes.container} style={{marginBottom:10}}>
-          <CardContent className={classes.cardHeader}>
-            <Typography variant="headline" component="h1" className={classes.cardHeader}>
-              My Polls
-            </Typography>
-          </CardContent>
-          </Paper>
+        <Paper square elevation={2} className={classes.container}>
+                <Card style={{padding:7}}>
+                <CardHeader
+                    className={classes.cardHeader}
+                    title={"My Polls"}
+                    classes={{
+                        title: classes.cardHeader
+                    }}
+                />
+        
 
           <div className="list">
             <MyPolls
@@ -692,7 +675,8 @@ renderFormType(){
             handlePollDeleteAlertOpen={this.handlePollDeleteAlertOpen}
             />
           </div>
-
+        </Card>
+        </Paper>
 
          <Snackbar
           open={this.state.openSubjectValidationError}

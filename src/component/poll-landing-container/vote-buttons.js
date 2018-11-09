@@ -40,17 +40,14 @@ export const MCVoteButton = withStyles(styles, {withTheme:true})((props) =>{
         variant="outlined"
         onClick={()=>props.handleVoteClick(props.voteValue)} 
         className={props.classes.voteButton}
-        // value={props.voteValue} 
         >
         <Typography 
             className={props.classes.voteButtonTitleText}
-            // style={{width:'20%' }}
         > {props.optionChoice}: 
         </Typography>
         <Typography 
             className={props.classes.voteButtonOptionText}
-            // style={{width:'80%' }}
-        > {props.voteButtonText}
+        > "{props.voteButtonText}"
         </Typography>
         </Button>
       </div>

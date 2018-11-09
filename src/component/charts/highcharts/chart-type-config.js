@@ -18,6 +18,15 @@ module.exports = {
     style:{
     },
     plotOptions: {
+        area:{
+            color:'#000000'
+        },
+        areaspline:{
+            color:'#000000'
+        },
+        line:{
+            color:'#000000'
+        },
             column: {
                 dataLabels: {
                     format: '{y}%',

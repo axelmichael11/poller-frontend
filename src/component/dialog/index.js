@@ -6,7 +6,6 @@ import { withStyles } from '@material-ui/core/styles';
 import LoadingHOC from '../loading/loadingHOC.js'
 import {MyPolls} from '../my-polls'
 
-import HelpTab from '../help-feature'
 
 
 import {Button,

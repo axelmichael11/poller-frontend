@@ -5,7 +5,6 @@ import classnames from 'classnames';
 import PropTypes from 'prop-types';
 import MenuListSelect from './menu-list-select'
 import LoadingHOC from '../loading/loadingHOC.js'
-import HelpTab from '../help-feature'
 
 import {ageValidation} from '../../lib/util.js'
 import {
@@ -142,13 +141,6 @@ class ProfileSettings extends React.Component {
       professionAnchor:null,
       ethnicityAnchor:null,
       politicsAnchor:null,
-
-       //help text
-    helpExpanded:false,
-    helpText:`Update your profile information if you want this information to be anonymously submitted when
-    answering questions! None of these fields are required,
-    and no demographic information specific to you is shown in the results of a poll.
-    These can be updated as often as necessary. Why not make this app a little more interesting?`,
 
     //loading
     updateLoading: false
@@ -456,26 +448,20 @@ class ProfileSettings extends React.Component {
           </DialogActions>
         </Dialog>
 
-        <HelpTab
-          helpExpanded={this.state.helpExpanded}
-          handleHelpExpand={this.handleHelpExpand}
-          helpText={this.state.helpText}
-        />
-
         
 
         <form className={classes.container} noValidate onSubmit={this.handleSubmit} autoComplete="off">
-        <Paper className={classes.container}>
-          <Card>
-          <CardContent className={classes.cardHeader}>
-                <Typography variant="headline" component="h1" className={classes.cardHeader}>
-                    {this.props.userProfile.nickname}
-                </Typography>
-                <Typography variant="subheading" component="h5"  className={classes.cardHeader}>
-                    {this.props.userProfile.email}
-                </Typography>
-            </CardContent>
-            <Divider/>
+        <Paper square elevation={2} className={classes.container}>
+                <Card style={{padding:7}}>
+                <CardHeader
+                    className={classes.cardHeader}
+                    title={this.props.userProfile.nickname}
+                    subheader={this.props.userProfile.email}
+                    classes={{
+                        color: theme.palette.secondary.main,
+                        title: classes.cardHeader
+                    }}
+                />
             <CardContent className={classes.cardContent}>
               <Toolbar className={classes.cardContent}>
                 <Typography variant="subheading" component="h3">

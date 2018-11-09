@@ -41,6 +41,7 @@ const styles = theme => ({
     },
     answerFilterButton:{
       root:{
+        overflowWrap:'break-word',
         display:'inline-block',
         // color:theme.palette.primary.main,
         margin: theme.spacing.unit * 2,
@@ -58,6 +59,7 @@ class AnswerFilter extends React.Component {
 
   render(){
     let {classes, theme} = this.props;
+    console.log("RENDERING ANSWER FILTER", this.props)
     return(
          <div>
         <AppBar 
@@ -79,28 +81,30 @@ class AnswerFilter extends React.Component {
           >
           {Object.keys(this.props.answerOptions).map( (answerOption, i) =>{
             let data = this.props.answerOptions[answerOption];
+            console.log("DATA on ANSWER FILTER" , data)
             return (<Tab
             key={i}
             onClick={()=>this.props.handleAnswerOptionChange(answerOption)}
             label={
               <div>
-              <Typography variant="subheading" component="p">
+              <Typography component="h4" style={{fontSize:15}}>
                 {data.label}
               </Typography>
-              <Typography variant="subheading" component="p">
+              <Typography variant="subheading" component="p" style={{overflowWrap:'break-word'}}>
                 {data.answerOption}
               </Typography>
               </div>
             }
             value={data.label}
               style={{
+                overflowWrap:'break-word',
                 backgroundColor: Object.keys(this.props.answerFilters).includes(answerOption)
                     ? this.props.answerFilters[answerOption].color
                     : theme.palette.secondary.main,
                   color: Object.keys(this.props.answerFilters).includes(answerOption)
                   ? theme.palette.secondary.main
                   : theme.palette.primary.main,
-                  height:'70px',
+                  height:'75px',
               }}
             />)
           })}

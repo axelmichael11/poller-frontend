@@ -11,7 +11,6 @@ import {
   import LoadingHOC from '../loading/loadingHOC.js'
   import SubmitButton from '../loading/button.js'
   import MyPolls from '../my-polls'
-  import HelpTab from '../help-feature'
 
   import { withStyles } from '@material-ui/core/styles';
   import {Button,

@@ -44,10 +44,12 @@ module.exports = {
         textAlign:'center',
         color:primaryColor,
         backgroundColor:secondaryColor,
+        fontSize:30,
       },
       subheading:{
         display:'block',
         fontFamily:"Play",
+        fontSize:14,
       },
 
       title:{
@@ -59,6 +61,9 @@ module.exports = {
       display1:{
         color:secondaryColor,
         backgroundColor: primaryColor,
+        textAlign: 'left',
+        padding: '5px',
+        fontSize:30,
       },
 
       display3:{
@@ -72,7 +77,10 @@ module.exports = {
         color:primaryColor,
         backgroundColor: secondaryColor,
         textAlign:'center'
-      }
+      },
+      overflowWrap:'break-word',
+      fontSize:10,
+
 
     },
     overrides: {
@@ -139,6 +147,12 @@ module.exports = {
       PollCard:{
         cardHeader:{
           textAlign:'center',
+          fontFamily: appFonts,
+          color: secondaryColor,
+          backgroundColor: primaryColor,
+          },
+          subheading:{
+            textAlign:'center',
           fontFamily: appFonts,
           color: secondaryColor,
           backgroundColor: primaryColor,
@@ -247,32 +261,12 @@ module.exports = {
             height:'4em',
             textAlign:'center',
             fontSize: 20,
+            '&:hover': {
+              backgroundColor: '#000',
+              color:'#fff'
+            },
           },
-          helpBarButton:{
-            margin:0,
-            padding:0,
-            textAlign:'center',
-            backgroundColor: '#000',
-            display:'inline-block',
-            // verticalAlign:'top',
-            color:"#fff",
-            fontFamily: [
-              'Play',
-              'Roboto',
-              'Arial',
-              'sans-serif',
-            ].join(','),
-            // '&:hover': {
-            //   backgroundColor: '#fff',
-            //   color:'#000'
-            // },
-              // verticalAlign:'top',
-              width: '75%',
-              maxWidth: '75%', 
-              flexGrow: 1,
-              display:'inline-block'
-    
-          },
+        
           filterButton:{
             margin:0,
             padding:0,

@@ -3,6 +3,7 @@ import ReactHighcharts from 'react-highcharts';
 import CHARTCONFIG from './chart-type-config'
 
 const BarChart = ({...props})=>{
+  console.log('BARCHART DATA', props)
   const yValues = props.data.map(datapoint=>datapoint.y)
   const maxHeight = Math.round(Math.max(...yValues))
     let config = {
@@ -19,14 +20,14 @@ const BarChart = ({...props})=>{
           }
         },
         chart: {
-          // height:''
+          height:'75%',
           type: props.chartOptions.chartType.name,
           animation: {
             duration: 1000,
             // easing: this.easeOutBounce
           },
           marginTop:20,
-          marginRight:20,
+          marginRight:35,
           // marginLeft:20,
           marginBottom: props.chartOptions.showLegend ? 100 : 40,
         },
@@ -55,7 +56,7 @@ const BarChart = ({...props})=>{
           gridLineWidth: 0,
           minorGridLineWidth: 0,
           lineColor: 'transparent',
-          visibile: props.chartOptions.showXAxis,
+          visibile: false,
           categories: props.categories,
           min:0,
           max: props.categories.length-1,

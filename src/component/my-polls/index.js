@@ -1,16 +1,15 @@
 
 import React from 'react'
 import {compose, branch, renderComponent} from 'recompose'
-import PublicPollCard from '../poll-card-design/public-poll-card'
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
-  import Collapse from '@material-ui/core/Collapse';
-
+import Collapse from '@material-ui/core/Collapse';
 import NoPolls from './no-polls'
 import Error from '../error'
 import Loader from '../loading/loader'
 import { withStyles } from '@material-ui/core/styles';
-
+import NewPublicPollCard from '../poll-card-design/new-public-poll-card'
+  
 
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import DeleteIcon from '@material-ui/icons/Delete';
@@ -52,7 +51,17 @@ const styles = theme => ({
 
 export const Polls = ({...props}) => props.userPolls.length > 0 ?
 props.userPolls.map((poll,key) => <div className="list-row" key={key}>
-                <PublicPollCard 
+
+<NewPublicPollCard
+          pollActions={()=><IconButton
+            // className={props.classes.pollActions}
+            onClick={()=> props.handlePollDeleteAlertOpen(poll)}
+          >
+            <DeleteIcon />
+          </IconButton>}
+          poll={poll}
+        />
+                {/* <PublicPollCard 
                 poll={poll}
                 pollActions={<IconButton
                     className={props.classes.pollActions}
@@ -60,9 +69,15 @@ props.userPolls.map((poll,key) => <div className="list-row" key={key}>
                   >
                     <DeleteIcon />
                   </IconButton>}
-                />
+                /> */}
             </div>) : <NoPolls/>
 
+
+// {<IconButton
+//   onClick={(event)=> {
+//     props.handleOpenCardMenu(event)
+//     props.setPoll(poll)
+//   }}>
 
 const WithLoading = (props) => {
   return (
