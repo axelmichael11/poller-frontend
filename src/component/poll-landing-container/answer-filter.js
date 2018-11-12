@@ -81,13 +81,12 @@ class AnswerFilter extends React.Component {
           >
           {Object.keys(this.props.answerOptions).map( (answerOption, i) =>{
             let data = this.props.answerOptions[answerOption];
-            console.log("DATA on ANSWER FILTER" , data)
             return (<Tab
             key={i}
             onClick={()=>this.props.handleAnswerOptionChange(answerOption)}
             label={
               <div>
-              <Typography component="h4" style={{fontSize:15}}>
+              <Typography component="h4" style={{fontSize:25, fontWeight:'bold'}}>
                 {data.label}
               </Typography>
               <Typography variant="subheading" component="p" style={{overflowWrap:'break-word'}}>

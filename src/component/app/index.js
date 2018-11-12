@@ -47,7 +47,6 @@ class App extends React.Component {
     this.login = this.login.bind(this);
     this.logout = this.logout.bind(this);
     this.handleCallBackAuthentication = this.handleCallBackAuthentication.bind(this);
-    this.handleAuthentication = this.handleAuthentication.bind(this);
     this.isAuthenticated = this.isAuthenticated.bind(this);
     this.handleAuthentication = this.handleAuthentication.bind(this);
     this.setSession = this.setSession.bind(this)
@@ -55,18 +54,25 @@ class App extends React.Component {
       domain: __AUTH0_CLIENT_DOMAIN__,
       clientID: __AUTH0_CLIENT_ID__,
       });
+    this.checkPollerProfile = this.checkPollerProfile.bind(this)
   }
 
   handleAuthentication() {
     let result;
     return new Promise((resolve,reject)=>{
-    this.auth0.parseHash({ hash: window.location.hash }, (err, authResult) => {
+    this.auth0.parseHash({hash: window.location.hash}, (err, authResult) => {
       if (authResult && authResult.accessToken && authResult.idToken) {
-        this.setSession(authResult);
         result = authResult
-        // this.props.profileFetch()
-        this.props.history.push('/explore')
-        return resolve()
+        this.props.profileFetch()
+        .then(profile=>{
+          console.log('PROFILE', profile)
+          this.setSession(authResult, profile);
+          this.props.history.push('/explore')
+          return resolve()
+        })
+        .catch(error=>{
+          console.log('error retreiving profile...', error)
+        })
         
       } else if (err) {
         console.log(err);
@@ -77,13 +83,13 @@ class App extends React.Component {
   })    
   }
 
-  setSession(authResult) {
+  setSession(authResult, profile) {
     // Set the time that the Access Token will expire at
     let expiresAt = JSON.stringify((authResult.expiresIn * 1000) + new Date().getTime());
       localStorage.setItem('access_token', authResult.accessToken);
       localStorage.setItem('id_token', authResult.idToken);
       localStorage.setItem('expires_at', expiresAt);
-    
+      localStorage.setItem('pollerProfile', JSON.stringify(profile))
       this.props.setAuthToken(authResult.accessToken)
   }
 
@@ -94,13 +100,31 @@ class App extends React.Component {
     localStorage.removeItem('expires_at');
     this.props.history.push('/login')
   }
+  checkPollerProfile(profile){
+    let parsed = JSON.parse(profile);
+    console.log('parsedddd', parsed)
+      if (typeof parsed == 'object' &&
+        parsed.age && 
+        parsed.profession &&
+        parsed.religion && 
+        parsed.politics && 
+        parsed.email && 
+        parsed.nickname &&
+        parsed.gender){
+          return true;
+        } else {
+          return false
+        }
+  }
 
   isAuthenticated() {
     let expiresAt = JSON.parse(localStorage.getItem('expires_at'));
     let accessToken = localStorage.getItem('access_token')
-    if (new Date().getTime() < expiresAt && accessToken){
+    let profileInStorage = localStorage.getItem('pollerProfile');
+    if (new Date().getTime() < expiresAt && accessToken && typeof profileInStorage =='object'){
+      this.checkPollerProfile(profileInStorage)
       this.props.setAuthToken(accessToken);
-      return true
+      return true;
   } else {
     return false
   }

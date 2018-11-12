@@ -7,7 +7,7 @@ import {login} from './auth-actions.js'
 import {loadingOn, loadingOff} from './loading-actions'
 
 const storeUserProfile = (userProfile) => {
-  localStorage.setItem('userInfo', JSON.stringify(userProfile))
+  localStorage.setItem('pollerProfile', JSON.stringify(userProfile))
     return { type: 'user_profile', payload: userProfile }
   }
 
@@ -31,21 +31,14 @@ const storeUserProfile = (userProfile) => {
   }
 
 
-  export const localStorageProfileFetch = () => (dispatch, getState) => {
-    let auth0Token = localStorage.poller_token
-    return superagent
-      .get(`${__API_URL__}/api/user`)
-      .set('Authorization', `Bearer ${auth0Token}`)
-      .then(res => {
-        let parsed = JSON.parse(res.text)
-        dispatch(storeUserProfile(parsed))
-        dispatch(login())
-        return parsed
-      })
-      .catch(err => {
-      })
+  export const quickLoginProfileFetch = () =>{
+    let profile = JSON.parse(localStorage.getItem('pollerProfile'))
+    if (profile){
+      dispatch(storeUserProfile(profile))
+    } else {
+      this.profileFetch()
+    }
   }
-
 
 export const profileUpdate = (profile) => (dispatch, getState) => {
   let { auth0Token } = getState();

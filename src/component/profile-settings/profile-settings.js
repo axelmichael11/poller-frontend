@@ -332,7 +332,7 @@ class ProfileSettings extends React.Component {
   profileUpdateSubmit(){
     let {age, ethnicity, profession, gender, country, religion, politics} = this.state;
     this.setState({updateLoading:true, updateErrorOpen:false,})
-    
+    console.log('PROFILE TO SUBMIT',age, ethnicity, profession, gender, country, religion, politics )
     this.props.profileUpdate({age, ethnicity, profession, gender, country, religion, politics})
     .then((res)=>{
       if (res.status===200){

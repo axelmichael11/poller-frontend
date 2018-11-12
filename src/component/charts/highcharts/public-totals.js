@@ -109,9 +109,9 @@ const PublicPollTotals = ({...props}) =>{
           minorGridLineWidth: 0,
           lineColor: 'transparent',
           visibile: false,
-          categories: Object.keys(props.quickTotals.categories),
+          categories: Object.values(props.quickTotals.categories),
           min:0,
-          max: Object.keys(props.quickTotals.categories).length-1,
+          max: Object.values(props.quickTotals.categories).length-1,
             labels: {
               align:'center',
               formatter: function () {

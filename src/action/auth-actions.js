@@ -9,7 +9,7 @@ export const login = () => {
 
   
   export const logout = () => {
-    localStorage.removeItem('userInfo')
+    localStorage.removeItem('pollerProfile')
     localStorage.removeItem('loggedIn')
     localStorage.removeItem('poller_token')
     localStorage.removeItem('reduxPersist:auth')

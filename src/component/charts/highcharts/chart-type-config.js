@@ -1,12 +1,9 @@
 module.exports = {
     tooltip:{
-            // headerFormat: '<b>{point.key}</b><br>',
-            // pointFormat: '{}{point.y} %',
             formatter: function() {
-                let demographicText = this.point.name?' are '+this.point.name:'';
-                return `<b>${this.point.id}</b><br/>`+
-                `${this.point.y}% of voters for Answer ${this.point.id}`+
-                demographicText;
+                console.log("TOOL TIP FORMATTER", this )
+                return `<b>Answer - ${this.point.id}</b><br/>`+
+                `${this.point.name} - ${this.point.y}%`;
             },
             backgroundColor:'black',
             style:{
