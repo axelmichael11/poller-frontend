@@ -7,7 +7,7 @@ const styles = theme =>({
     container: theme.overrides.MuiPaper,
     text: theme.typography.text,
     voteButton: theme.uniqueStyles.MuiVoteButton,
-    voteButtonTitleText: theme.uniqueStyles.MuiVoteButton.titleText,
+    // voteButtonTitleText: theme.uniqueStyles.MuiVoteButton.titleText,
     voteButtonOptionText: theme.uniqueStyles.MuiVoteButton.optionText,
     button:theme.overrides.MuiButton,
   })
@@ -20,13 +20,8 @@ export const YNVoteButton = withStyles(styles, {withTheme:true})((props) =>{
         variant="outlined"
         onClick={()=>props.handleVoteClick(props.voteValue)} 
         className={props.classes.voteButton}
-        // value={props.voteValue}
         >
-        <Typography 
-            className={props.classes.voteButtonTitleText}
-            // style={{width:'40%' }}
-        >{props.optionChoice} 
-        </Typography>
+      {props.optionChoice} 
         </Button>
       </div>
     )
@@ -47,7 +42,7 @@ export const MCVoteButton = withStyles(styles, {withTheme:true})((props) =>{
         </Typography>
         <Typography 
             className={props.classes.voteButtonOptionText}
-        > "{props.voteButtonText}"
+        > {props.voteButtonText}
         </Typography>
         </Button>
       </div>

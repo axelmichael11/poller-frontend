@@ -53,7 +53,6 @@ class NewPublicPollCard extends React.Component {
     constructor(props){
         super(props)
         this.state={
-
         }
         this.renderAnwerOptions = this.renderAnwerOptions.bind(this)
     }
@@ -74,7 +73,7 @@ class NewPublicPollCard extends React.Component {
                 <div>
                     <Paper square elevation={2} className={this.props.classes.container}>
                     <Card style={{padding:7}}>
-                    <div style={{width:'5%', textAlign:'right', float:'right'}}>
+                    <div style={{width:'10%', textAlign:'right', float:'right'}}>
                         {this.props.pollActions()}
                         </div>
                 <CardContent>
@@ -89,20 +88,19 @@ class NewPublicPollCard extends React.Component {
                 style={{ textDecoration: 'none' }}>
                 <CardContent>
                                 <Typography variant="display3" style={{overflowWrap:'break-word'}}>
-                                "{this.props.poll.question}"
+                                {this.props.poll.question}
                                 </Typography>
                 </CardContent>
                             <div>
                             {this.props.poll.quickTotals && <PublicPollTotals quickTotals={this.props.poll.quickTotals}/>} 
-                            {!this.props.poll.quickTotals && <AnswerOptionsDisplay categories={this.props.poll.categories}/>}
                             </div>
                 <CardContent>
                     <Typography variant="subheading" component="p">
                             {subjects_list[this.props.poll.subject]}
                         </Typography>
-                    <Typography variant="subheading" component="p">
+                    {/* <Typography variant="subheading" component="p">
                             Poll Expiration: {this.props.poll.expiration} hours
-                        </Typography>
+                        </Typography> */}
                 </CardContent>
                 </Link>
                     </Card>
@@ -111,6 +109,8 @@ class NewPublicPollCard extends React.Component {
         )
     }
 }
+
+// {!this.props.poll.quickTotals && <AnswerOptionsDisplay type={this.props.poll.type} categories={this.props.poll.categories}/>}
 
 
 export default compose(

@@ -10,7 +10,7 @@ import _ from 'lodash'
 import {fetchPolls} from '../../action/public-poll-actions.js'
 
 import PollVotePage from './poll-vote'
-import MCPollResults from './multiple-choice-poll-results'
+import PollResultsPage from './poll-results-page'
 
 import Loader from '../loading/loader'
 import Error from '../error'
@@ -35,54 +35,7 @@ const withError = (conditionFn) => (Component) => (props) =>{
 }
 
 
-const withLoading = (conditionFn) =>  (Component) => (props) => {
-  return(
-    <div>
-    <Component {...props} />
 
-    <div className="interactions">
-    <Component {...props}/>
-      {conditionFn(props) && <Loader start={Date.now()} timeError={props.throwError}/>}
-    </div>
-  </div>
-  )
-}
-
-const renderVotePage =(conditionFn) =>  (Component) => (props) => {
-      return (
-          <div>
-              <Component {...props}/>
-          {conditionFn(props) && <PollVotePage {...props}/>}
-          </div>
-         )
-  }
-
-
-  class RenderVotePage extends React.Component {
-    constructor(props){
-        super(props)
-        this.state ={};
-
-        this.renderVotePage = this.renderVotePage.bind(this)
-    }
-
-    renderVotePage(){
-        if (this.props.alreadyVoted){
-            console.log('HITTING ALREADY VOTED')
-            return <MCPollResults {...this.props}/>
-        } else {
-          return <PollVotePage {...this.props}/>
-        }
-    }
-    render(){
-        return(
-            <div>
-                {this.renderVotePage()}
-                {null}
-            </div>
-        )
-    }
-}
 
 
 
@@ -117,10 +70,9 @@ const renderVotePage =(conditionFn) =>  (Component) => (props) => {
   branch(
     (props) =>
     props.alreadyVoted
-    && props.pollData.type =='MC'
     && !props.Loading
     && !props.error,
-    renderComponent(MCPollResults)
+    renderComponent(PollResultsPage)
 ),
   branch(
     props =>

@@ -60,6 +60,7 @@ const PublicPollTotals = ({...props}) =>{
           }
         },
         chart: {
+          // width:'25%',
           height:'75%',
           type: 'column',
           animation: {

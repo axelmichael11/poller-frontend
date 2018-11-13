@@ -244,29 +244,24 @@ module.exports = {
         textAlign:'center',
             margin:15,
             textAlign: 'center',
-            backgroundColor: '#fff',
-            color:"#000",
+            backgroundColor: secondaryColor,
+            color: primaryColor,
             fontFamily: [
               'Play',
               'Roboto',
               'Arial',
               'sans-serif',
             ].join(','),
-            '&:hover': {
-              backgroundColor: '#000',
-              color:'#fff'
-            },
             margin:'1em auto',
             width:'75%',
             height:'4em',
             textAlign:'center',
             fontSize: 20,
             '&:hover': {
-              backgroundColor: '#000',
-              color:'#fff'
+              backgroundColor: primaryColor,
+              color: secondaryColor
             },
           },
-        
           filterButton:{
             margin:0,
             padding:0,

@@ -67,9 +67,9 @@ const CardCase = ({...props}) =>{
                 <Typography variant="subheading" component="p">
                         {subjects_list[props.poll.subject]}
                     </Typography>
-                <Typography variant="subheading" component="p">
+                {/* <Typography variant="subheading" component="p">
                         Poll Expiration: {props.poll.expiration} hours
-                    </Typography>
+                    </Typography> */}
                 </CardContent>
                 </Card>
         </Paper>

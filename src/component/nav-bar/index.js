@@ -67,7 +67,6 @@ class NavBar extends React.Component {
   }
 
   componentWillUnmount(){
-    console.log('NAVBAR COMPONENT UNMOUTNED')
     // window.removeEventListener('scroll', ()=>this.updateScrollPosition(), true);
 
   }

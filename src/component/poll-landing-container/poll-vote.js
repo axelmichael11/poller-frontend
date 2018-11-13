@@ -160,7 +160,6 @@ class PollVotePage extends React.Component {
     this.renderSubmitVoteDialogContent = this.renderSubmitVoteDialogContent.bind(this)
     this.handleSubmitVoteError = this.handleSubmitVoteError.bind(this)
     this.handleConfirmVoteChange = this.handleConfirmVoteChange.bind(this)
-    this.renderAnswerOptions = this.renderAnswerOptions.bind(this)
   }
 
   handleConfirmVoteChange(value){
@@ -348,9 +347,8 @@ handleReportSuccess(){
   renderReportDialogContent(){
     <div>
       <DialogContentText id="alert-dialog-description">
-        {this.state.reportContent}
+      Is this poll offensive? Please report if so and we will review this shortly! Sorry for the material :(
       </DialogContentText>
-      <ProfileCategory/>
       </div>
   }
 
@@ -361,30 +359,6 @@ handleReportSuccess(){
   handleSubmitVoteError(){
     this.setState({dialogLoading: false, submitVoteError:true})
   }
-
-  renderAnswerOptions(poll){
-    if (poll.type =='YN'){
-      return (
-        <div>
-          <YNVoteButton handleVoteClick={this.handleConfirmVoteChange} optionChoice={'Yes'} voteValue={'yes'}/>
-          <YNVoteButton handleVoteClick={this.handleConfirmVoteChange} optionChoice={'No'} voteValue={'no'}/>
-        </div>
-      )
-    }
-    if (poll.type =='MC'){
-      return(
-        <div>
-          {poll.mc_a_option ? <MCVoteButton handleVoteClick={this.handleConfirmVoteChange} optionChoice={this.state.answerLabels[0]} voteButtonText={poll.mc_a_option} voteValue={'a'}/>: null}
-          {poll.mc_b_option ? <MCVoteButton handleVoteClick={this.handleConfirmVoteChange} optionChoice={this.state.answerLabels[1]} voteButtonText={poll.mc_b_option} voteValue={'b'}/>: null}
-          {poll.mc_c_option ? <MCVoteButton handleVoteClick={this.handleConfirmVoteChange} optionChoice={this.state.answerLabels[2]} voteButtonText={poll.mc_c_option} voteValue={'c'}/>: null}
-          {poll.mc_d_option ? <MCVoteButton handleVoteClick={this.handleConfirmVoteChange} optionChoice={this.state.answerLabels[3]} voteButtonText={poll.mc_d_option} voteValue={'d'}/>: null}
-        </div>
-      )
-    }
-    
-  }
-
-
 
   render() {
     let {classes} = this.props
@@ -398,35 +372,61 @@ handleReportSuccess(){
             handleClose={this.handleCloseCardMenu}
           />
 
-        <AnswerCardCase {...this.props}>
-            
-            <CardContent>
-                <Typography variant="display3" style={{textAlign:'center'}}>
-                   "{poll.question}"
-                </Typography>
-            </CardContent>
+        <Paper square elevation={2} className={this.props.classes.container}>
+                    <Card style={{padding:7}}>
+                    <div style={{width:'10%', textAlign:'right', float:'right'}}>
+                    <IconButton
+                      onClick={(event)=> {
+                        this.handleOpenCardMenu(event)
+                        this.setPoll(poll)
+                      }}>
+                    <MoreVertIcon 
+      style={{color:'#000'}}
+      />
+      </IconButton>
+                    </div>
+          <CardContent>
+            <Typography variant="subheading" component="p" style={{width:'50%'}}>
+                      {poll.author_username}:
+            </Typography>
+          </CardContent>
+          <CardContent>
+              <Typography variant="display3" style={{textAlign:'center'}}>
+                  {poll.question}
+              </Typography>
+          </CardContent>
 
-            <CardContent>
-              {Object.keys(poll.categories).map((category, key)=>
-                <div key={key}>
-                  <MCVoteButton 
-                  handleVoteClick={this.handleConfirmVoteChange} 
-                  optionChoice={category} 
-                  voteButtonText={poll.categories[category]} 
-                  voteValue={category}/>
-                </div>
-              )}
-            </CardContent>
+          <CardContent>
+            {poll.type=='MC' && Object.keys(poll.categories).map((category, key)=>
+              <div key={key}>
+                <MCVoteButton 
+                handleVoteClick={this.handleConfirmVoteChange} 
+                optionChoice={category} 
+                voteButtonText={poll.categories[category]} 
+                voteValue={category}/>
+              </div>
+            )}
+            {poll.type=='YN' && Object.keys(poll.categories).map((category, key)=>
+              <div key={key}>
+                <YNVoteButton 
+                handleVoteClick={this.handleConfirmVoteChange} 
+                optionChoice={category} 
+                voteButtonText={poll.categories[category]} 
+                voteValue={category}/>
+              </div>
+            )}
+          </CardContent>
 
-            <CardContent>
+          <CardContent>
             <Typography variant="subheading">
                     {subjects_list[poll.subject]}
                 </Typography>
-            <Typography variant="subheading">
+            {/* <Typography variant="subheading">
                     Poll Expiration: {poll.expiration} hours
-            </Typography>
-            </CardContent>
-            </AnswerCardCase>
+            </Typography> */}
+          </CardContent>
+        </Card>
+      </Paper>
 
         <ResponsiveDialog
           dialogTitle={this.state.dialogTitle}

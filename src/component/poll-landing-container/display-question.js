@@ -112,7 +112,7 @@ class QuestionCardContent extends React.Component {
                         {this.props.authorUsername}:
                         </Typography>
                         <Typography variant="display3" style={{overflowWrap:'break-word'}}>
-                        "{this.props.question}"
+                        {this.props.question}
                         </Typography>
                     </CardContent>
               </Collapse>

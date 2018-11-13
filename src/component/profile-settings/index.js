@@ -56,7 +56,6 @@ class ProfilePage extends React.Component {
 
   render() {
     let {classes, theme} = this.props
-    console.log('LANDING PAGE', this.state, 'PROFILE', this.props.userProfile)
     return (
       <div>
         <RenderProfile

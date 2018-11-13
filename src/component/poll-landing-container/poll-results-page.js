@@ -12,7 +12,6 @@ import {
 import AnswerFilter from './answer-filter'
 import AnswerCardCase from '../poll-card-design/answer-card-case'
 
-// import TotalVotesGraph from '../charts/vote-totals/index'
 
 
 
@@ -81,7 +80,7 @@ const styles = theme =>({
   colorChangeButton: theme.uniqueStyles.colorChangeButton.root
 })
 
-class MCPollResults extends React.Component {
+class PollResultsPage extends React.Component {
     constructor(props){
         super(props)
         this.state ={
@@ -549,4 +548,4 @@ export const mapStateToProps = state => ({
   export default compose(
     connect(mapStateToProps, mapDispatchToProps),
     withStyles(styles, {withTheme:true}),
-  )(MCPollResults);
+  )(PollResultsPage);

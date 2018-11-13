@@ -367,12 +367,14 @@ class PollCreatePage extends React.Component {
 
   handleYesNoPollSubmit(){
       let {pollSubject, pollQuestion} = this.state
+      let answerOptions = ['Yes', 'No']
       let {nickname} = this.props.userProfile
       let poll = Object.assign({}, {
         pollSubject, 
         pollQuestion, 
         nickname, 
         type:"YN",
+        answerOptions,
       })
       if (poll.pollSubject === null){
           this.handleSubjectValidationError();
@@ -409,7 +411,7 @@ class PollCreatePage extends React.Component {
     let poll = Object.assign({}, {
       pollSubject, 
       pollQuestion, 
-      nickname, 
+      nickname,
       type:"MC",
       answerOptions
     })
