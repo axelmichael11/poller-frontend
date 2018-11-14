@@ -154,7 +154,7 @@ const PublicPollTotals = ({...props}) =>{
                     config={config}
                     style={{
                     margin: '0 auto',
-                    width: '50%',
+                    // width: '50%',
                     }}
                 ></ReactHighcharts>
             </CardContent>

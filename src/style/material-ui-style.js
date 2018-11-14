@@ -131,7 +131,7 @@ module.exports = {
       },
       MuiPaper:{
         root:{
-          maxWidth: 900, 
+          maxWidth: 890, 
           margin: 'auto',
           marginBottom:20,
           flexGrow: 1
@@ -139,6 +139,8 @@ module.exports = {
       },
       MuiAppBar:{
         root:{
+          maxWidth:900,
+          margin: 'auto',
           fontSize: 20,
           fontFamily: "Play",
           backgroundColor: '#000',
@@ -173,8 +175,6 @@ module.exports = {
       MuiCheckbox: {
         root:{
           color: primaryColor,
-          // backgroundColor: secondaryColor,
-          // marginBottom: 16,
           marginLeft: 10,
           fontFamily: 'Play',
           fontSize: 20,
@@ -186,8 +186,6 @@ module.exports = {
         },
         colorPrimary: secondaryColor,
       },
-
-
       MuiCardActions:{
        root:{
         maxWidth: 900, 
@@ -211,6 +209,17 @@ module.exports = {
       }
     },
     uniqueStyles:{
+      contentMargin:{
+        margin:'0 6px'
+      },
+      NavBarContainer:{
+        root:{
+          maxWidth: 900, 
+          margin: 'auto',
+          marginBottom:20,
+          flexGrow: 1
+        }
+      },
       colorChangeButton:{
         root: {
           // Some CSS

@@ -66,6 +66,7 @@ import NotInterested from '@material-ui/icons/NotInterested';
 
 
 const styles = theme =>({
+  contentMargin: theme.uniqueStyles.contentMargin,
   container: theme.overrides.MuiPaper,
   text: theme.typography.text,
   
@@ -365,13 +366,12 @@ handleReportSuccess(){
     let poll = this.props.location.state
     console.log('POLL INFO', poll)
     return (
-      <div>
+      <div className={classes.contentMargin}>
          <CardMenu
             anchorEl={this.state.anchorEl}
             renderMenuButtons={this.renderMenuButtons}
             handleClose={this.handleCloseCardMenu}
           />
-
         <Paper square elevation={2} className={this.props.classes.container}>
                     <Card style={{padding:7}}>
                     <div style={{width:'10%', textAlign:'right', float:'right'}}>
@@ -391,7 +391,9 @@ handleReportSuccess(){
             </Typography>
           </CardContent>
           <CardContent>
-              <Typography variant="display3" style={{textAlign:'center'}}>
+              <Typography variant="display3" 
+                style={{textAlign:'center', wordWrap:'break-word'}}
+              >
                   {poll.question}
               </Typography>
           </CardContent>

@@ -112,7 +112,7 @@ class ExplorePage extends React.Component {
     if(Object.keys(this.props.publicPolls)== 0){
       this.fetchPolls()
     }
-    // window.addEventListener('scroll', ()=>this.updateScrollPosition(), true);
+    window.addEventListener('scroll', ()=>this.updateScrollPosition(), true);
   }
 
   updateScrollPosition(){

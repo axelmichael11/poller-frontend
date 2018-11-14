@@ -28,7 +28,6 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import subjects_list  from '../../lib/poll-subjects'
 
 
-const ITEM_HEIGHT = 48;
 
 const styles = theme => ({
     cardContent:{

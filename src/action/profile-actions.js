@@ -44,8 +44,9 @@ export const profileUpdate = (profile) => (dispatch, getState) => {
       .set('Authorization', `Bearer ${auth0Token}`)
       .send(profile)
       .then(res => {
+        console.log('RESPONSE', res)
         let parsed = JSON.parse(res.text)
-        dispatch(storeUserProfile(parsed))
+        dispatch(storeUserProfileFromFetch(parsed))
         parsed.status=res.status
         return parsed
       })

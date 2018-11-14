@@ -40,7 +40,7 @@ import QuickScroll from './quick-scroll'
 
 
 const styles = theme =>({
-  appBar: theme.overrides.MuiAppBar,
+  appBar: theme.overrides.MuiAppBar.root,
 
 })
 

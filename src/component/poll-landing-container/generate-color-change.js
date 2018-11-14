@@ -28,7 +28,6 @@ import {
     
 import ColorChangeIcon from '@material-ui/icons/autorenew'
 
-const ITEM_HEIGHT = 48;
 
 
 const styles = theme =>({

@@ -54,6 +54,7 @@ const FeedBackSubmitButton = LoadingHOC(SubmitButton)
 
 
   const styles = theme => ({
+    contentMargin: theme.uniqueStyles.contentMargin,
     container: theme.overrides.MuiPaper,
     button: theme.overrides.MuiButton,
    
@@ -548,7 +549,7 @@ renderFormType(){
     const {classes, theme} = this.props
     console.log("POLL CREATE USER PROFILE:", this.props.userProfile)
     return (
-        <div>
+        <div className={this.props.classes.contentMargin}>
           <Dialog
             open={this.state.pollDeleteAlert}
             modal={false}

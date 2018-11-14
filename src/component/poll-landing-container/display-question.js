@@ -32,7 +32,6 @@ import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 
 
 
-const ITEM_HEIGHT = 48;
 
 
 const styles = theme =>({

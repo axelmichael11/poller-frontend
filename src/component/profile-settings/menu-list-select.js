@@ -93,7 +93,7 @@ const MenuListSelect = ({list, listTitle, handleOpenList, selectedItem, anchorEl
       onClose={handleCloseList}
       PaperProps={{
         style: {
-          maxHeight: 48 * 4.5,
+          // maxHeight: 48 * 4.5,
           maxWidth: 300,
         },
       }}

@@ -6,7 +6,7 @@ import { Link, withRouter } from 'react-router-dom'
 import {  compose } from 'recompose'
 import subjects_list from '../../lib/poll-subjects'
 import { withStyles } from '@material-ui/core/styles';
-import CardCase from './new-card-case.js'
+// import CardCase from './new-card-case.js'
 
 import {Paper,
 classnames,
@@ -32,6 +32,7 @@ import PublicPollTotals from '../charts/highcharts/public-totals';
 import AnswerOptionsDisplay from './answer-options-display';
 
 const styles = theme =>({
+    contentMargin: theme.uniqueStyles.contentMargin,
     container: theme.overrides.MuiPaper.root,
     cardHeader:theme.overrides.PollCard.cardHeader,
     deleteButton: theme.overrides.MuiIcon,
@@ -70,7 +71,7 @@ class NewPublicPollCard extends React.Component {
     }
     render(){
             return (
-                <div>
+                <div className={this.props.classes.contentMargin}>
                     <Paper square elevation={2} className={this.props.classes.container}>
                     <Card style={{padding:7}}>
                     <div style={{width:'10%', textAlign:'right', float:'right'}}>

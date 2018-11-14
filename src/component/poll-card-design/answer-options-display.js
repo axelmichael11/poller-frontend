@@ -57,22 +57,23 @@ const AnswerOptionsDisplay = ({...props}) =>{
                  variant="outlined"
                  className={props.classes.answerOption}
                  >
-                 {props.type=='MC'?
-                 <div>
-                    <Typography 
+                 {/* {props.type=='MC'?
+                 <div> */}
+                    {/* <Typography 
                         className={props.classes.voteButtonTitleText}
                     > {category}: 
                     </Typography>
                     <Typography 
                         className={props.classes.voteButtonOptionText}
-                    > {props.categories[category]}
-                    </Typography>
+                    >  */}
+                    {props.categories[category]}
+                    {/* </Typography>
                 </div>:
                 <Typography 
                     className={props.classes.voteButtonOptionText}
                     > {props.categories[category]}
                 </Typography>
-                }
+                } */}
                 </Button>
              )}   
              </div>

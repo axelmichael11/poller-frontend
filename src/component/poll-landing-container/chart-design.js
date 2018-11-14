@@ -38,7 +38,6 @@ import AddIcon from '@material-ui/icons/Add';
 import DeleteIcon from '@material-ui/icons/Delete';
 
 
-const ITEM_HEIGHT = 48;
 
 
 const styles = theme =>({
@@ -118,7 +117,7 @@ class ChartDesign extends React.Component {
           }}
           PaperProps={{
             style:{
-              maxHeight: ITEM_HEIGHT * 4.5,
+              // maxHeight: ITEM_HEIGHT * 4.5,
               width: 200,
               backgroundColor: "rgb(0, 0, 0)",
     //     /* RGBa with 0.6 opacity */
