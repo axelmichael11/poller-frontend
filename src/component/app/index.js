@@ -46,13 +46,29 @@ class App extends React.Component {
     this.handleCallBackAuthentication = this.handleCallBackAuthentication.bind(this);
     this.handleAuthentication = this.handleAuthentication.bind(this);
     this.setSession = this.setSession.bind(this)
-
+    this.Auth0Options = {
+      theme: {
+        authButtons: {
+          "testConnection": {
+            displayName: "Test Conn",
+            primaryColor: "#b7b7b7",
+            foregroundColor: "#000000",
+            icon: "https://raw.githubusercontent.com/axelmichael11/poller-frontend/master/src/lib/poller_logo.png"
+          },
+          "testConnection2": {
+            primaryColor: "#000000",
+            foregroundColor: "#ffffff",
+          }
+        }
+      }
+    };
     this.isAuthenticated = this.isAuthenticated.bind(this);
     this.hasProfile = this.hasProfile.bind(this)
     this.accessGranted = this.accessGranted.bind(this)
     this.auth0 = new auth0.WebAuth({
       domain: __AUTH0_CLIENT_DOMAIN__,
       clientID: __AUTH0_CLIENT_ID__,
+      options: this.Auth0Options,
       });
   }
 
