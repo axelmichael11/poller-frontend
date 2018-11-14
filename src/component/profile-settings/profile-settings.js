@@ -97,13 +97,13 @@ const styles = theme => ({
     colorPrimary: theme.palette.secondary.main
   }
 });
-const ITEM_HEIGHT = 48;
+
 const ITEM_PADDING_TOP = 8;
 
 const MenuProps = {
   PaperProps: {
     style: {
-      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+      // maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
       width: 250,
     },
   },
@@ -332,15 +332,17 @@ class ProfileSettings extends React.Component {
   profileUpdateSubmit(){
     let {age, ethnicity, profession, gender, country, religion, politics} = this.state;
     this.setState({updateLoading:true, updateErrorOpen:false,})
-    
+    console.log('PROFILE TO SUBMIT',age, ethnicity, profession, gender, country, religion, politics )
     this.props.profileUpdate({age, ethnicity, profession, gender, country, religion, politics})
     .then((res)=>{
+      console.log('RESPONSE FROM PROFILE UPDATA', res)
       if (res.status===200){
       this.handleUpdatedSnackBarRequest()
       this.handleUpdateAlert()
       }
     })
     .catch(err=>{
+      console.log('ERORRO FROM PROFILE UPDATA', err)
       if (err.status===500){
         this.handleUpdateErrorSnackBarRequest()
         this.handleUpdateAlert()

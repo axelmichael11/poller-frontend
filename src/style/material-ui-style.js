@@ -131,7 +131,7 @@ module.exports = {
       },
       MuiPaper:{
         root:{
-          maxWidth: 900, 
+          maxWidth: 890, 
           margin: 'auto',
           marginBottom:20,
           flexGrow: 1
@@ -139,6 +139,8 @@ module.exports = {
       },
       MuiAppBar:{
         root:{
+          maxWidth:900,
+          margin: 'auto',
           fontSize: 20,
           fontFamily: "Play",
           backgroundColor: '#000',
@@ -173,8 +175,6 @@ module.exports = {
       MuiCheckbox: {
         root:{
           color: primaryColor,
-          // backgroundColor: secondaryColor,
-          // marginBottom: 16,
           marginLeft: 10,
           fontFamily: 'Play',
           fontSize: 20,
@@ -186,8 +186,6 @@ module.exports = {
         },
         colorPrimary: secondaryColor,
       },
-
-
       MuiCardActions:{
        root:{
         maxWidth: 900, 
@@ -211,6 +209,17 @@ module.exports = {
       }
     },
     uniqueStyles:{
+      contentMargin:{
+        margin:'0 6px'
+      },
+      NavBarContainer:{
+        root:{
+          maxWidth: 900, 
+          margin: 'auto',
+          marginBottom:20,
+          flexGrow: 1
+        }
+      },
       colorChangeButton:{
         root: {
           // Some CSS
@@ -244,29 +253,24 @@ module.exports = {
         textAlign:'center',
             margin:15,
             textAlign: 'center',
-            backgroundColor: '#fff',
-            color:"#000",
+            backgroundColor: secondaryColor,
+            color: primaryColor,
             fontFamily: [
               'Play',
               'Roboto',
               'Arial',
               'sans-serif',
             ].join(','),
-            '&:hover': {
-              backgroundColor: '#000',
-              color:'#fff'
-            },
             margin:'1em auto',
             width:'75%',
             height:'4em',
             textAlign:'center',
             fontSize: 20,
             '&:hover': {
-              backgroundColor: '#000',
-              color:'#fff'
+              backgroundColor: primaryColor,
+              color: secondaryColor
             },
           },
-        
           filterButton:{
             margin:0,
             padding:0,

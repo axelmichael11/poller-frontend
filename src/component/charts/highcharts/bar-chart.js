@@ -20,7 +20,7 @@ const BarChart = ({...props})=>{
           }
         },
         chart: {
-          height:'75%',
+          height:'50%',
           type: props.chartOptions.chartType.name,
           animation: {
             duration: 1000,
@@ -68,7 +68,7 @@ const BarChart = ({...props})=>{
               style: {
                 fontFamily:'Play',
                 fontFamily: 'Play',
-                fontSize: '2em',
+                fontSize: '1em',
                 color:'#000000'
               }
             },

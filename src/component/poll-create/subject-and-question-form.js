@@ -105,7 +105,7 @@ const SubjectAndQuestionForm = ({...props})=> {
       onClose={props.handleClosePollSubjectList}
       PaperProps={{
         style: {
-          maxHeight: 48 * 4.5,
+          // maxHeight: 48 * 4.5,
           maxWidth: 300,
         },
       }}>

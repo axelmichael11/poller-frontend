@@ -60,6 +60,7 @@ const PublicPollTotals = ({...props}) =>{
           }
         },
         chart: {
+          // width:'25%',
           height:'75%',
           type: 'column',
           animation: {
@@ -109,9 +110,9 @@ const PublicPollTotals = ({...props}) =>{
           minorGridLineWidth: 0,
           lineColor: 'transparent',
           visibile: false,
-          categories: Object.keys(props.quickTotals.categories),
+          categories: Object.values(props.quickTotals.categories),
           min:0,
-          max: Object.keys(props.quickTotals.categories).length-1,
+          max: Object.values(props.quickTotals.categories).length-1,
             labels: {
               align:'center',
               formatter: function () {
@@ -153,7 +154,7 @@ const PublicPollTotals = ({...props}) =>{
                     config={config}
                     style={{
                     margin: '0 auto',
-                    width: '50%',
+                    // width: '50%',
                     }}
                 ></ReactHighcharts>
             </CardContent>

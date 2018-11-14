@@ -30,6 +30,7 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Delete from '@material-ui/icons/Delete';
 
 const styles = theme =>({
+    contentMargin: theme.uniqueStyles.contentMargin,
     container: theme.overrides.MuiPaper.root,
     answerCardHeader:{
         textAlign:'center',
@@ -51,7 +52,7 @@ const styles = theme =>({
 
 const AnswerCardCase = ({...props}) =>{
     return (
-    <div className={props.classes.container}>
+    <div className={props.classes.contentMargin}>
     <Paper square elevation={2} className={props.classes.container}>
                 <Card style={{padding:7}}>
                 <CardHeader

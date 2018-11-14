@@ -8,10 +8,10 @@ const env = require('firebase-functions').config().env
 const app = express()
 
 app.use(cors({
-  preflightContinue: false,
-  origin: process.env.ORIGIN,
-  // credentials: true, 
-  methods: ['GET', 'PUT', 'POST'],
+  preflightContinue: true,
+  origin: process.env.POLLER_APP,
+  // "access-control-allow-headers" : "Content-Type, Authorization, Content-Length, X-Requested-With",
+  // "access-control-allow-methods" :"GET,PUT,POST,DELETE,OPTIONS",
 }))
 app.use(morgan('common'))
 const staticAssetsPath = path.join(__dirname, 'build');

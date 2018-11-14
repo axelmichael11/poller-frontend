@@ -112,7 +112,7 @@ class ExplorePage extends React.Component {
     if(Object.keys(this.props.publicPolls)== 0){
       this.fetchPolls()
     }
-    // window.addEventListener('scroll', ()=>this.updateScrollPosition(), true);
+    window.addEventListener('scroll', ()=>this.updateScrollPosition(), true);
   }
 
   updateScrollPosition(){
@@ -160,7 +160,7 @@ class ExplorePage extends React.Component {
   openReportDialog(poll){
     this.setState({
       dialogTitle: this.state.reportTitle,
-      dialogContent: this.state.reportContent,
+      // dialogContent: this.state.reportContent,
       dialogSubmitText: this.state.submitReportText,
       dialogOpen: true,
       anchorEl:null,

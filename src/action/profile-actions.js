@@ -6,45 +6,35 @@ import {login} from './auth-actions.js'
 
 import {loadingOn, loadingOff} from './loading-actions'
 
-const storeUserProfile = (userProfile) => {
-  localStorage.setItem('userInfo', JSON.stringify(userProfile))
+const storeUserProfileFromFetch = (userProfile) => {
+  console.log('PROFILE TO STORE from fetch', userProfile)
+  localStorage.setItem('poller_profile', JSON.stringify(userProfile))
     return { type: 'user_profile', payload: userProfile }
-  }
+}
 
+export const storeUserProfileFromLocalStorage = (userProfile) => {
+  console.log('PROFILE TO STORE from local storage', userProfile)
+    return { type: 'user_profile', payload: userProfile }
+}
 
-  export const profileFetch = () => (dispatch, getState) => {
-    let { auth0Token } = getState()
-    console.log('FIRING PROFILE FETCH')
-    return superagent
-      .get(`${__API_URL__}/api/user`)
-      .set('Authorization', `Bearer ${auth0Token}`)
-      .then(res => {
-        let parsed = JSON.parse(res.text)
-        localStorage.setItem('poller_token', auth0Token)
-        dispatch(storeUserProfile(parsed))
-        dispatch(login())
-        return parsed
-      })
-      .catch(err => {
-        console.log('error fetching profile',err)
-      })
-  }
-
-
-  export const localStorageProfileFetch = () => (dispatch, getState) => {
-    let auth0Token = localStorage.poller_token
-    return superagent
-      .get(`${__API_URL__}/api/user`)
-      .set('Authorization', `Bearer ${auth0Token}`)
-      .then(res => {
-        let parsed = JSON.parse(res.text)
-        dispatch(storeUserProfile(parsed))
-        dispatch(login())
-        return parsed
-      })
-      .catch(err => {
-      })
-  }
+export const profileFetch = () => (dispatch, getState) => {
+  let { auth0Token } = getState()
+  console.log('FIRING PROFILE FETCH')
+  return superagent
+    .get(`${__API_URL__}/api/user`)
+    .set('Authorization', `Bearer ${auth0Token}`)
+    .then(res => {
+      let parsed = JSON.parse(res.text)
+      localStorage.setItem('poller_token', auth0Token)
+      console.log('USER PROFILE', parsed)
+      dispatch(storeUserProfileFromFetch(parsed))
+      dispatch(login())
+      return parsed
+    })
+    .catch(err => {
+      console.log('error fetching profile',err)
+    })
+}
 
 
 export const profileUpdate = (profile) => (dispatch, getState) => {
@@ -54,8 +44,9 @@ export const profileUpdate = (profile) => (dispatch, getState) => {
       .set('Authorization', `Bearer ${auth0Token}`)
       .send(profile)
       .then(res => {
+        console.log('RESPONSE', res)
         let parsed = JSON.parse(res.text)
-        dispatch(storeUserProfile(parsed))
+        dispatch(storeUserProfileFromFetch(parsed))
         parsed.status=res.status
         return parsed
       })

@@ -183,7 +183,7 @@ handleFeedBackChange(e){
                 </Typography>
             </CardContent>
             <CardContent>
-                <Typography variant="headline">
+                <Typography component='h3'>
                     Any feedback on this application is tremendously appreciated!
                     Due to data limitations, you can only submit one comment.
                     Your comments are anonymous,

@@ -26,6 +26,7 @@ import FeedBackPage from '../feedback-page'
 
 
 const styles = theme =>({
+  contentMargin: theme.uniqueStyles.contentMargin,
   container:theme.overrides.MuiPaper,
   button: theme.overrides.MuiButton,
   icon:{
@@ -47,9 +48,9 @@ class ContactPage extends React.Component {
     const {classes} = this.props;
 
     return (
-        <div style={{textAlign:'center'}}>
+        <div className={classes.contentMargin}>
           <Paper square elevation={2} className={classes.container}>
-          <Typography variant="display4" >
+          <Typography variant="display4" style={{textAlign:'center'}}>
             Contact          
           </Typography>
                 <a href='https://github.com/axelmichael11/poller' id='source-code-link' style={{textDecoration:'none'}}>
@@ -66,7 +67,7 @@ class ContactPage extends React.Component {
                 Michael Axelson
               </Typography>
 
-              <div className="contact-menu">
+              <div className="contact-menu" style={{textAlign:'center'}}>
               
                 <IconButton>
                 <a href="mailto:axelmichael11@gmail.com">

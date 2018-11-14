@@ -12,7 +12,6 @@ import {
 import AnswerFilter from './answer-filter'
 import AnswerCardCase from '../poll-card-design/answer-card-case'
 
-// import TotalVotesGraph from '../charts/vote-totals/index'
 
 
 
@@ -81,14 +80,16 @@ const styles = theme =>({
   colorChangeButton: theme.uniqueStyles.colorChangeButton.root
 })
 
-class MCPollResults extends React.Component {
+class PollResultsPage extends React.Component {
     constructor(props){
         super(props)
         this.state ={
             pollData: this.props.pollData,
             answerOptions: this.props.pollData.answerOptions,
-            answerFilters:{},
-            categories: [],
+            answerFilters: this.props.pollData.answerOptions, //every answer selected on start
+            categories: Object.keys(this.props.pollData.answerOptions).reduce((acc,curr)=>{
+              return [...acc, this.props.pollData.answerOptions[curr].answerOption]
+            }, []),
             tableCategory: 'totals',
             questionExpanded:true,
             chartOptions:{
@@ -165,6 +166,10 @@ class MCPollResults extends React.Component {
 
     }
 
+    componentDidMount(){
+      let {answerOptions} = this.state;
+    }
+
 
 
     
@@ -193,7 +198,7 @@ class MCPollResults extends React.Component {
           }
         }, {})
         let categories = Object.keys(newFilters).reduce((acc,curr)=>{
-          return [...acc, newFilters[curr].label]
+          return [...acc, newFilters[curr].answerOption]
         }, [])
 
         this.setState({
@@ -211,7 +216,7 @@ class MCPollResults extends React.Component {
     let newFilters = Object.assign({}, answerFilters, newFilter)
 
     let categories = Object.keys(newFilters).reduce((acc,curr)=>{
-      return [...acc, newFilters[curr].label]
+      return [...acc, newFilters[curr].answerOption]
     }, [])
     this.setState({
         answerFilters: newFilters,
@@ -347,14 +352,14 @@ class MCPollResults extends React.Component {
 
   //GRAPH DATA
 
-  renderTotalVotesData() {
-    // let {answerOptions} = this.state;
-    let {answerFilters} = this.state;
-    console.log('ANSWER FILTERS', answerFilters)
+  renderTotalVotesData(){
+    let {answerFilters, categories, } = this.state;
+    console.log('Categories!!!', answerFilters, categories)
     let data = Object.keys(answerFilters).reduce((acc, curr, i) =>{
+      console.log('categories',categories)
         let dataPoint = {
           id: answerFilters[curr].label,
-          name:null,
+          name: answerFilters[curr].label,
           y: answerFilters[curr].totalVotePercent,
           color: answerFilters[curr].color,
         }
@@ -364,7 +369,7 @@ class MCPollResults extends React.Component {
     let totalsData = {
       title:'Total',
       data: data,
-      categories: this.state.categories,
+      categories: categories
     }
     return totalsData;
 }
@@ -377,13 +382,11 @@ renderDemographicsData(){
         let currentAnswerFilterAtCurrentDemographic = answerFilters[currentAnswerFilter].demographics[currentDemographic]
         return [...answerFiltersAcc, ...currentAnswerFilterAtCurrentDemographic]
       }, [])
-
       let demographicData = {
         title: demographicLabels[currentDemographic],
         data: dataPoints,
         categories: dataPoints.map(dataPoint=>dataPoint.name),
       }
-      
     return [...demographicDataAcc, demographicData];
   }, [])
 
@@ -417,9 +420,7 @@ handleChangeShowLegend(){
 
 handleChangeShowYAxis(){
   let {chartOptions} = this.state
-
   chartOptions.showYAxis = !chartOptions.showYAxis;
-  console.log('Changing legend' , chartOptions)
   this.setState({
     chartOptions : chartOptions,
   })
@@ -437,9 +438,9 @@ handleGenerateNewColors(){
   let newAnswerFilters = Object.keys(newAnswerOptions).reduce((acc, newAnswerOption)=>{
     if (answerFilters[newAnswerOption]){
       acc[newAnswerOption] = newAnswerOptions[newAnswerOption]
-      return acc
+      return acc;
     } else {
-      return acc
+      return acc;
     }
   },{})
 
@@ -547,4 +548,4 @@ export const mapStateToProps = state => ({
   export default compose(
     connect(mapStateToProps, mapDispatchToProps),
     withStyles(styles, {withTheme:true}),
-  )(MCPollResults);
+  )(PollResultsPage);

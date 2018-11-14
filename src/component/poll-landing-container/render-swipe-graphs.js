@@ -173,7 +173,7 @@ class RenderSwipeGraphs extends React.Component {
                         <Typography 
                         variant="display2" style={{margin:'1em 0'}}>{graph.title} Vote Results</Typography>
                         <Typography 
-                        variant="display2" style={{fontSize:'3em', margin:'50% auto'}}>No Answers Selected</Typography>
+                        variant="display2" style={{fontSize:'3em', height:'50%',margin:'50% auto'}}>No Answers Selected</Typography>
                     </div>
                     )
                 }

@@ -23,13 +23,13 @@ const MaxPolls = ({...props}) => {
         <div style={{textAlign:'center'}}>
         <CancelIcon style={{fontSize:40}}/>
         <Typography variant="headline" >
-        It appears that is all of the polls we could find!    
+        No new polls found at this time...    
         </Typography>
             <Button 
             variant="outlined"
             onClick={props.fetchPolls} 
             className={props.classes.button}
-            style={{marginTop:10}}
+            style={{marginTop:15, marginBottom:15}}
             >
             SEARCH FOR MORE POLLS
             </Button>

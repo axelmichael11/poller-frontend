@@ -39,7 +39,7 @@ import AddIcon from '@material-ui/icons/Add';
 import DeleteIcon from '@material-ui/icons/Delete';
 
 
-const ITEM_HEIGHT = 48;
+// const ITEM_HEIGHT = 48;
 
 
 const styles = theme =>({

@@ -40,7 +40,7 @@ import QuickScroll from './quick-scroll'
 
 
 const styles = theme =>({
-  appBar: theme.overrides.MuiAppBar,
+  appBar: theme.overrides.MuiAppBar.root,
 
 })
 
@@ -67,7 +67,6 @@ class NavBar extends React.Component {
   }
 
   componentWillUnmount(){
-    console.log('NAVBAR COMPONENT UNMOUTNED')
     // window.removeEventListener('scroll', ()=>this.updateScrollPosition(), true);
 
   }

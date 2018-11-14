@@ -15,7 +15,7 @@ import {
 
 
 const styles = theme => ({
-  
+  contentMargin: theme.uniqueStyles.contentMargin,
 })
 
 
@@ -56,9 +56,8 @@ class ProfilePage extends React.Component {
 
   render() {
     let {classes, theme} = this.props
-    console.log('LANDING PAGE', this.state, 'PROFILE', this.props.userProfile)
     return (
-      <div>
+      <div className={classes.contentMargin}>
         <RenderProfile
             Loading={this.state.fetchProfileLoading}
             userProfile={this.props.userProfile}

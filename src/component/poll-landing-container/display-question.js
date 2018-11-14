@@ -32,7 +32,6 @@ import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 
 
 
-const ITEM_HEIGHT = 48;
 
 
 const styles = theme =>({
@@ -112,7 +111,7 @@ class QuestionCardContent extends React.Component {
                         {this.props.authorUsername}:
                         </Typography>
                         <Typography variant="display3" style={{overflowWrap:'break-word'}}>
-                        "{this.props.question}"
+                        {this.props.question}
                         </Typography>
                     </CardContent>
               </Collapse>

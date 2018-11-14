@@ -54,6 +54,7 @@ const FeedBackSubmitButton = LoadingHOC(SubmitButton)
 
 
   const styles = theme => ({
+    contentMargin: theme.uniqueStyles.contentMargin,
     container: theme.overrides.MuiPaper,
     button: theme.overrides.MuiButton,
    
@@ -367,12 +368,14 @@ class PollCreatePage extends React.Component {
 
   handleYesNoPollSubmit(){
       let {pollSubject, pollQuestion} = this.state
+      let answerOptions = ['Yes', 'No']
       let {nickname} = this.props.userProfile
       let poll = Object.assign({}, {
         pollSubject, 
         pollQuestion, 
         nickname, 
         type:"YN",
+        answerOptions,
       })
       if (poll.pollSubject === null){
           this.handleSubjectValidationError();
@@ -409,7 +412,7 @@ class PollCreatePage extends React.Component {
     let poll = Object.assign({}, {
       pollSubject, 
       pollQuestion, 
-      nickname, 
+      nickname,
       type:"MC",
       answerOptions
     })
@@ -546,7 +549,7 @@ renderFormType(){
     const {classes, theme} = this.props
     console.log("POLL CREATE USER PROFILE:", this.props.userProfile)
     return (
-        <div>
+        <div className={this.props.classes.contentMargin}>
           <Dialog
             open={this.state.pollDeleteAlert}
             modal={false}
