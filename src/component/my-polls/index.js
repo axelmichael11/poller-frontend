@@ -59,6 +59,7 @@ props.userPolls.map((poll,key) => <div className="list-row" key={key}>
           >
             <DeleteIcon />
           </IconButton>}
+          pageWidth={props.pageWidth}
           poll={poll}
         />
                 {/* <PublicPollCard 

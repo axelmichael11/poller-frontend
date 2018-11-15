@@ -145,6 +145,10 @@ class PollCreatePage extends React.Component {
         pollAnswerOption:"",
         pollAnswerError:false,
         answerLabels: ["A","B","C","D"],
+
+        //pageWidth
+        pagewidth : window.innerWidth || document.body.clientWidth,
+
     }
    this.handleYesNoPollSubmit = this.handleYesNoPollSubmit.bind(this)
    //input changes
@@ -545,6 +549,7 @@ renderFormType(){
   }
 }
 
+
   render() {
     const {classes, theme} = this.props
     console.log("POLL CREATE USER PROFILE:", this.props.userProfile)
@@ -667,6 +672,7 @@ renderFormType(){
 
           <div className="list">
             <MyPolls
+            pageWidth={this.state.pageWidth}
             Loading={this.state.myPollsLoad}
             userPolls={this.props.userPolls}
             loadingError={this.state.myPollsError}

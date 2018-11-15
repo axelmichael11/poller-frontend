@@ -4,7 +4,7 @@ import ReactHighcharts from 'react-highcharts';
 import { Link, withRouter } from 'react-router-dom'
 import {  compose } from 'recompose'
 import { withStyles } from '@material-ui/core/styles';
-
+import { connect, Provider } from 'react-redux'
 
 import {Paper,
 classnames,
@@ -21,8 +21,6 @@ red,
 AppBar,
 Toolbar,
 Button } from '@material-ui/core'
-
-import BarChart from './bar-chart'
 
 const styles = theme =>({
     container: theme.overrides.MuiPaper.root,
@@ -46,6 +44,7 @@ const PublicPollTotals = ({...props}) =>{
     //classes, theme, props.pollActions, poll,
     const yValues = props.quickTotals.data.map(datapoint=>datapoint.y)
   const maxHeight = Math.round(Math.max(...yValues))
+  const pageWidth = props.pageType=='desktop' ? '50%':'85%'; 
     let config = {
         tooltip: { enabled: false },
         noData:{
@@ -61,7 +60,7 @@ const PublicPollTotals = ({...props}) =>{
         },
         chart: {
           // width:'25%',
-          height:'75%',
+          height:pageWidth,
           type: 'column',
           animation: {
             duration: 1000,
@@ -148,13 +147,13 @@ const PublicPollTotals = ({...props}) =>{
         },
       };
     return (
-        <div style={{width:'50%', margin:'0 auto'}}>
+        <div>
             <CardContent>
                 <ReactHighcharts 
                     config={config}
                     style={{
                     margin: '0 auto',
-                    // width: '50%',
+                    width:pageWidth,
                     }}
                 ></ReactHighcharts>
             </CardContent>
@@ -162,8 +161,14 @@ const PublicPollTotals = ({...props}) =>{
     )
 }
 
+const mapStateToProps = state => ({
+  pageType:state.pageType,
+})
+
+const mapDispatchToProps = dispatch => ({
+})
 
 export default compose(
-    withRouter,
+    connect(mapStateToProps, mapDispatchToProps),
     withStyles(styles, {withTheme:true}),
 )(PublicPollTotals);

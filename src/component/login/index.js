@@ -16,6 +16,7 @@ import NavigateGettingStartedButton from '../getting-started-button'
 
 
 const styles = theme=> ({
+  contentMargin: theme.uniqueStyles.contentMargin,
   container: theme.overrides.MuiPaper,
   title: theme.uniqueStyles.loginTitle,
 })
@@ -34,7 +35,7 @@ class LoginPage extends React.Component {
   render() {
     let {classes, theme} = this.props;
     return (
-      <div>
+      <div className={classes.contentMargin}>
           <Paper elevation={2} className={classes.container}
           style={{marginTop: '3em'}}
           >

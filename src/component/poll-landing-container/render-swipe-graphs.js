@@ -22,7 +22,7 @@ import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
 import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
 
 
-import BarChart from '../charts/highcharts/bar-chart'
+import DynamicHighChart from '../charts/highcharts/dynamic-high-chart'
 
 
 
@@ -68,36 +68,24 @@ class RenderSwipeGraphs extends React.Component {
         this.state = {
             pollData: this.props.pollData,
             graphIndex:0,
-            noDataSelected : {
-                categories:['No Data Selected'],
-                data: [{
-                  name: 'Unknown Data',
-                    y: 0,
-                    color: '#FFFFFF',
-                }]
-              },
-              pageWidth: window.innerWidth || document.body.clientWidth,
-              smallScreenStyle:{
-                  fontFamily: '5px'
-              },
+            smallScreenStyle:{
+                fontFamily: '5px'
+            },
               mediumScreenStyle:{
                 fontFamily: '8px'
             },
             largeScreenStyle:{
                 fontFamily: '12px'
             },
-            // answerFilters: this.props.answerFilters,
         }
         this.handleNext = this.handleNext.bind(this)
         this.handleBack = this.handleBack.bind(this)
         this.handleStepChange = this.handleStepChange.bind(this)
         this.renderChartStyle = this.renderChartStyle.bind(this)
-        this.updateWidthPosition = this.updateWidthPosition.bind(this)
         //renderData methods
       }
 
       componentDidMount(){
-        window.addEventListener('resize', ()=>this.updateWidthPosition(), true);
       }
 
       handleNext (){
@@ -116,10 +104,14 @@ class RenderSwipeGraphs extends React.Component {
         this.setState({ graphIndex });
       };
 
-      updateWidthPosition(){
-        this.setState({
-            pageWidth: window.innerWidth || document.body.clientWidth,
-          });
+      updateGraphWidth(){
+          let {pageWidth} = this.state;
+
+          if (pageWidth< 600){
+              return '75%'
+          } else {
+              return '50%'
+          }
       }
       renderChartStyle(){
           return {
@@ -132,21 +124,14 @@ class RenderSwipeGraphs extends React.Component {
     const { classes, theme } = this.props;
     const maxSteps = this.props.chartData.length;
     const {graphIndex} = this.state;
-
+    console.log('Page WIDTH', this.state.pageWidth)
     return (
       <div className={classes.containerDiv}>
-       
         <div 
         style={{
-            display : 'flex',
+            textAlign: 'center',
             alignItems :' center',
           }}>
-        <Button size="small"  
-            className={classes.button} 
-            onClick={this.handleBack} 
-            disabled={graphIndex === 0}>
-                {theme.direction === 'rtl' ? <KeyboardArrowRight /> : <KeyboardArrowLeft />}
-        </Button>
         <div className={classes.graph}>
             <SwipeableViews
             axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}
@@ -160,7 +145,7 @@ class RenderSwipeGraphs extends React.Component {
                     <div key={key}>
                         <Typography 
                         variant="display2" style={{margin:'1em 0'}}>{graph.title} Vote Results</Typography>
-                        <BarChart 
+                        <DynamicHighChart 
                             data={graph.data} 
                             categories={graph.categories}
                             chartOptions={this.props.chartOptions}
@@ -180,6 +165,14 @@ class RenderSwipeGraphs extends React.Component {
             })}
             </SwipeableViews>
             </div>
+      </div>
+        <div style={{textAlign:'center'}}>
+            <Button size="small"  
+                className={classes.button} 
+                onClick={this.handleBack} 
+                disabled={graphIndex === 0}>
+                    {theme.direction === 'rtl' ? <KeyboardArrowRight /> : <KeyboardArrowLeft />}
+            </Button>
             <Button 
             size="small" 
             className={classes.button} 
@@ -187,16 +180,16 @@ class RenderSwipeGraphs extends React.Component {
             disabled={graphIndex === maxSteps - 1}>
               {theme.direction === 'rtl' ? <KeyboardArrowLeft /> : <KeyboardArrowRight />}
             </Button>
-      </div>
-      <MobileStepper
-          variant="dots"
-          steps={maxSteps}
-          position="static"
-          activeStep={graphIndex}
-          style={{backgroundColor:'white'}}
-          nextButton={<div></div>}
-          backButton={<div></div>}
-        />
+            </div>
+            <MobileStepper
+                variant="dots"
+                steps={maxSteps}
+                position="static"
+                activeStep={graphIndex}
+                style={{backgroundColor:'white'}}
+                nextButton={<div></div>}
+                backButton={<div></div>}
+                />
     </div>
     );
   }

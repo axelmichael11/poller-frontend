@@ -9,5 +9,5 @@ import publicPolls from './public-polls-reducer.js'
 // import error from './error-reducer'
 // import Loading from './loading-reducer.js'
 import maxPublicPolls from './max-data-reached'
-
-export default combineReducers({maxPublicPolls, publicPolls, userPolls, auth0Token, userProfile, loggedIn, storageLoginAttempt})
+import pageType from './page-type-reducer'
+export default combineReducers({maxPublicPolls, publicPolls, userPolls, auth0Token, userProfile, loggedIn, storageLoginAttempt, pageType})

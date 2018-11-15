@@ -1,11 +1,14 @@
 import React from 'react'
 import ReactHighcharts from 'react-highcharts';
+import { connect, Provider } from 'react-redux'
+import {compose} from 'recompose'
 import CHARTCONFIG from './chart-type-config'
 
-const BarChart = ({...props})=>{
-  console.log('BARCHART DATA', props)
+const DynamicHighChart = ({...props})=>{
+  console.log('DynamicHighChart DATA', props)
   const yValues = props.data.map(datapoint=>datapoint.y)
   const maxHeight = Math.round(Math.max(...yValues))
+  const pageWidth = props.pageType=='desktop' ? '50%':'85%'; 
     let config = {
         tooltip: CHARTCONFIG.tooltip,
         noData:{
@@ -20,7 +23,7 @@ const BarChart = ({...props})=>{
           }
         },
         chart: {
-          height:'50%',
+          height:pageWidth,
           type: props.chartOptions.chartType.name,
           animation: {
             duration: 1000,
@@ -48,6 +51,7 @@ const BarChart = ({...props})=>{
         plotOptions: CHARTCONFIG.plotOptions,
         xAxis: {
           labels:{
+            rotation:0,
             style:{
 
             }
@@ -110,15 +114,23 @@ const BarChart = ({...props})=>{
          }
         },
       };
-      // return <ResponsiveBarChart data={this.renderGraphData()}/>
+      // return <ResponsiveDynamicHighChart data={this.renderGraphData()}/>
       return (<ReactHighcharts 
         config={config}
         style={{
           margin: '0 auto',
-          width: '80%',
+          width:pageWidth,
         }}
       ></ReactHighcharts>)
   }
+const mapStateToProps = state => ({
+    pageType:state.pageType,
+  })
+  
+const mapDispatchToProps = dispatch => ({
+})
   
 
-  export default BarChart;
+  export default compose(
+    connect(mapStateToProps, mapDispatchToProps),
+  )(DynamicHighChart);

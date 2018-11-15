@@ -15,6 +15,8 @@ import * as util from '../../lib/util.js'
 
 import NavMenu from '../nav-menu/index.js'
 
+
+import {updatePageType} from '../../action/page-type-actions'
 //Style
 
 
@@ -55,20 +57,40 @@ class NavBar extends React.Component {
       innerHeight: 0,
       pageYOffset: 0,
       offsetHeight: 0,
-    }
+      pageWidth: window.innerWidth || document.body.clientWidth,
 
+    }
     this.updateScrollPosition = this.updateScrollPosition.bind(this);
     this.quickScrollCondition = this.quickScrollCondition.bind(this);
     this.resetScroll = this.resetScroll.bind(this);
+
+    //page type... mobile or desktop
+    this.updateWidthPosition = this.updateWidthPosition.bind(this)
   }
 
   componentDidMount(){
     window.addEventListener('scroll', ()=>this.updateScrollPosition(), true);
+    window.addEventListener('resize', ()=>this.updateWidthPosition(), true);
   }
 
   componentWillUnmount(){
     // window.removeEventListener('scroll', ()=>this.updateScrollPosition(), true);
+  }
 
+
+  updateWidthPosition(){
+    let width = window.innerWidth || document.body.clientWidth;
+    let {pageType} = this.props;
+    if (width < 600 && (pageType!='mobile')){
+      this.props.updatePageType('mobile');
+    }
+    if (width > 600 && (pageType!='desktop')){
+      this.props.updatePageType('desktop');
+    }
+    this.setState({
+        pageWidth: window.innerWidth || document.body.clientWidth,
+      });
+    
   }
 
   updateScrollPosition(){
@@ -108,6 +130,7 @@ class NavBar extends React.Component {
     });
   }
 
+
   render() {
     const { classes } = this.props;
     return (
@@ -128,13 +151,15 @@ class NavBar extends React.Component {
 }
 
 export const mapStateToProps = state => ({
-  loggedIn: state.loggedIn
+  loggedIn: state.loggedIn,
+  pageType: state.pageType,
 })
 
 export const mapDispatchToProps = dispatch => ({
   setAuthToken: (token) => dispatch(setAuthToken(token)),
   login: () => dispatch(login()),
   logout: () => dispatch(logout()),
+  updatePageType: (pageType) => dispatch(updatePageType(pageType)),
 })
 
 

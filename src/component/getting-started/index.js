@@ -8,9 +8,7 @@ import {compose} from 'recompose'
 
 
 import SwipeableViews from 'react-swipeable-views';
-import welcomePhoto from '../../lib/welcome.jpg'
-import profilePhoto from '../../lib/profile.jpg'
-import votePhoto from '../../lib/vote.jpg'
+
 
 import {MobileStepper,
 Typography,
@@ -27,7 +25,6 @@ import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
 
 const tutorialSteps = [
   {
-    photo: welcomePhoto,
     label: 'Welcome To Poller',
     description: `This is Poller, a voting platform that allows users to post and vote on
                   questions anonymously. Users have the option to submit
@@ -36,28 +33,26 @@ const tutorialSteps = [
                   preference (Not required). The catch is, you have to vote to see the results.`,
   },
   {
-    photo: profilePhoto,
     label: 'Create an Account, customize your profile',
     description: `You have to create an account. This application uses Oauth... That 
-                    means this web application or server does NOT store sensitive information.
+                    means this web application or server does NOT store sensitive information. 
+                    Only your username and profile information is stored on the server end. 
                     Email and password are stored using 0-Auth services.
                     Once you sign up you can then submit your demographic information to make
                     this interesting! (Again, not required)`,
   },
   {
-    photo: votePhoto,
     label: 'Post questions and vote!',
     description: ` Once your profile is set up, you can see other users' questions to vote on,
                     or post your own questions to see what other users are thinking!
-                    For storage purposes, you are only allowed up to three questions for one account.
+                    For data storage purposes, you are only allowed up to three questions for one account.
                     Sign up Below!`,
   },
 ];
 
 const styles = theme => ({
   container: theme.overrides.MuiPaper,
-  containerDiv: theme.overrides.MuiPaper.root,
-
+  contentMargin: theme.uniqueStyles.contentMargin,
   headingText:{
     backgroundColor:theme.palette.primaryColor,
     color: theme.palette.primary.secondaryColor,
@@ -117,8 +112,8 @@ class GettingStartedPage extends React.Component {
     const maxSteps = tutorialSteps.length;
 
     return (
-      <div className={classes.containerDiv}>
-        <div >
+      <div className={classes.contentMargin}>
+        <div className>
         <Paper square elevation={2} className={classes.container}>
         <SwipeableViews
           axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}
@@ -130,8 +125,7 @@ class GettingStartedPage extends React.Component {
             return (
               <div key={key}>
                 <Typography variant="display2" className={classes.headingText}> {step.label} </Typography>
-                <img src={step.photo} width={'250px'} style={{display:'block', margin:'auto'}}/>
-                <Typography variant="subheading" className={classes.bodyText}>{step.description}</Typography>
+                <Typography component="h2" className={classes.bodyText}>{step.description}</Typography>
               </div>
             )
           })
@@ -145,15 +139,17 @@ class GettingStartedPage extends React.Component {
           className={classes.button}
           style={{backgroundColor:'white'}}
           nextButton={
-            <Button size="small" className={classes.button} onClick={this.handleNext} disabled={activeStep === maxSteps - 1}>
-              
-              {theme.direction === 'rtl' ? <KeyboardArrowLeft /> : <KeyboardArrowRight />}
+            <Button size="small" className={classes.button} 
+            onClick={this.handleNext} 
+            disabled={activeStep === maxSteps - 1}>
+            {theme.direction === 'rtl' ? <KeyboardArrowLeft /> : <KeyboardArrowRight />}
             </Button>
           }
           backButton={
-            <Button size="small"  className={classes.button} onClick={this.handleBack} disabled={activeStep === 0}>
-              {theme.direction === 'rtl' ? <KeyboardArrowRight /> : <KeyboardArrowLeft />}
-              
+            <Button size="small"  className={classes.button} 
+            onClick={this.handleBack} 
+            disabled={activeStep === 0}>
+            {theme.direction === 'rtl' ? <KeyboardArrowRight /> : <KeyboardArrowLeft />}  
             </Button>
           }
         />

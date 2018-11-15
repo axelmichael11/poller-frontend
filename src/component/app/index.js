@@ -4,7 +4,7 @@ import { connect, Provider } from 'react-redux'
 
 
 import PrivateRoute from './privateroute.js'
-import GettingStartedPage from '../getting-started/horizontal'
+import GettingStartedPage from '../getting-started'
 import Callback from '../callback'
 
 import { Link, withRouter } from 'react-router-dom'

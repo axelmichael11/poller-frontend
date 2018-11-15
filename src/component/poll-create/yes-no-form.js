@@ -10,7 +10,6 @@ import {
   } from '../../action/user-polls-actions.js'
   import LoadingHOC from '../loading/loadingHOC.js'
   import SubmitButton from '../loading/button.js'
-  import MyPolls from '../my-polls'
 
   import { withStyles } from '@material-ui/core/styles';
   import {Button,
