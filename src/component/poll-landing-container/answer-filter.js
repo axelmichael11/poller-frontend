@@ -85,12 +85,12 @@ class AnswerFilter extends React.Component {
             onClick={()=>this.props.handleAnswerOptionChange(answerOption)}
             label={
               <div>
-              <Typography component="h4" style={{fontSize:25, fontWeight:'bold'}}>
-                {data.label}
-              </Typography>
-              <Typography variant="subheading" component="p" style={{overflowWrap:'break-word'}}>
-                {data.answerOption}
-              </Typography>
+                <Typography component="h4" style={{fontSize:25, fontWeight:'bold'}}>
+                  {data.label}
+                </Typography>
+                <Typography variant="subheading" component="p" style={{overflowWrap:'break-word'}}>
+                  {data.answerOption}
+                </Typography>
               </div>
             }
             value={data.label}

@@ -89,8 +89,7 @@ class NavBar extends React.Component {
     }
     this.setState({
         pageWidth: window.innerWidth || document.body.clientWidth,
-      });
-    
+      }); 
   }
 
   updateScrollPosition(){

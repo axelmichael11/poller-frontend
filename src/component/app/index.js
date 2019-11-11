@@ -164,7 +164,7 @@ accessGranted(){
 
 
 
-  login() {
+  login(){
     this.auth0.authorize({
       audience: __AUTH0_AUDIENCE__,
       redirectUri: __AUTH0_REDIRECT_URI__,

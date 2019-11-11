@@ -170,13 +170,6 @@ class PollResultsPage extends React.Component {
       let {answerOptions} = this.state;
     }
 
-
-
-    
-
-    
-
-    
     handleAnswerOptionChange(answerOption){
       let {answerFilters, demographic} = this.state;
         if (this.state.answerFilters[answerOption]){
@@ -225,11 +218,11 @@ class PollResultsPage extends React.Component {
   }
 
     handleChartDesignChange(label){
-      console.log('HANDLE DEM CHANGE LABEL', label)
+      // console.log('HANDLE DEM CHANGE LABEL', label)
       let {chartType} =this.state.chartOptions;
       // values are the demographic labels
       if (label == chartType.name){
-      console.log('already selected');
+      // console.log('already selected');
       } else {
         this.addChartDesignOption(label)
         // this.renderChartData()
@@ -289,7 +282,7 @@ class PollResultsPage extends React.Component {
   renderChartDesignOptions(){
     let {chartTypes,chartOptions} = this.state;
     let {theme} = this.props;
-    console.log('CHART DESIGN OPTIONS', chartOptions)
+    // console.log('CHART DESIGN OPTIONS', chartOptions)
     return (
     <div >
       {chartTypes.map((chart, key) => (
@@ -428,14 +421,19 @@ handleChangeShowYAxis(){
 
 handleGenerateNewColors(){
   let {answerOptions, answerFilters} = this.state;
-  console.log('ANSWER OPTIONS' , answerOptions)
+  // console.log('ANSWER OPTIONS' , answerOptions)
   let newAnswerOptions = Object.keys(answerOptions).reduce((acc, answerOption)=>{
+    // console.log('ANSWER OPTION', answerOption)
     let newAnswerOption = this.changeColors(answerOptions[answerOption], randomColor());
+    console.log('NEW ANSWER OPTION DATA::: ', newAnswerOption)
     acc[answerOption] = newAnswerOption;
     return acc;
   }, {})
+  // console.log('NEW ANSWER OPTIONS', newAnswerOptions);
 
   let newAnswerFilters = Object.keys(newAnswerOptions).reduce((acc, newAnswerOption)=>{
+    // console.log('NEW ANSWER OPTION', newAnswerOption)
+
     if (answerFilters[newAnswerOption]){
       acc[newAnswerOption] = newAnswerOptions[newAnswerOption]
       return acc;
@@ -444,7 +442,7 @@ handleGenerateNewColors(){
     }
   },{})
 
-  console.log('RESULT OF COLOR CHANGE', newAnswerOptions)
+  // console.log('RESULT NEW ANSWER FILTERS ', newAnswerFilters)
   this.setState({
     answerOptions: newAnswerOptions,
     answerFilters: newAnswerFilters,
@@ -479,7 +477,7 @@ handleExpandQuestion(event){
 
     render(){
       let {classes} = this.props;
-      console.log('MC STATE', this.state)
+      console.log('MC STATE', this.state.answerOptions, this.state.answerFilters)
         return(
             <div id="mc-results">
               <div>
